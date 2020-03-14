@@ -12,3 +12,7 @@ contenido es _open source_ y puede ser utilizado como se estime conveniente por 
 usuario.
 No se restringe el uso de este repositorio de ninguna manera, pero se agradece que se 
 mencione el repositorio base o a los autores de este material.
+
+El contenido puede encontrarse en la sección 
+[wiki](https://github.com/CC3002-Metodologias/apunte-y-ejercicios/wiki)
+del repositorio.
