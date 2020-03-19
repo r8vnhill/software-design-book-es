@@ -1,50 +1,4 @@
-\documentclass[12pt]{book}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{amsmath}
-\usepackage{amsthm}
-\usepackage[spanish, english]{babel}
-\usepackage{authblk}
-\usepackage{fullpage}
-\usepackage[hyphens]{url}
-\usepackage{hyperref}
-\usepackage{graphicx}
-\usepackage{minted}
-\usepackage{parskip}
-
-\usemintedstyle[java]{manni}
-\usemintedstyle[python]{manni}
-\usemintedstyle[c]{manni}
-\setmintedinline{breaklines, escapeinside=||}
-\setminted{breaklines, autogobble, escapeinside=||}
-
-\hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    filecolor=magenta,      
-    urlcolor=cyan,
-}
-
-\graphicspath{{img/}}
-
-\title{CC3002 - Metodologías de diseño y programación}
-
-\author{Juan-Pablo Silva}
-\author{Ignacio Slater}
-\affil{Departamento de Ciencias de la Computación, Universidad de Chile}
-
-\date{\today}
-
-\begin{document}
-  \frontmatter
-  \maketitle
-  \tableofcontents
-  \chapter{Introducción}
-  %
-
-  \mainmatter
-  \part{Herramientas necesarias y recomendadas}
-    \chapter{Git}
+\chapter{Git}
       \section{Material adicional}
         Los siguientes enlaces contienen explicaciones alternativas y/o más detalladas de
         las herramientas disponibles para utilizar \textit{Git}:
@@ -100,12 +54,3 @@
             \textit{SourceForge} es uno de los ejemplos más importantes de \textit{host} 
             de repositorios de \textit{Mercurial} (el equivalente a \textit{GitHub}).
         \end{itemize}
-      %
-    %
-  %
-  \part{Objetos en Java}
-    \include{OOP}
-  %
-  \part{Patrones y metodologías de diseño}
-  %
-\end{document}
