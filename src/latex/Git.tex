@@ -60,18 +60,6 @@
       muestran algunas:
 
       \subsubsection{\textit{Chocolatey} (Recomendado)}
-        Si no lo tienen instalado, el primer paso sería instalar el gestor de paquetes 
-        \textit{Chocolatey}, para esto se debe abrir \textit{Powershell} como 
-        administrador.
-
-        \begin{minted}{powershell}
-          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
-          Invoke-WebRequest "https://chocolatey.org/install.ps1" -UseBasicParsing | Invoke-Expression
-        \end{minted}
-
-        Una vez que tengan \textit{Chocolatey} instalado, basta ejecutar:
-
         \begin{minted}{powershell}
           cinst git.install -y
         \end{minted}
@@ -79,7 +67,7 @@
 
       \subsubsection{\textit{Git bash}}
         \textit{Git bash} es una interfaz de consola que emula la terminal de 
-        \textit{Linux}.
+        \textit{Linux} y que viene con git instalado.
         
         Para instalarla deben descargar el cliente desde el 
         \href{https://git-scm.com/download/win}{sitio oficial} de \textit{Git}.
@@ -91,13 +79,33 @@
       \begin{enumerate}
         \item Descargar el instalador de 
           \href{https://sourceforge.net/projects/git-osx-installer/files/}{Git for Mac}.
-        \item Instalarlo con \textit{brew} ejecutando el comando:
+        \item Instalarlo con \textit{brew} ejecutando el comando: 
+          \mintinline{bash}{brew install git}
       \end{enumerate}
-
-      \begin{minted}{bash}
-        brew install git
-      \end{minted}
     %
+  %
+
+  \section{Configuración}
+    Primero, para comprobar que se haya instalado correctamente, deben ejecutar el comando:
+    \begin{minted}[escapeinside=]{bash}
+      git --version
+    \end{minted}
+    El resultado que debiera retornar este comando es algo del estilo (para el caso de 
+    \textit{Windows} utilizando \textit{Chocolatey}):
+    \begin{minted}{text}
+      git version 2.21.0.windows.1
+    \end{minted}
+
+    Dependiendo de la manera en que hayan instalado \textit{Git} es posible que 
+    necesiten configurar las credenciales, para esto deben ejecutar los comandos:
+    \begin{minted}{bash}
+      git config --global user.name "Xen-Tao"
+      git config --global user.email xentao@depa.na
+    \end{minted}
+
+    Reemplazando los datos con su nombre y correo.
+    Luego, haciendo \mintinline{bash}{git config -l} verifiquen que su usuario y correo se
+    hayan registrado correctamente.
   %
 
   \section{Repositorios}
