@@ -3,7 +3,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{amsmath}
 \usepackage{amsthm}
-\usepackage[spanish, english]{babel}
+\usepackage[spanish]{babel}
 \usepackage{authblk}
 \usepackage{fullpage}
 \usepackage[hyphens]{url}
@@ -12,6 +12,7 @@
 \usepackage{minted}
 \usepackage{parskip}
 \usepackage[stable]{footmisc}
+\usepackage{import}
 
 \setmintedinline{breaklines, escapeinside=||}
 \setminted{breaklines, autogobble, escapeinside=||}
@@ -39,6 +40,62 @@
   \maketitle
   \tableofcontents
   \chapter{Introducción}
+    Este apunte busca ser un apoyo para las clases del curso \textit{CC3002 - Metodologías 
+    de diseño y programación} del \textit{departamento de ciencias de la computación} de
+    la \textit{Universidad de Chile} dictado por el profesor \textit{Alexandre Bergel}.
+
+    El objetivo de este documento es reunir los contenidos del curso, entregar consejos,
+    plantear ejercicios y profundizar en algunos de los contenidos.
+
+    Tengan en cuenta que este apunte \textbf{no} es un reemplazo para las clases 
+    presenciales ni el material generado por el profesor, pues la última palabra sobre qué 
+    contenidos serán evaluados y cuál será el enfoque del ramo en cada una de sus 
+    iteraciones será la definida por él.
+    Este material solamente es un apoyo para presentar explicaciones y ejemplos 
+    alternativos a los vistos en clases.
+
+    Este documento no necesariamente cubrirá todos los contenidos del curso ni estará 
+    actualizado con respecto a lo visto en clases, pero su intención es abarcar la mayor
+    parte de estos.
+
+    La contraparte de este apunte se puede encontrar en 
+    \url{https://github.com/CC3002-Metodologias/apunte-y-ejercicios/wiki/CC3002---Metodologías-de-diseño-y-programación}
+
+    \section*{Objetivos del curso}
+      El objetivo principal del curso es servir de introducción a la \textit{ingeniería de
+      software} y al diseño de soluciones a problemas que sean extensibles y mantenibles
+      en el tiempo.
+      Al ser un curso introductorio, no se espera que lxs alumnxs terminen el curso con un
+      conocimiento avanzado sobre diseño de \textit{software}, sino que plantear una 
+      manera inicial de como abordar y generar soluciones a problemas de programación
+      complejos en los que la solución correcta la mayoría del tiempo no es la obvia.
+
+      Se espera que al terminar el curso las soluciones que planteen a los problemas no
+      sólo cumplan el objetivo de implementar las funcionalidades requeridas sino que 
+      tengan un buen diseño (lo que se considere un buen diseño y las formas de generar 
+      programas bien diseñados se verán a lo largo del semestre y de este apunte).
+      Dicho esto, al ser un curso de diseño, no existe una única solución correcta para 
+      los problemas, sino que cualquier solución bien argumentada será correcta, pero 
+      tengan en cuenta que los contenidos enseñados en el ramo ya tienen argumentos 
+      sólidos para justificar su uso y los problemas que se plantearán estarán pensados de
+      tal forma que sea difícil rebatir los argumentos que justifican el uso de estos 
+      contenidos en la implementación de la solución.
+
+      Específicamente, los objetivos del curso son:
+
+      \begin{itemize}
+        \item Aprender a pensar soluciones utilizando programación orientada a objetos.
+        \item Introducir el lenguaje de programación \textit{Java}.
+        \item Entender el significado de extensibilidad y mantenibilidad de un proyecto de 
+          \textit{software}.
+        \item Introducir el concepto y presentar herramientas de \textit{testing} y la 
+          mentalidad para abordar problemas a partir de estos.
+        \item Mostrar los conceptos básicos del patrón arquitectónico de 
+          \textit{modelo-vista-controlador} y como crear interfaces gráficas nativas.
+        \item Presentar algunas herramientas avanzadas y específicas de la librería 
+            estándar de \textit{Java}.
+      \end{itemize}
+    %
   %
 
   \mainmatter
@@ -48,6 +105,7 @@
   %
   \part{Objetos en Java}
     \include{OOP}
+    \import{./}{De Python a Java.tex}
   %
   \part{Patrones y metodologías de diseño}
   %
