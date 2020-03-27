@@ -13,6 +13,16 @@
 \usepackage{parskip}
 \usepackage[stable]{footmisc}
 \usepackage{import}
+\usepackage{exercise}
+\usepackage{array}
+\usepackage{csquotes}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem*{note}{Nota}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{exercise}[definition]{Ejercicio}
+\newtheorem*{important}{Importante}
 
 \setmintedinline{breaklines, escapeinside=||}
 \setminted{breaklines, autogobble, escapeinside=||}
@@ -103,9 +113,12 @@
     \include{Java}
     \include{Git}
   %
-  \part{Objetos en Java}
+  \part{Objetos en \textit{Java}}
     \include{OOP}
     \import{./}{De Python a Java.tex}
+    \chapter{Profundizando en \textit{Java}}
+      \label{ch:java}
+    %
   %
   \part{Patrones y metodologías de diseño}
   %
