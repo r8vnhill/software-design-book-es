@@ -16,7 +16,6 @@ class Point2D {
   }
 
   Point2D add(Point2D otherPoint) {
-    var a = Math.PI;
     return new Point2D(x + otherPoint.x, y + otherPoint.y);
   }
 
