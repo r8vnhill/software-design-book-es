@@ -11,39 +11,34 @@
   generales del lenguaje \textit{C} puesto que algunos de los ejemplos que se darán se 
   contrastarán con el comportamiento de estos respecto a \textit{Java}.
 
-  \section{Instalación}
-    Para instalar \textit{Java}, primero debe instalarse el compilador, la máquina virtual
-    y la librería estándar.
-    Todas estas herramientas vienen incluidas dentro del \textit{JDK}.
+  Para instalar \textit{Java}, primero debe instalarse el compilador, la máquina virtual
+  y la librería estándar.
+  Todas estas herramientas vienen incluidas dentro del \textit{JDK}.
 
-    Existen muchas maneras de instalar \textit{Java}, y a continuación se mostrarán 
-    algunas.
-    Las instrucciones siguientes son para instalar \textit{Java 13}, que es la versión más
-    reciente al momento de escribir este apunte.
-    Para el curso no es necesario que se utilice la última versión, pero es necesario que
-    al menos usen \textit{Java 9} y recomendable que instalen al menos \textit{Java 11}.
-    Si habían instalado anteriormente \textit{Java 8}, les recomentamos que 
-    \textbf{desinstalen dicha versión} antes de proceder a instalar la más nueva porque 
-    puede generar conflictos.
+  Existen muchas maneras de instalar \textit{Java}, y a continuación se mostrarán 
+  algunas.
+  Las instrucciones siguientes son para instalar \textit{Java 14}, que es la versión más
+  reciente al momento de escribir este apunte.
+  Para el curso no es necesario que se utilice la última versión, pero es necesario que
+  al menos usen \textit{Java 9} y recomendable que instalen al menos \textit{Java 11}.
+  Si habían instalado anteriormente \textit{Java 8}, les recomendamos que 
+  \textbf{desinstalen dicha versión} antes de proceder a instalar la más nueva porque 
+  puede generar conflictos.
 
-    \subsection{Opción 1: \textit{Open JDK} (Recomendado)}
-      \subsubsection{Linux}
-      %
-    %
-    \subsection{Windows}
-      \subsubsection{Chocolatey (Recomendado)}
-        Si no lo tienen instalado, el primer paso sería instalar el gestor de paquetes 
-        \textit{Chocolatey}, para esto se debe abrir \textit{Powershell} como 
-        administrador.
+  \subimport{JDK/}{Linux.tex}
+  \subsection{Windows}
+    \subsubsection{Chocolatey (Recomendado)}
+      Si no lo tienen instalado, el primer paso sería instalar el gestor de paquetes 
+      \textit{Chocolatey}, para esto se debe abrir \textit{Powershell} como 
+      administrador.
 
-        \begin{minted}{powershell}
-          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
-          Invoke-WebRequest "https://chocolatey.org/install.ps1" -UseBasicParsing | Invoke-Expression
-        \end{minted}
+      \begin{minted}{powershell}
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
+        Invoke-WebRequest "https://chocolatey.org/install.ps1" -UseBasicParsing | Invoke-Expression
+      \end{minted}
 
-        Una vez que tengan \textit{Chocolatey} instalado, basta ejecutar:
-      %
+      Una vez que tengan \textit{Chocolatey} instalado, basta ejecutar:
     %
   %
 %

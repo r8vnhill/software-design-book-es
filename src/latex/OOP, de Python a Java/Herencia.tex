@@ -1,0 +1,65 @@
+% !TEX root = D:\Users\Ignacio\Documentos\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+\section{Herencia}
+
+  En las secciones anteriores dimos una definición para un punto en 2 dimensiones, pero un 
+  punto en un plano es algo bastante limitado.
+  En esta sección tomaremos la definición inicial de nuestro punto y la generalizaremos 
+  para luego, en base a nuestra nueva definición, crear casos más específicos.
+
+  Consideren un vector como una línea que va desde el origen del sistema de coordenadas 
+  hasta un punto.
+  Un vector en un espacio euclídeo de dimensión \(n\) es una n-tupla de números reales.
+  Dada esta definición podemos definir una clase \texttt{VectorND} de la siguiente forma:
+  
+  \begin{listing}[ht!]
+    \begin{minted}{java}
+      class VectorND {
+        double[] tail;
+        
+        VectorND(double[] tail) {
+          this.tail = tail;
+        }
+      }
+    \end{minted}
+  \end{listing}
+
+  Ahora, una característica de los vectores es que pueden sumarse entre ellos.
+  La suma de dos vectores es sólo la suma de sus coordenadas, teniendo en cuenta las 
+  dimensiones de estos (un vector de \(m\) dimensiones, con \(m \leq n\) es un vector de 
+  \(n\) dimensiones en el que todas las componentes \(\mathbf{v}_i\) para \(i > m\) son 
+  0).
+
+  \begin{minted}{java}
+    VectorND add(VectorND otherVector) {
+      double[] bigger, smaller;
+      if (tail.length > otherVector.tail.length) {
+        bigger = tail;
+        smaller = otherVector.tail;
+      } else {
+        bigger = otherVector.tail;
+        smaller = tail;
+      }
+      double[] components = new double[bigger.length];
+      for (int i = 0; i < smaller.length; i++) {
+        components[i] = bigger[i] + smaller[i];
+      }
+      for (int i = smaller.length; i < bigger.length; i++) {
+        components[i] = bigger[i];
+      }
+      return new VectorND(components);
+    }
+  \end{minted}
+  
+  Ahora, es poco común trabajar con vectores de \(n\) dimensiones, en general trabajaremos
+  con vectores de dos o tres dimensiones, así que sería una buena idea tener clases 
+  específicas para dichos tipos.
+  Ahora, ¿Por qué es una buena idea?
+
+  Como mencionamos en el capítulo \ref{ch:oop}, el objetivo de la herencia es la 
+  \textbf{especialización} de una clase, y eso es precisamente lo que queremos hacer aquí.
+  Tomar un vector de \(n\) dimensiones y crear casos específicos para otros con 
+  dimensiones fijas (que tendrán propiedades propias de acuerdo a sus dimensiones).
+
+  Cambiemos el nombre de nuestra clase \texttt{Point2D} por \texttt{Vector2D} y hagamos 
+  que sea una subclase de \texttt{VectorND}.
+%
