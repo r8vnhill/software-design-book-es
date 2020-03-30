@@ -6,9 +6,11 @@
     administrador.
 
     \begin{minted}{powershell}
-      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+      [Net.ServicePointManager]::SecurityProtocol = `
+        [Net.SecurityProtocolType]::Tls12
       Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
-      Invoke-WebRequest "https://chocolatey.org/install.ps1" -UseBasicParsing | Invoke-Expression
+      Invoke-WebRequest "https://chocolatey.org/install.ps1" -UseBasicParsing `
+        | Invoke-Expression
     \end{minted}
 
     Una vez que tengan \textit{Chocolatey} instalado, basta ejecutar:
@@ -48,7 +50,8 @@
 
     \begin{minted}{powershell}
       Move-Item -Path .\jdk-14 -Destination $Env:Programfiles
-      [Environment]::SetEnvironmentVariable("JAVA_HOME", "$Env:Programfiles\jdk-14")
+      [Environment]::SetEnvironmentVariable("JAVA_HOME", 
+                                            "$Env:Programfiles\jdk-14")
       [Environment]::SetEnvironmentVariable(
         "Path", 
         [Environment]::GetEnvironmentVariable('Path', 
@@ -72,5 +75,41 @@
     \end{minted}
 
     Si esto no funciona, proceda con la siguiente opción.
+  %
+
+  \subsection{Opción 3: \textit{Oracle JDK}}
+    Lo primero es descargar el \textit{JDK} desde el 
+    \href{
+      https://www.oracle.com/java/technologies/javase-jdk14-downloads.html
+    }{sitio de \textit{Oracle}} y una vez descargado ejecuten el instalador y sigan las 
+    instrucciones.
+
+    Por último, deben agregar el \textit{path} de \textit{Java} a las variables de 
+    entorno, para esto abran \textit{Powershell} como administrador y ejecuten:
+
+    \begin{minted}{powershell}
+      [Environment]::SetEnvironmentVariable("JAVA_HOME", 
+                                            "$Env:Programfiles\Java\jdk-14")
+      [Environment]::SetEnvironmentVariable(
+        "Path", 
+        [Environment]::GetEnvironmentVariable('Path', 
+        [EnvironmentVariableTarget]::Machine) + ";$($Env:JAVA_HOME)\bin", 
+        [EnvironmentVariableTarget]::Machine)
+    \end{minted}
+
+    Para probar que la instalación se haya hecho de forma correcta, cierren y abran 
+    \textit{Powershell} y ejecuten el comando:
+
+    \begin{minted}{powershell}
+      java -version
+    \end{minted}
+
+    El input debiera ser algo como:
+
+    \begin{minted}{text}
+      openjdk version "14" 2020-03-17
+      OpenJDK Runtime Environment (build 14+36-1461)
+      OpenJDK 64-Bit Server VM (build 14+36-1461, mixed mode, sharing)
+    \end{minted}
   %
 %
