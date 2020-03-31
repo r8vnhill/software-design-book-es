@@ -85,7 +85,7 @@
 
     \begin{listing}[ht!]
       \begin{minted}{python}
-        class Point2D:
+        class Vector2D:
             def __init__(self, x, y):
                 self.x = x
                 self.y = y
@@ -97,7 +97,7 @@
 
     \begin{listing}[ht!]
       \begin{minted}{python}
-        point = Point2D(1, 3)
+        point = Vector2D(1, 3)
         print(point.x)
         print(point.y)
       \end{minted}
@@ -106,10 +106,10 @@
     Y en \textit{Java}:
     \begin{listing}[ht!]
       \begin{minted}{java}
-        class Point2D {
+        class Vector2D {
           double x, y;
 
-          Point2D(double x, double y) {
+          Vector2D(double x, double y) {
             this.x = x;
             this.y = y;
           }
@@ -121,15 +121,16 @@
     \mintinline{java}{new}, de esta forma se puede hacer:
 
     \begin{minted}{java}
-      Point2D point = new Point2D(1, 3);
+      Vector2D point = new Vector2D(1, 3);
       System.out.println(point.x);
       System.out.println(point.y);
     \end{minted}
 
-    Tanto \mintinline{python}{__init__} como \mintinline{java}{Point2D(double, double)} 
+    Tanto \mintinline{python}{__init__} como \mintinline{java}{Vector2D(double, double)}
     son los constructores de la clase y se explicarán en detalle en la siguiente sección.
 
     \subsubsection{Métodos}
+      \label{sec:methods}
       En el capítulo anterior se explicó como, además de almacenar datos, los objetos 
       pueden realizar acciones mediante métodos, en \textit{Python} un método se define 
       como \mintinline{python}{def method_name(param1, param2, ...): ...}, en 
@@ -137,16 +138,16 @@
       de los parámetros que recibe el método y el tipo del dato que retorna de la forma
       \mintinline{java}{returnType methodName(param1Type param1, param2Type param2, ...) {...}}.
 
-      Agreguemos 2 métodos a la clase \texttt{Point2D}, uno que sume las coordenadas de 2
+      Agreguemos 2 métodos a la clase \texttt{Vector2D}, uno que sume las coordenadas de 2
       puntos retornando un nuevo punto, y otro que imprima un punto en pantalla como 
       \texttt{(x, y)}.
 
       En \textit{Python}:
       \begin{listing}[ht!]
         \begin{minted}{python}
-          # Dentro de la clase Point2D
+          # Dentro de la clase Vector2D
           def add(self, other_point):
-              return Point2D(self.x + other_point.x,
+              return Vector2D(self.x + other_point.x,
                              self.y + other_point.y)
           
           def print(self):
@@ -158,8 +159,8 @@
 
       \begin{listing}[ht!]
         \begin{minted}{python}
-          point = Point2D(1, 3)
-          new_point = point.add(Point2D(-1, 2))
+          point = Vector2D(1, 3)
+          new_point = point.add(Vector2D(-1, 2))
           new_point.print()
         \end{minted}
       \end{listing}
@@ -170,9 +171,9 @@
 
       \begin{listing}[ht!]
         \begin{minted}{java}
-          // Dentro de la clase Point2D
-          Point2D add(Point2D otherPoint) {
-            return new Point2D(x + otherPoint.x, y + otherPoint.y);
+          // Dentro de la clase Vector2D
+          Vector2D add(Vector2D otherPoint) {
+            return new Vector2D(x + otherPoint.x, y + otherPoint.y);
           }
 
           void print() {
@@ -185,8 +186,8 @@
 
       \begin{listing}[ht!]
         \begin{minted}{java}
-          Point2D point = new Point2D(1, 3);
-          Point2D newPoint = point.add(new Point2D(-1, 2));
+          Vector2D point = new Vector2D(1, 3);
+          Vector2D newPoint = point.add(new Vector2D(-1, 2));
           newPoint.print();
         \end{minted}
       \end{listing}
