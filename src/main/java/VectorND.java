@@ -13,7 +13,7 @@ class VectorND {
   public static void main(String[] args) {
     VectorND v1 = new VectorND(new double[]{0, 1, 2});
     VectorND v2 = v1.add(new VectorND(new double[]{1}));
-    System.out.println(Arrays.toString(v2.tail));
+    v2.print();
   }
 
   VectorND add(VectorND otherVector) {
@@ -29,10 +29,22 @@ class VectorND {
     for (int i = 0; i < smaller.length; i++) {
       components[i] = bigger[i] + smaller[i];
     }
-    for (int i = smaller.length; i < bigger.length; i++) {
-      components[i] = bigger[i];
+    if (bigger.length - smaller.length >= 0) {
+      System.arraycopy(bigger, smaller.length, components, smaller.length,
+                       bigger.length - smaller.length);
     }
     return new VectorND(components);
+  }
+
+  void print() {
+    String result = "";
+    for (int idx = 0; idx < tail.length; idx++) {
+      result += tail[idx];
+      if (idx < tail.length - 1) {
+        result += ", ";
+      }
+    }
+    System.out.println("(" + result + ")");
   }
 }
   
