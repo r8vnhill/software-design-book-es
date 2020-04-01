@@ -6,80 +6,25 @@
   Se creó con el objetivo de manejar las versiones del \textit{kernel} de \textit{Linux}.
   Es un proyecto de código abierto y fue adquiriendo popularidad con los años (según un 
   estudio realizado por \textit{StackOverflow}, \textit{Git} es el sistema de 
-  versionamiento utilizado por el 70 \% de sus usuarios).
+  versionado utilizado por el 70 \% de sus usuarios).
   
-  Existen muchos otros sistemas de versionamiento que también se utilizan en la industria,
+  Existen muchos otros sistemas de versionado que también se utilizan en la industria,
   en particular \textit{Mercurial}, \textit{Perforce} y \textit{Subversion} son algunos de 
   los más importantes.
-
+  
   \section{Instalación}
     Como \textit{Git} es un proyecto \textit{open-source} existen diversas maneras de 
     instalarlo, en particular aquí se ejemplificarán algunas.
 
-    \subsection{Linux}
-      La forma más fácil de instalar \textit{Git} es utilizando el gestor de paquetes del
-      sistema operativo que estén usando.
-      A continuación se muestran los comandos necesarios para cada distribución de 
-      \textit{Linux}:
-
-      \subsubsection{
-        \textit{Debian}\footnote{\textit{Ubuntu} es un sistema basado en \textit{Debian}}
-      }
-        \begin{minted}{bash}
-          sudo apt install git-all 
-        \end{minted}
-      %
-
-      \subsubsection{\textit{CentOS}}
-        \begin{minted}{bash}
-          sudo yum install git
-        \end{minted}
-      %
-
-      \subsubsection{\textit{Fedora}}
-        \begin{minted}{bash}
-          sudo yum install git-core
-        \end{minted}
-      %
-
-      \subsubsection{\textit{Arch Linux}\footnote{Por ejemplo \textit{Manjaro}.}}
-        \begin{minted}{bash}
-          sudo pacman -Sy git
-        \end{minted}
-      %
-
-      \subsubsection{\textit{Gentoo}}
-        \begin{minted}{bash}
-          sudo emerge --ask --verbose dev-vcs/git
-        \end{minted}
-      %
-    %
-
-    \subsection{Windows}
-      De nuevo, existen muchas maneras de instalar \textit{Git}, a continuación se 
-      muestran algunas:
-
-      \subsubsection{\textit{Chocolatey} (Recomendado)}
-        \begin{minted}{powershell}
-          cinst git.install -y
-        \end{minted}
-      %
-
-      \subsubsection{\textit{Git bash}}
-        \textit{Git bash} es una interfaz de consola que emula la terminal de 
-        \textit{Linux} y que viene con git instalado.
-        
-        Para instalarla deben descargar el cliente desde el 
-        \href{https://git-scm.com/download/win}{sitio oficial} de \textit{Git}.
-      %
-    %
+    \subimport{Git/}{Linux.tex}
+    \subimport{Git/}{Windows.tex}
 
     \subsection{MacOS}
       Para Mac existen dos alternativas:
       \begin{enumerate}
         \item Descargar el instalador de 
           \href{https://sourceforge.net/projects/git-osx-installer/files/}{Git for Mac}.
-        \item Instalarlo con \textit{brew} ejecutando el comando: 
+        \item Instalarlo con \textit{Brew} ejecutando el comando: 
           \mintinline{bash}{brew install git}
       \end{enumerate}
     %
@@ -90,8 +35,10 @@
     \begin{minted}[escapeinside=]{bash}
       git --version
     \end{minted}
+
     El resultado que debiera retornar este comando es algo del estilo (para el caso de 
     \textit{Windows} utilizando \textit{Chocolatey}):
+
     \begin{minted}{text}
       git version 2.21.0.windows.1
     \end{minted}
@@ -110,7 +57,7 @@
 
   \section{Repositorios}
     Un repositorio (generalmente llamado \textit{repo}) se puede entender como un proyecto
-    con un sistema de versionamiento integrado.
+    con un sistema de versionado integrado.
 
     En el caso de \textit{Git}, uno de los principales beneficios es que puede utilizarse
     de manera local o remota utilizando un servidor o un \textit{host} de repositorios 
@@ -185,7 +132,7 @@
       \item \href{https://www.youtube.com/watch?v=uUzRMOCBorg}{\textbf{Usar 
         \textit{IntelliJ} para manejar \textit{Git}}}.
       \item  \href{https://code.visualstudio.com/docs/editor/versioncontrol}{
-        \textbf{Usar \textit{VSCode} para menejar \textit{Git}}}.
+        \textbf{Usar \textit{VSCode} para manejar \textit{Git}}}.
       \item \href{https://www.gitkraken.com}{\textbf{\textit{GitKraken}:}} interfaz 
         gráfica para manejar repositorios de \textit{Git}.
         Pueden obtener una licencia gratis postulando a los beneficios de 

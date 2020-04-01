@@ -74,7 +74,7 @@
   Ahora, es poco común trabajar con vectores de \(n\) dimensiones, en general trabajaremos
   con vectores de dos o tres dimensiones, así que sería una buena idea tener clases 
   específicas para dichos tipos.
-  Ahora, ¿Por qué es una buena idea?
+  Ahora, ?`Por qué es una buena idea?
 
   Como mencionamos en el capítulo \ref{ch:oop}, el objetivo de la herencia es la 
   \textbf{especialización} de una clase, y eso es precisamente lo que queremos hacer aquí.
@@ -112,22 +112,73 @@
   Como pueden ver, la sintaxis con la que se llama al constructor de la superclase es 
   similar a la manera en la que se hace en \textit{Python}.
 
-  Ahora, el método \texttt{add} que habíamos definido anteriormente en nuestra clase 
-  \texttt{Point2D} ya no es necesario.
+  Ahora, los métodos \texttt{add} y \texttt{print} que habíamos definido anteriormente en 
+  nuestra clase \texttt{Point2D} ya no son necesarios.
   ?`Por qué pasa esto?
   La explicación la dimos en el capítulo \ref{ch:oop}, ahí dijimos que los hijos heredan 
   sus funcionalidades de su padre, así que si borramos el método \texttt{add} de nuestra
   clase \texttt{Vector2D}, entonces se llamará al método de la superclase.
-  Entonces, deberíamos poder ejecutar el método \texttt{add} de la misma forma que 
-  habíamos hecho antes en la sección \ref{sec:methods} y obtener el mismo resultado.
+  Entonces, deberíamos poder ejecutar estos métodos de la misma forma que habíamos hecho 
+  antes en la sección \ref{sec:methods} y obtener el mismo resultado.
 
   \begin{minted}{java}
     Vector2D point = new Vector2D(1, 3);
     Vector2D newPoint = point.add(new Vector2D(-1, 2));
+    newPoint.print();
   \end{minted}
 
   Si intentan correr el código anterior se darán cuenta que no compila.
+  ?`Qué hicimos mal?
+  El problema es que definimos \texttt{newPoint} como un objeto de tipo \texttt{Vector2D}
+  pero el método \texttt{add} retorna un objeto de tipo \texttt{VectorND}.
+  Siguiendo esa misma lógica podríamos pensar que hacer 
+  \mintinline{java}{point.add(new Vector2D(-1, 2))} también debiera fallar ya que el 
+  método espera recibir un objeto de tipo \texttt{VectorND} pero le pasamos uno de tipo
+  \texttt{Vector2D}, pero como veremos a continuación ese no es el caso.
+
+  \begin{minted}{java}
+    Vector2D point = new Vector2D(1, 3);
+    VectorND newPoint = point.add(new Vector2D(-1, 2));
+    newPoint.print();
+  \end{minted}
+
+  Este código compila y retorna el resultado esperado.
+  Ahora, veamos por qué al método \texttt{add} podemos pasarle un parámetro de tipo 
+  \texttt{Vector2D} pero no podemos definir \texttt{newPoint} como instancia de esa clase.
+  La explicación es simple, \texttt{Vector2D} es más específico que \texttt{VectorND}.
   
+  Podemos pensar las clases como conjuntos.
+  Sean \(\mathcal{C}_0,\, \mathcal{C}_1\) y \(\mathcal{C}_2\) clases tales que 
+  \(\mathcal{C}_1\) y \(\mathcal{C}_2\) heredan de \(\mathcal{C}_0\).
+  Esto quiere decir que 
+
+  \[
+    \mathcal{C}_0 \subseteq \mathcal{C}_1 \wedge \mathcal{C}_0 \subseteq \mathcal{C}_2
+      \implies \mathcal{C}_1 \cap \mathcal{C}_2 \equiv \mathcal{C}_0
+  \]
+  
+  Note que lo anterior implica que para cualquier propiedad \(p \in \mathcal{C}_0\), 
+  entonces \(p \in \mathcal{C}_1 \wedge p \in \mathcal{C}_2\), por lo que sabemos que un 
+  objeto de tipo \(\mathcal{C}_1\) tiene \textit{al menos} todas las propiedades de 
+  \(\mathcal{C}_0\), entonces podemos utilizar un objeto de tipo \texttt{Vector2D} en el 
+  método \texttt{add(VectorND)}, ya que sabemos que \texttt{Vector2D} puede 
+  hacer todo lo que hace \texttt{VectorND}, esta propiedad se llama \textit{polimorfismo}
+  y fue presentada en la sección \ref{sec:objects}.
+
+  Ahora, esto no se da en la dirección contraria. 
+  Si tenemos una propiedad \(q \in \mathcal{C}_1\), esta puede o no estar en 
+  \(\mathcal{C}_2\).
+  Es más, 
+  
+  \[  q \in \mathcal{C}_1 \wedge q \in \mathcal{C}_2 \iff q \in \mathcal{C}_0.  \]
+  
+  De esto se desprende que si tenemos un objeto \(o\) de tipo \(\mathcal{C}_0\), dado que 
+  anteriormente mostramos que \(\mathcal{C}_1 \cap \mathcal{C}_2 \equiv \mathcal{C}_0\), 
+  tenemos \(o \in \{\mathcal{C}_0, \mathcal{C}_1, \mathcal{C}_2\}\).
+  Como no podemos distinguir a cuál de esos conjuntos pertenece \(o\), sólo podemos asumir
+  que pertenece a la intersección de todos los conjuntos, i.e. \(\mathcal{C}_0\).
+  De esto podemos concluir directamente que \texttt{newPoint} puede ser de tipo 
+  \texttt{VectorND}, pero no de tipo \texttt{Vector2D}.
 
   \begin{note}
     Un detalle que vale la pena mencionar es que \textbf{todos los objetos}, tanto en 
