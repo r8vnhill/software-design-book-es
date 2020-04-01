@@ -1,0 +1,129 @@
+\chapter{Recomendación: \textit{Cmder} para \textit{Windows}}
+  La consola por defecto de \textit{Powershell}, si bien es funcional, carece de muchas 
+  herramientas para trabajar cómodamente que sí ofrecen las terminales de sistemas 
+  \textit{UNIX}.
+  Por esta razón recomendamos instalar \textit{Cmder}.
+
+  \textit{Cmder} es un \textit{emulador de consola} que permite correr múltiples 
+  \textit{shells} en una misma interfaz, incluyendo \textit{Powershell}, \textit{CMD} y 
+  \textit{WSL} entre otras.
+
+  Para instalar \textit{Cmder} utilizaremos \textit{Chocolatey}.
+  En una terminal de \textit{Powershell} con permisos de administrador ejecuten:
+
+  \begin{minted}{powershell}
+    cinst cmder -y
+  \end{minted}
+
+  Con esto basta para tener \textit{Cmder} instalado, pero una de las principales ventajas
+  de utilizar este emulador de consola es la capacidad de personalizarlo.
+
+  Lo primero que haremos será descargar las fuentes de \textit{Powerline} que soportan más
+  caracteres que los que trae \textit{Powershell} por defecto.
+  Para esto ejecuten (puede ser en la misma terminal de \textit{Powershell} o en 
+  \textit{Cmder}):
+
+  \begin{minted}{powershell}
+    git clone "https://github.com/powerline/fonts.git"
+    Set-Location fonts
+    .\install.ps1
+  \end{minted}
+
+  Ahora, desde \textit{Cmder} vayan a la configuración con \texttt{Win+Alt+P}.
+  Una vez ahí, en la pestaña \texttt{General > Fonts} cambien \texttt{Main console font} y 
+  \texttt{Alternative font} por alguna de las que provee \textit{Powerline} (por ejemplo 
+  \texttt{DejaVu Sans Mono for Powerline}).
+
+  Luego, en la pestaña \texttt{Startup} de las configuraciones, seleccionen en la opción
+  \texttt{Specified named task} la terminal por defecto que se ejecutará al abrir 
+  \textit{Cmder}.
+
+  Lo siguiente será instalar herramientas que mejorarán la interacción de 
+  \textit{Powershell} con \textit{Git} y entregar de mejor forma la información al momento 
+  de usar la consola.
+  Para esto, deberán ejecutar los siguientes comandos:
+
+  \begin{minted}{powershell}
+    Install-PackageProvider NuGet -MinimumVersion '2.8.5.201' -Force
+    Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+    Install-Module -Name 'posh-git'
+    Install-Module -Name 'oh-my-posh'
+    Install-Module -Name 'Get-ChildItemColor'
+  \end{minted}
+
+  Lo último es configurar el perfil de \textit{Powershell}, esto se hace en un archivo que
+  es el equivalente a \texttt{.bashrc} de los sistemas \textit{Linux}.
+  Para abrir este archivo ejecuten:
+
+  \begin{minted}{powershell}
+    ise $PROFILE
+  \end{minted}
+
+  Esto abrirá el entorno de \textit{scripting} de \textit{Powershell} (si nunca han 
+  configurado la consola, entonces debiera estar vacío).
+  Como último paso, escriban lo siguiente en el archivo de configuración y guarden los 
+  cambios.
+
+  \begin{minted}{powershell}
+    # Helper function to set location to the User Profile directory
+    function cuserprofile { Set-Location ~ }
+    Set-Alias ~ cuserprofile -Option AllScope
+
+    Import-Module 'posh-git'
+    Import-Module 'oh-my-posh' -DisableNameChecking
+
+    # CHOCOLATEY PROFILE
+    $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+    if (Test-Path($ChocolateyProfile)) {
+      Import-Module "$ChocolateyProfile"
+    }
+
+    remove-item alias:cd -force
+    function cd($target) {
+      if (Test-Path("$target.lnk") -or $target.EndsWith(".lnk")) {
+        if (-not $target.EndsWith(".lnk")) {
+          $target = "$target.lnk"
+        }
+        $sh = New-Object -com wscript.shell
+        $fullpath = Resolve-Path $target
+        $targetpath = $sh.CreateShortcut($fullpath).TargetPath
+        Set-Location $targetpath
+      }
+      else {
+        Set-Location $target
+      }
+      <#
+        .SYNOPSIS
+          Moves to the a target directory.
+        .DESCRIPTION
+          Sets the current location to the given target folder or the folder pointed by its
+          symlink.
+        .PARAMETER target
+          The target directory
+      #>
+    }
+
+    function U([int]$Code) {
+      if ((0 -le $Code) -and ($Code -le 0xFFFF)) {
+        return [char] $Code
+      }
+    
+      if ((0x10000 -le $Code) -and ($Code -le 0x10FFFF)) {
+        return [char]::ConvertFromUtf32($Code)
+      }
+    
+      throw "Invalid character code $Code"
+      <#
+      .DESCRIPTION
+          Helper function to show Unicode characters
+      #>
+    }
+
+    Set-PSReadlineOption -BellStyle None
+    Set-Theme Honukai
+  \end{minted}
+
+  La última línea solamente define el \textit{tema} de la consola, pueden ver una lista de
+  \textit{temas} disponibles en el 
+  \href{https://github.com/JanDeDobbeleer/oh-my-posh#themes}{repositorio de \textit{Oh-My-Posh}}
+%
