@@ -180,6 +180,12 @@
   De esto podemos concluir directamente que \texttt{newPoint} puede ser de tipo 
   \texttt{VectorND}, pero no de tipo \texttt{Vector2D}.
 
+  \begin{figure}[ht!]
+    \centering
+    \includegraphics[width=\textwidth]{Inheritance Venn.jpg}
+    \caption{Representación de herencia de clases como conjuntos.}  
+  \end{figure}
+
   \begin{note}
     Un detalle que vale la pena mencionar es que \textbf{todos los objetos}, tanto en 
     \textit{Python} como \textit{Java}, extienden implícitamente a un objeto especial 
@@ -188,4 +194,22 @@
     \mintinline{java}{class VectorND extends Object {...}} y sería equivalente 
     (en \textit{Python} es análogo).
   \end{note}
+
+  \begin{exercise}
+    Cree una clase \texttt{Vector3D} que extienda de \texttt{VectorND} e implemente el 
+    método \mintinline{java}{void printSpherical()} que imprima en pantalla el vector en 
+    coordenadas esféricas de la forma \((r, \phi, \theta)\) sabiendo que:
+    
+    \[
+      \begin{aligned}
+        r       &= \sqrt{x^2 + y^2 + z^2} \\
+        \phi    &= \arctan{\frac{y}{x}}   \\
+        \theta  &= \arccos{\frac{z}{r}}
+      \end{aligned}
+    \]
+
+    Para esto puede utilizar los métodos de la librería estándar de \textit{Java} 
+    \mintinline{java}{Math.sqrt(double)}, \mintinline{java}{Math.atan(double)} y 
+    \mintinline{java}{Math.acos(double)}.
+  \end{exercise}
 %
