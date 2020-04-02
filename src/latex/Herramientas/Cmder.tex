@@ -80,7 +80,7 @@
 
     remove-item alias:cd -force
     function cd($target) {
-      if (Test-Path("$target.lnk") -or $target.EndsWith(".lnk")) {
+      if ((Test-Path "$target.lnk") -or $target.EndsWith(".lnk")) {
         if (-not $target.EndsWith(".lnk")) {
           $target = "$target.lnk"
         }
