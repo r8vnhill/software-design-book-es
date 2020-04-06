@@ -29,6 +29,7 @@
      - [Tipos](Tipos)
      - [Constructores](Constructores)
      - [Herencia](Herencia)
+     - [Ejercicios](De-Python-a-Java-Ejercicios)
 
 6. [Profundizando en Java](Profundizando-en-Java)
 
@@ -39,6 +40,7 @@
 - [Visibilidad](Visibilidad)
 - [Metodos estaticos](Metodos-estaticos)
 - [Lookup (TODO)](Lookup)
+- [Modelo-Vista-Controlador](Modelo-Vista-Controlador)
 - [Ejercicios](Ejercicios)
 - [Conocimientos previos necesarios](Conocimientos-Previos)
 
