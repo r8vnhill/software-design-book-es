@@ -1,0 +1,136 @@
+% !TEX root = D:\Users\Ignacio\Documentos\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+\section{Convenciones}
+  Antes de explicar cómo funciona \textit{Java}, veamos las convenciones de cómo escribir
+  código.
+  Estas convenciones no es necesario seguirlas, pero es \textbf{altamente recomendado} ya
+  que hace más fácil estandarizar la forma en que se escribe un programa cuando se trabaja
+  en equipos.
+
+  Las convenciones que ilustraremos aquí son las que utilizan los programadores de 
+  \href{https://google.github.io/styleguide/javaguide.html}{\textit{Google}}, ya que es 
+  uno de los estándares más usados y completos.
+
+  \subsubsection{Archivos}
+    
+  \rule{\linewidth}{1pt}
+
+    \paragraph{Nombre de archivos}
+      El nombre de los archivos debe ser el nombre de la clase principal del archivo 
+      (cada archivo debe tener \textbf{a lo más} una clase principal) con la terminación
+      \texttt{.java}.
+
+      Por ejemplo, la clase \texttt{VectorND} que definimos anteriormente debe estar en un 
+      archivo llamado \texttt{VectorND.java}.
+    %
+    \paragraph{\textit{Encoding}}
+      El \textit{encoding} de los archivos debe ser \textit{UTF-8}.
+    %
+    \paragraph{Espacios en blanco}
+      Aparte del salto de línea (que dependerá del S.O.), solamente debe usarse el espacio
+      estándar \textit{ASCII} (\texttt{0x20}).
+      Esto implica que no deben utilizarse \textit{tabs} para indentar el código.
+    %
+  %
+  \subsubsection{Formato}
+    
+  \rule{\linewidth}{1pt}
+
+    \paragraph{Llaves}
+      Siempre se deben utilizar llaves en las instrucciones \textit{if}, \textit{else}, 
+      \textit{do} y \textit{while}, incluso si no son necesarios.
+
+      Esto quiere decir que el siguiente código:
+      
+      \begin{minted}{java}
+        if (a >= 0) return a;
+        else return -a;
+      \end{minted}
+
+      debe ser cambiado por:
+
+      \begin{minted}{java}
+        if (a >= 0) {
+          return a;
+        } else {
+          return -a;
+        }
+      \end{minted}
+    %
+    \paragraph{Indentación}
+      Las instrucciones deben tener una indentación de 2 espacios.
+    %
+    \paragraph{Una instrucción por línea}
+      Cada instrucción debe estar seguida de un salto de línea.
+
+      Esto quiere decir que:
+
+      \begin{minted}{java}
+        // Esto
+        int i = 0; double d = 1.0;
+        // Se debe cambiar por
+        int i = 0;
+        double d = 1.0;
+      \end{minted}
+    %
+    \paragraph{Límite de columnas}
+      Cada línea no debe exceder los 100 caracteres.
+    %
+    \paragraph{Espacios horizontales}
+      \begin{itemize}
+        \item Separar cada \textit{keyword} de los paréntesis que lo sigan en esa línea, 
+          e.g. \mintinline{java}{if (...)} en vez de \mintinline{java}{if(...)}.
+        %
+        \item Separar cada \textit{keyword} de la llave que lo precede, e.g. 
+          \mintinline{java}!} else! en vez de \mintinline{java}!}else!.
+        %
+        \item Colocar un espacio antes de cada apertura de llave (e.g. 
+          \mintinline{java}{if (...) {}} en lugar de \mintinline{java}{if (...){}}), con 2 
+          excepciones:
+
+          \begin{itemize}
+            \item \mintinline{java}{@SomeAnnotation({a, b})}.
+            \item Al definir arreglos como \mintinline{java}{new int[][] {{1, 2}}}.
+          \end{itemize}
+        %
+        \item En ambos lados de un operador binario o ternario, e.g. 
+          \mintinline{java}{c = a + b} en vez de \mintinline{java}{c=a+b}.
+        %
+        \item Luego de \texttt{,}, \texttt{:} y \texttt{;}, y luego del cierre de un 
+          paréntesis al hacer \textit{casting}, e.g. 
+          \mintinline{java}{for (int i = 0; i < j; i++) {}}, \mintinline{java}{int a, b},
+          \mintinline{java}{a > b ? a : b}, \mintinline{java}{a = (int) 2.5}.
+      \end{itemize}
+    %
+  %
+  \subsubsection{Nombres}
+    \rule{\linewidth}{1pt}
+
+    Los nombres en todos los casos siguientes deben ser descriptivos.
+    
+    \begin{minted}{java}
+      // Evitar esto
+      int c = 0; // Product stock counter
+      // y reemplazarlo por
+      int productStock = 0;
+    \end{minted}
+
+    \paragraph{Paquetes}
+      Los nombres de paquetes deben contener solo letras minúsculas, e.g. 
+      \mintinline{java}{package com.github.cc3002metodologias} en lugar de
+      \mintinline{java}{package com.gitHub.CC3002Metodologias}.
+    %
+    \paragraph{Clases}
+      Los nombres de las clases utilizan \textit{UpperCamelCase} y deben ser sustantivos.
+    %
+    \paragraph{Métodos}
+      Los nombres de métodos se escriben en \textit{lowerCamelCase} y deben ser verbos o 
+      acciones.
+    %
+    \paragraph{Variables \texttt{static final}}
+      Los nombres de estas variables utilizan \textit{CONSTANT\_CASE}.
+    %
+    \paragraph{Otras variables}
+      
+    %
+  %
+%
