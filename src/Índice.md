@@ -32,6 +32,11 @@
      - [Ejercicios](De-Python-a-Java-Ejercicios)
 
 6. [Profundizando en Java](Profundizando-en-Java)
+   
+   - [Convenciones](Convenciones) 
+   - [Estructura de una aplicación](Estructura-de-una-aplicación)
+
+7. [Java: Tópicos avanzados](https://github.com/CC3002-Metodologias/apunte-y-ejercicios/wiki/Java:-Tópicos-avanzados)
 
 
 # En transición
@@ -52,5 +57,4 @@
    - [Repositorio de ejercicios (TODO)](Repositorio)
    - [Git (Tarea 0 - TODO)](Git)
 - Patrones (TODO)
-- [Convenciones (TODO)](Convenciones)
 - [FAQ](FAQ)
