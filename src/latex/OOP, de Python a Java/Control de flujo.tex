@@ -134,23 +134,21 @@
   hacer un \textit{if-else} de una manera más compacta, pero que tiene más restricciones.
   Un ejemplo de esta instrucción sería:
 
-  \begin{listing}[ht!]
-    \begin{minted}{java}
-      switch (a) {
-        case 0:
-          System.out.println("a = 0");
-          break;
-        case 1:
-          System.out.println("a = 1");
-          break;
-        case 2:
-          System.out.println("a = 2");
-          break;
-        default:
-          System.out.println("a is not in [0, 2]");
-      }
-    \end{minted}
-  \end{listing}
+  \begin{minted}{java}
+    switch (a) {
+      case 0:
+        System.out.println("a = 0");
+        break;
+      case 1:
+        System.out.println("a = 1");
+        break;
+      case 2:
+        System.out.println("a = 2");
+        break;
+      default:
+        System.out.println("a is not in [0, 2]");
+    }
+  \end{minted}
 
   \begin{exercise}
     Borre las instrucciones \mintinline{java}{break} del ejemplo anterior y compruebe si 

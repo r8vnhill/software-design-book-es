@@ -841,3 +841,5 @@ $RECYCLE.BIN/
 
 # Makeindex log files
 *.lpz
+
+__latexindent*
