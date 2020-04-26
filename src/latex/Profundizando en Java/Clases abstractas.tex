@@ -1,0 +1,53 @@
+% !TEX root = C:\Users\smfla\Documents\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+\section{Clases abstractas}
+  En las secciones anteriores creamos una clase \texttt{Pokemon} de la que extendían tipos 
+  específicos de \textit{Pokémon}, esto no está mal.
+  ¿Pero tiene sentido crear instancias de la clase \texttt{Pokemon}?
+  O dicho de otra forma: ¿Existe algún contexto en el que necesitaríamos un \textit{Pokémon} sin 
+  tipo?
+  La verdad es poco probable.
+
+  Para entender este problema alejémonos un poco del ejemplo anterior y vamos a algo más simple, si
+  tenemos un tenedor, una cuchara y un chuchillo, entonces podemos agruparlos diciendo que todos son 
+  utensilios.
+  ¿Pero qué es un utensilio?
+  ¿Existe algún utensilio que no sea un cuchillo, una cuchara, un tenedor u otro?
+  Replanteemos esta última pregunta: ¿Existe algún elemento que sea un utensilio solamente?
+  La respuesta es no, no existe una representación concreta (o material) de un utensilio, diremos
+  entonces que es un \textbf{concepto abstracto}.
+
+  Retomando el ejemplo original, un \textit{Pokémon} sería un concepto abstracto, ya que engloba al
+  conjunto de \textit{Pokémon}, pero no tiene una forma concreta ya que todos los \textit{Pokémon}
+  tienen un tipo.
+
+  En \textit{Java} para representar conceptos abstractos existen las \textbf{clases abstractas}.
+  Una clase abstracta es una clase que \textbf{no puede ser instanciada}, i.e. no puede recibir el
+  mensaje \mintinline{java}{new}.
+  Aún así, las clases abstractas pueden tener constructores porque, a pesar de no poder recibir el
+  mensaje \mintinline{java}{new}, sí pueden recibir el mensaje \mintinline{java}{super(...)}.
+
+  Para definir una clase abstracta se utiliza la \textit{keyword} \mintinline{java}{abstract}, con 
+  lo que podemos reescribir nuestra clase \texttt{Pokemon} como:
+
+  \begin{minted}{java}
+    public abstract class AbstractPokemon implements IPokemon {
+      private final String name;
+      private final String type;
+
+      protected AbstractPokemon(String name, String type) {
+        this.name = name;
+        this.type = type;
+      }
+
+      @Override
+      public String getName() {
+        return name;
+      }
+
+      @Override
+      public String getType() {
+        return type;
+      }
+    }
+  \end{minted}
+%

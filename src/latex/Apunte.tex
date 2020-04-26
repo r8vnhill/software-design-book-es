@@ -1,6 +1,6 @@
 \documentclass[12pt]{book}
-\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amssymb}
@@ -17,7 +17,7 @@
 \usepackage{exercise}
 \usepackage{array}
 \usepackage{csquotes}
-\usepackage[backend=biber, style=reading]{biblatex}
+\usepackage[style=reading, backend=biber, refsection=chapter, citereset=chapter]{biblatex}
 
 \include{Definiciones}
 \include{Config}
@@ -50,6 +50,6 @@
       \label{ch:tdd}
     %
   %
-  \nocite{*}
-  \printbibliography
+  % \nocite{*}
+  % \printbibliography
 \end{document}
