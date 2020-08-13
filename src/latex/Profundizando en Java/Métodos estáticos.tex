@@ -1,0 +1,130 @@
+% !TEX root = D:\Users\Ignacio\Documentos\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+\section{Contextos estáticos}
+  Hasta ahora hemos estado utilizando la keyword \mintinline{java}{static} para escribir nuestros
+  programas, pero no nos hemos detenido a ver lo que significa.
+  ¿Cuál es la diferencia entre declarar \mintinline{java}{public static void main(String[] args)} y
+  \mintinline{java}{public void main(String[] args)}?
+  El objetivo de esta sección será explicar a grandes rasgos qué son y cómo se utilizan los 
+  \textit{contextos estáticos}.
+
+  % region : Métodos
+  \subsection{Métodos estáticos}
+    Comencemos con un ejemplo. 
+    Siguiendo con lo que hemos construido hasta ahora, supongan que ahora queremos implementar una 
+    poción que cure 10 \textit{hit points} a un \textit{Bakémon}.
+    Un primer acercamiento a este problema podría ser:
+
+    \begin{minted}{java}
+      public class Potion {
+        public void useOn(Bakemon target) {
+          target.setHitPoints(target.getHitPoints() + 10);
+        }
+      }
+    \end{minted}
+
+    Ahora, el código anterior puede ser un poco confuso de leer, así que agreguemos un método auxiliar
+    en nuestra clase \texttt{Bakemon} para simplificar nuestro código.
+
+    \begin{minted}{java}
+      // com.github.cc3002.bucket.monsters.Bakemon
+      public void increaseHitPoints(int amount) {
+        this.hitPoints += amount;
+      }
+    \end{minted}
+
+    Con este cambio podemos simplificar nuestra implementación anterior.
+
+    \begin{minted}{java}
+      // com.github.cc3002.bucket.items.Potion
+      public void useOn(Bakemon target) {
+        target.increaseHitPointsBy(10);
+      }
+    \end{minted}
+
+    Utilicemos lo que llevamos, creemos un \textit{Bakémon}, disminuyamos su vida y luego curémoslo
+    con la poción.
+
+    \begin{minted}{java}
+      Bakemon italicore = new Bakemon("Italicore", 15);
+      Potion potion = new Potion();
+      italicore.setHitPoints(0);
+      potion.useOn(italicore);
+      System.out.println("hp = " + italicore.getHitPoints());
+    \end{minted}
+
+    El código anterior funciona como esperamos, pero tiene un problema que a pequeña escala podría 
+    parecer irrelevante, pero en proyectos grandes podría generar problemas graves.
+
+    Cada vez que creo una poción, ese objeto ocupa espacio en la memoria que permanece ahí durante un 
+    tiempo que no podemos definir.
+    ¿Qué pasa si tenemos 100 pociones? ¿y 1000?
+    Más aún, cuando definimos los objetos en el capítulo \ref{ch:oop} dijimos que un objeto se 
+    componía de dos cosas (un comportamiento y un estado), pero este objeto no tiene estado.
+    ¿Tiene sentido entonces que existan instancias de la clase \texttt{Potion}?
+
+    Nos gustaría poder definir esto de manera más eficiente en memoria y, de paso, mejorar el diseño 
+    de nuestra solución.
+    Es aquí donde entran los métodos estáticos.
+
+    Un \textbf{método estático} es un método que no participa del \textit{method lookup} ya que va 
+    asociado a la clase y no a las implementaciones de esta.
+    Esto se parece a los constructores, pero existen ciertas diferencias, pero antes de ver estas 
+    diferencias veamos cómo modificar nuestra clase original para solucionar el error que habíamos 
+    cometido.
+
+    Para definir un método estático, solamente necesitamos utilizar la \textit{keyword} 
+    \mintinline{java}{static} en la definición del método.
+
+    \begin{minted}{java}
+      // com.github.cc3002.bucket.items.Potion
+      public static void useOn(Bakemon target) {
+        target.increaseHitPointsBy(10);
+      }
+    \end{minted}
+
+    Este pequeño cambio tiene un gran impacto en la eficiencia del programa y la diferencia tanto en
+    su implementación y su uso son mínimos.
+    Modificando el ejemplo de antes para utilizar el método estático tendríamos:
+    \begin{minted}{java}
+      Bakemon italicore = new Bakemon("Italicore", 15);
+      italicore.setHitPoints(0);
+      Potion.useOn(italicore);
+      System.out.println("hp = " + italicore.getHitPoints());
+    \end{minted}
+
+    Noten que ahora, como el método va asociado a la clase, no instanciamos el objeto para llamar el
+    método.
+    
+    Tanto los constructores como los métodos estáticos van ligados a la clase y no a instancias de
+    ésta.
+    ¿Entonces qué los diferencia?
+    Si recuerdan la sección anterior, entonces ya lo saben.
+    Los métodos estáticos son (valga la redundancia) métodos, mientras que los constructores no.
+    ¿Qué implicancias tiene esto?
+
+    La primera consecuencia que se puede notar de esto es que las instancias de una clase pueden
+    acceder a los métodos estáticos de ésta (después de todo son instancias \textbf{de} la clase),
+    pero esto no se puede hacer en la dirección contraria.
+    Esto último también implica que no se pueden llamar a métodos estáticos desde métodos de 
+    instancia de la clase.
+    Un ejemplo de esto último sería intentar hacer
+    
+    \begin{minted}{java}
+      // com.github.cc3002.bucket.items.Potion
+      public void useTwiceOn(Bakemon target) {
+        this.useOn(target)
+      }
+    \end{minted}
+
+    Pueden probar correr el último método y ver que no funciona.
+
+    \begin{exercise}
+      ¿Se pueden heredar métodos estáticos?
+      ¿A qué se debe esto último?
+    \end{exercise}
+    
+    \begin{exercise}
+      Dadas las definiciones anterior. 
+      ¿Puede dar una razón sobre por qué el método \texttt{main} debe ser estático?
+    \end{exercise}
+  % endregion
