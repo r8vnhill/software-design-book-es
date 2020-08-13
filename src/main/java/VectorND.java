@@ -3,10 +3,10 @@ import java.util.Arrays;
 /**
  * Documentation intentionally left blank.
  */
-class VectorND {
-  double[] tail;
+public class VectorND {
+  protected double[] tail;
 
-  VectorND(double[] tail) {
+  public VectorND(double[] tail) {
     this.tail = tail;
   }
 
@@ -16,7 +16,7 @@ class VectorND {
     v2.print();
   }
 
-  VectorND add(VectorND otherVector) {
+  public VectorND add(VectorND otherVector) {
     double[] bigger, smaller;
     if (tail.length > otherVector.tail.length) {
       bigger = tail;
@@ -36,7 +36,7 @@ class VectorND {
     return new VectorND(components);
   }
 
-  void print() {
+  public void print() {
     String result = "";
     for (int idx = 0; idx < tail.length; idx++) {
       result += tail[idx];

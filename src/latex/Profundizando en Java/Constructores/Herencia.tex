@@ -1,0 +1,35 @@
+% !TEX root = D:\Users\Ignacio\Documentos\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+\subsection{Constructores y herencia}
+  Ya hemos mencionado anteriormente cómo la herencia es una de las propiedades más poderosas de la
+  programación orientada a objetos, entonces una pregunta natural sería cómo funcionan los 
+  constructores cuando hay herencia.
+
+  Tomemos como punto de partida el ejemplo de vectores que vimos en el capítulo 
+  \ref{ch:python-java}.
+
+  Primero modifiquemos un poco la clase \texttt{VectorND} para integrar los modificadores de 
+  privacidad que vimos en la sección anterior:
+
+  \begin{minted}{java}
+    public class VectorND {
+      protected double[] tail;
+
+      public VectorND(double[] tail) {
+        this.tail = tail;
+      }
+
+      public VectorND add(VectorND otherVector) {
+        // Igual que antes
+      }
+
+      public void print() {
+        // Igual que antes
+      }
+    }
+  \end{minted}
+  
+  TODO:
+  \begin{itemize}
+    \item Llamada implícita a super
+    \item Herencia de constructores
+  \end{itemize}
