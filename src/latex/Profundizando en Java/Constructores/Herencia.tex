@@ -70,8 +70,37 @@
   Luego, como la clase \texttt{VectorND} no tiene ningún constructor que no reciba argumentos 
   entonces el código no compila.
 
+  Otra pregunta interesante es si los constructores se heredan.
+  Para explicar esto partamos por un ejemplo.
+  La velocidad se puede definir como un vector dentro de un espacio euclidiano de \(n\) dimensiones,
+  luego, la velocidad es equivalente a la clase \texttt{VectorND} que ya definimos.
+  Podríamos definir una clase para la velocidad que sea una especialización de un vector.
+  
+  \begin{minted}{java}
+    public class Velocity extends VectorND {
+    }
+  \end{minted}
 
-  TODO:
-  \begin{itemize}
-    \item Herencia de constructores
-  \end{itemize}
+  Si los constructores se heredan entonces podríamos crear un objeto velocidad utilizando el 
+  constructor de la superclase de la forma:
+
+  \begin{minted}{java}
+    Velocity v = new Velocity(new double[]{0, 1, 2, 3});
+  \end{minted}
+  
+  Nuevamente, si intentan correr ese código el programa no va a compilar.
+  Esto se debe a que en \textit{Java}\footnote{Hay lenguajes que \textbf{sí tienen} herencia de 
+  constructores (e.g. \textit{Python}).} los constructores \textbf{no se heredan}.
+  Es muy importante tener esto en cuenta ya que un error común es confundir la llamada implícita a
+  \mintinline{java}{super()} con herencia de constructores.
+
+  \begin{exercise}
+    ¿Se puede enviar el mensaje \mintinline{java}{super(...)} desde fuera del constructor de la 
+    clase?
+  \end{exercise}
+
+  \begin{exercise}
+    ¿Se le ocurre una razón por la cuál en \textit{Java} no se tiene herencia de constructores?
+    \textit{Hint:} Piense en la definición de constructor que se dio en la sección 
+    \ref{sec:default-constructor}.
+  \end{exercise}
