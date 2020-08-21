@@ -1,4 +1,4 @@
-% !TEX root = D:\Users\Ignacio\Documentos\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+% !TEX root = C:\Users\smfla\Documents\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
 \section{Contextos estáticos}
   Hasta ahora hemos estado utilizando la keyword \mintinline{java}{static} para escribir nuestros
   programas, pero no nos hemos detenido a ver lo que significa.
@@ -127,4 +127,40 @@
       Dadas las definiciones anterior. 
       ¿Puede dar una razón sobre por qué el método \texttt{main} debe ser estático?
     \end{exercise}
+  % endregion
+  %% region : Variables
+  \subsection{Variables estáticas}
+    Adicionalmente a los métodos estáticos también existen las variables estáticas.
+    Estas variables funcionan de la misma manera que los métodos estáticos ya que tampoco participan
+    del \textit{method lookup}.
+    La diferencia con los métodos es que al ser variables pueden asignarse y accederse a sus valores
+    de la misma forma que cualquier otra variable de la clase.
+
+    Un ejemplo de uso de variable estática es \texttt{Math.PI}, noten que esto tiene sentido ya que
+    \(\pi\) es una constante y por lo tanto es independiente del contexto en el que se le llame 
+    (volveremos a visitar esta clase en la sección (véase sección \ref{sec:final})).
+
+    Retomemos el ejemplo de la poción para mostrar cómo utilizar estas variables.
+
+    \begin{minted}{java}
+      public class Potion {
+        public static int healPoints = 10;
+
+        public static void useOn(Bakemon target) {
+          target.increaseHitPointsBy(healPoints);
+        }
+      }
+    \end{minted}
+
+    Luego, podemos usar la clase como:
+    \begin{minted}{java}
+      Bakemon italicore = new Bakemon("Italicore", 15);
+      italicore.setHitPoints(0);
+      Potion.useOn(italicore);
+      System.out.println("hp = " + italicore.getHitPoints());
+      italicore.setHitPoints(0);
+      Potion.healPoints = 15;
+      Potion.useOn(italicore);
+      System.out.println("hp = " + italicore.getHitPoints());
+    \end{minted}
   % endregion

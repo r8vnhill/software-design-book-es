@@ -1,4 +1,4 @@
-% !TEX root = D:\Users\Ignacio\Documentos\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+% !TEX root = C:\Users\smfla\Documents\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
 \subsection{Constructores y herencia}
   Ya hemos mencionado anteriormente cómo la herencia es una de las propiedades más poderosas de la
   programación orientada a objetos, entonces una pregunta natural sería cómo funcionan los 
@@ -28,8 +28,50 @@
     }
   \end{minted}
   
+  Ahora, también habíamos definido una clase \texttt{Vector2D} que heredaba de \texttt{VectorND},
+  modifiquemos también esta clase para restringir su visibilidad.
+
+  \begin{minted}{java}
+    public class Vector2D extends VectorND {
+      public Vector2D(double x, double y) {
+        super(new double[]{x, y});
+      }
+    }
+  \end{minted}
+
+  Noten que el constructor de \texttt{Vector2D} hace una llamada a \mintinline{java}{super(...)}, 
+  es importante que no confundan este mensaje con la pseudo-variable \mintinline{java}{super}.
+  Lo que hace este mensaje es enviar un mensaje a la superclase para que ésta ejecute el constructor
+  que reciba los parámetros que se le pasaron (en este caso \mintinline{java}{VectorND(double[])}).
+
+  Una pregunta que podría surgirnos ahora es la necesidad de llamar explícitamente al constructor
+  de la clase padre.
+  ¿No podríamos simplemente hacer lo siguiente?
+
+  \begin{minted}{java}
+    public Vector2D(double x, double y) {
+      this.tail = new double[]{x, y};
+    }
+  \end{minted}
+  
+  Si intentan correr el código anterior se van a dar cuenta que no compila, la razón de esto es 
+  similar a lo que sucedía si no declarábamos explícitamente un constructor en la clase, por defecto
+  todos los constructores hacen una llamada implícita al constructor de su clase padre sin 
+  argumentos a no ser que se llame explícitamente a \mintinline{java}{super(...)}.
+  Esto quiere decir que el código del ejemplo anterior es equivalente a:
+
+  \begin{minted}{java}
+    public Vector2D(double x, double y) {
+      super();
+      this.tail = new double[]{x, y};
+    }
+  \end{minted}
+
+  Luego, como la clase \texttt{VectorND} no tiene ningún constructor que no reciba argumentos 
+  entonces el código no compila.
+
+
   TODO:
   \begin{itemize}
-    \item Llamada implícita a super
     \item Herencia de constructores
   \end{itemize}

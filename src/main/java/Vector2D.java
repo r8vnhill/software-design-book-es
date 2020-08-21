@@ -1,10 +1,10 @@
 /**
  * Documentation is purposely left blank.
  */
-class Vector2D extends VectorND {
+public class Vector2D extends VectorND {
 
-  Vector2D(double x, double y) {
-    super(new double[] {x, y});
+  public Vector2D(double x, double y) {
+    super(new double[]{x, y});
   }
 
   public static void main(String[] args) {
