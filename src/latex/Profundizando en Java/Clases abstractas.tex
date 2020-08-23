@@ -1,8 +1,9 @@
+% !TEX root = C:\Users\smfla\Documents\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
 \section{Clases abstractas}
-  En las secciones anteriores creamos una clase \texttt{Pokemon} de la que extendían tipos 
-  específicos de \textit{Pokémon}, esto no está mal.
-  ¿Pero tiene sentido crear instancias de la clase \texttt{Pokemon}?
-  O dicho de otra forma: ¿Existe algún contexto en el que necesitaríamos un \textit{Pokémon} sin 
+  En las secciones anteriores creamos una clase \texttt{Bakemon} de la que extendían tipos 
+  específicos de \textit{Bakémon}, esto no está mal.
+  ¿Pero tiene sentido crear instancias de la clase \texttt{Bakemon}?
+  O dicho de otra forma: ¿Existe algún contexto en el que necesitaríamos un \textit{Bakémon} sin 
   tipo?
   La verdad es poco probable.
 
@@ -15,8 +16,8 @@
   La respuesta es no, no existe una representación concreta (o material) de un utensilio, diremos
   entonces que es un \textbf{concepto abstracto}.
 
-  Retomando el ejemplo original, un \textit{Pokémon} sería un concepto abstracto, ya que engloba al
-  conjunto de \textit{Pokémon}, pero no tiene una forma concreta ya que todos los \textit{Pokémon}
+  Retomando el ejemplo original, un \textit{Bakémon} sería un concepto abstracto, ya que engloba al
+  conjunto de \textit{Bakémon}, pero no tiene una forma concreta ya que todos los \textit{Bakémon}
   tienen un tipo.
 
   En \textit{Java} para representar conceptos abstractos existen las \textbf{clases abstractas}.
@@ -26,27 +27,49 @@
   mensaje \mintinline{java}{new}, sí pueden recibir el mensaje \mintinline{java}{super(...)}.
 
   Para definir una clase abstracta se utiliza la \textit{keyword} \mintinline{java}{abstract}, con
-  lo que podemos reescribir nuestra clase \texttt{Pokemon} como:
+  lo que podemos reescribir nuestra clase \texttt{Bakemon} como:
 
   \begin{minted}{java}
-    public abstract class AbstractPokemon implements IPokemon {
+    public abstract class AbstractBakemon {
       private final String name;
       private final String type;
 
-      protected AbstractPokemon(String name, String type) {
+      protected AbstractBakemon(String name, String type) {
         this.name = name;
         this.type = type;
       }
 
-      @Override
       public String getName() {
         return name;
       }
 
-      @Override
       public String getType() {
         return type;
       }
     }
   \end{minted}
+
+  Noten que el único cambio que hicimos fue agregar la \textit{keyword} \mintinline{java}{abstract}
+  a la definición de la clase.
+  Con esto podemos reutilizar las funciones de esta clase y evitar la duplicación de código, pero,
+  como veremos ahora y en lo que sigue del curso, es crucial siempre cuestionar nuestro diseño.
+
+  En el capítulo \ref{ch:oop} dijimos que el fin de utilizar herencia \textbf{no es} evitar la 
+  duplicación de código, sin embargo esa es la única función que está cumpliendo nuestra clase 
+  abstracta ahora.
+  Para que tenga sentido utilizar clases abstractas entonces debe existir al menos una funcionalidad
+  que no esté implementada en la clase abstracta y que se le delegue esa funcionalidad a sus hijos,
+  esto es lo que se conoce como \textit{métodos abstractos}.
+
+  Un \textbf{método abstracto} es un método que se define en una clase abstracta pero se implementa
+  en las clases que heredan de ésta.
+  En la práctica, un método abstracto se define como la firma del método seguido de un \texttt{;}.
+
+  Ahora, 
+
+  TODO:
+  \begin{itemize}
+    \item métodos abstractos
+    \item ex: constructores públicos, privados
+  \end{itemize}
 %
