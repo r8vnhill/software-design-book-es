@@ -138,7 +138,7 @@
 
     Un ejemplo de uso de variable estática es \texttt{Math.PI}, noten que esto tiene sentido ya que
     \(\pi\) es una constante y por lo tanto es independiente del contexto en el que se le llame 
-    (volveremos a visitar esta clase en la sección (véase sección \ref{sec:final})).
+    \footnote{Volveremos a visitar esta clase en la sección (véase sección \ref{sec:final})}.
 
     Retomemos el ejemplo de la poción para mostrar cómo utilizar estas variables.
 
@@ -163,4 +163,69 @@
       Potion.useOn(italicore);
       System.out.println("hp = " + italicore.getHitPoints());
     \end{minted}
+
+    Las variables estáticas suelen utilizarse para definir constantes, ya que el valor será el mismo
+    para todas las instancias de la clase, pero este mismo comportamiento puede llevar a errores muy
+    difíciles de encontrar.
+    Veamos un pequeño ejemplo.
+  
+    \begin{minted}{java}
+      public class Example {
+        private int i = 1;
+
+        public Example() {
+          System.out.println(++i);
+        }
+
+        public static void main(String[] args) {
+          new Example();
+          new Example();
+        }
+      }
+    \end{minted}
+
+    Si ejecutamos el código anterior el programa imprimiría en consola
+    \begin{minted}{text}
+      2
+      2
+    \end{minted}
+
+    Pero si cambiamos la variable \texttt{i} por una estática el resultado es totalmente distinto,
+    si declaramos la variable como \mintinline{java}{private static int i = 1} el programa va a 
+    imprimir
+    \begin{minted}{text}
+      2
+      3
+    \end{minted}
+    
+    ¿Por qué pasa esto?
+    Ya mencionamos la razón, las variables estáticas van ligadas a la clase y no a instancias 
+    puntuales de ésta, o dicho de otra forma, son comunes para todas las instancias de la clase.
+
+    Existen otros usos y tipos de contextos estáticos, pero son menos comunes y no serán de 
+    importancia en el curso, así que serán omitidos.
+
+    \begin{exercise}
+      ¿Qué sucede si cambiamos el ejemplo de la poción por lo siguiente?
+      \begin{minted}{java}
+        public class Potion {
+          public int healPoints = 10;
+  
+          public static void useOn(Bakemon target) {
+            target.increaseHitPointsBy(healPoints);
+          }
+        }
+      \end{minted}
+
+      ¿Por qué ocurre esto?
+    \end{exercise}
+
+    \begin{exercise}
+      ¿Se pueden heredar variables estáticas?
+      ¿Por qué?
+    \end{exercise}
+
+    \begin{exercise}
+      ¿Se pueden llamar métodos o variables estáticas desde el constructor?
+    \end{exercise}
   % endregion
