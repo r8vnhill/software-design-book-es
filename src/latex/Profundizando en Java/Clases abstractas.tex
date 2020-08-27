@@ -27,16 +27,19 @@
   mensaje \mintinline{java}{new}, sí pueden recibir el mensaje \mintinline{java}{super(...)}.
 
   Para definir una clase abstracta se utiliza la \textit{keyword} \mintinline{java}{abstract}, con
-  lo que podemos reescribir nuestra clase \texttt{Bakemon} como:
+  lo que podemos reescribir nuestra clase \texttt{Bakemon}\footnote{Es una buena práctica que el 
+  nombre de las clases abstractas comience con \texttt{Abstract}.} como:
 
   \begin{minted}{java}
     public abstract class AbstractBakemon {
-      private final String name;
-      private final String type;
+      private String name;
+      private String type;
+      private int hitPoints;
 
-      protected AbstractBakemon(String name, String type) {
+      protected AbstractBakemon(String name, String type, int hitPoints) {
         this.name = name;
         this.type = type;
+        this.hitPoints = hitPoints;
       }
 
       public String getName() {
@@ -45,6 +48,18 @@
 
       public String getType() {
         return type;
+      }
+
+      public void increaseHitPointsBy(final int amount) {
+        hitPoints += amount;
+      }
+
+      public int getHitPoints() {
+        return hitPoints;
+      }
+
+      public void setHitPoints(int hitPoints) {
+        hitPoints = hitPoints;
       }
     }
   \end{minted}
@@ -65,11 +80,66 @@
   en las clases que heredan de ésta.
   En la práctica, un método abstracto se define como la firma del método seguido de un \texttt{;}.
 
-  Ahora, 
+  Ahora, del ejemplo anterior hay un método que debiera ser abstracto.
+  Si se fijan, el método \texttt{getType()} será distinto para todas las clases que la extiendan y,
+  por lo tanto, debiera ser abstracto, así podemos redefinir la clase como:
+  
+  \begin{minted}{java}
+    public abstract class AbstractBakemon {
+      private String name;
+      private int hitPoints;
+      private int hitPoints;
 
-  TODO:
-  \begin{itemize}
-    \item métodos abstractos
-    \item ex: constructores públicos, privados
-  \end{itemize}
+      protected AbstractBakemon(String name, int hitPoints) {
+        this.name = name;
+        this.hitPoints = hitPoints;
+      }
+
+      public String getName() {
+        return name;
+      }
+
+      public abstract String getType();
+
+      public void increaseHitPointsBy(int amount) {
+        hitPoints += amount;
+      }
+
+      public int getHitPoints() {
+        return hitPoints;
+      }
+
+      public void setHitPoints(int hitPoints) {
+        hitPoints = hitPoints;
+      }
+    }
+  \end{minted}
+
+  Y ahora modificamos sus clases hijas de la siguiente forma.
+
+  \begin{minted}{java}
+    public class WaterBakemon extends AbstractBakemon {
+      public WaterBakemon(String name, int hitPoints) {
+        super(name, hitPoints);
+      }
+
+      @Override
+      public String getType() {
+        return "WATER";
+      }
+    }
+  \end{minted}
+
+  Noten que eliminamos el parámetro \texttt{type}, una mala práctica común es tener métodos y 
+  variables innecesarias en nuestro código, esto puede llevar a un mal entendimiento y uso del 
+  programa así que es mejor eliminarlas.
+
+  Un último detalle importante sobre las clases abstractas es que todos los métodos abstractos 
+  \textbf{deben} implementarse en las clases que hereden de ésta (ya sea directa o indirectamente).
+  Si no se hace esto, el programa no va a compilar.
+
+  \begin{exercise}
+    ¿Tiene sentido tener un constructor público en una clase abstracta?
+    ¿Y uno privado?
+  \end{exercise}
 %

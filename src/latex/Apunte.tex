@@ -28,25 +28,17 @@
   \include{Introducción}
 
   \mainmatter
+  %% region : Parte 1
   \part{Herramientas necesarias y recomendadas}
-    \subimport{Herramientas/}{Java.tex}
-    \subimport{Herramientas/}{Git.tex}
-    \subimport{Herramientas/}{Cmder.tex}
-  %
+    \import{./Herramientas/}{Java.tex}
+    \import{./Herramientas/}{Git.tex}
+    \import{./Herramientas/}{Cmder.tex}
+  % endregion
   \part{Objetos en \textit{Java}}
     \include{OOP}
     \import{./}{De Python a Java.tex}
     \import{./}{Profundizando en Java.tex}
-    \chapter{\textit{Java}: Tópicos avanzados}
-      \label{ch:java-2}
-      \section{La \textit{keyword} \texttt{final}}
-        \label{sec:final}
-      \section{Manejo de memoria}
-        \label{sec:memory}
-      \section{Excepciones}
-        \label{sec:exceptions}
-      %
-    %
+    \import{./}{java2.tex}
   %
   \part{Patrones y metodologías de diseño}
     \chapter{\textit{Test Driven Development}}
