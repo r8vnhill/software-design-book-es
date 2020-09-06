@@ -82,6 +82,37 @@
       // Retorna el índice del elemento o
       int indexOf(Object o);
     \end{minted}
+
+    Ahora, si queremos crear una lista de enteros podríamos hacerlo como:
+    \begin{minted}{java}
+      List<Integer> ints = new ArrayList<>();
+      for (int i = 0; i < 50; i++) {
+        ints.add(i);
+      }
+    \end{minted}
+
+    Noten que al momento de definir el tipo ocupamos la sintaxis \texttt{<Integer>}, esto quiere 
+    decir que la lista estará formada por elementos de tipo \texttt{Integer}.\footnote{Las 
+    listas en \textit{Java} son homogéneas.}
+    El parámetro que va entre \texttt{<...>} debe ser el nombre de una clase o interfaz (\textbf{no 
+    puede ser un tipo primitivo}), esto es lo que se conoce como \textit{tipo genérico} y lo 
+    revisaremos en más detalle en la sección \ref{sec:generics}.
+
+    Algunas implementaciones de la interfaz de listas que vale la pena mencionar son:
+    \begin{itemize}
+      \item \texttt{ArrayList}: Lista implementada con arreglos nativos de tamaño dinámico.
+      \item \texttt{LinkedList}: Implementación como una lista doblemente enlazada.
+    \end{itemize}
+
+    En general lo más común es utilizar un \texttt{ArrayList}, pero dependiendo del caso puede ser
+    más conveniente una lista enlazada.\autocite{so-linked-vs-array}
+
+  TODO:
+  \begin{itemize}
+    \item Sets
+    \item Colas
+    \item Diccionarios
+  \end{itemize}
   % endregion
   %% region : Diccionarios
   % endregion
