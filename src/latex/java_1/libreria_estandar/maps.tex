@@ -26,6 +26,8 @@
     V put(K key, V value);
     // Elimina la llave key y su valor asociado y retorna el valor.
     V remove(Object key);
+    // Obtiene todos los pares llave-valor.
+    EntrySet<K, V> entrySet();
   \end{minted}
 
   Noten que dada la naturaleza de los diccionarios una llave puede estar asociada a un solo valor.
@@ -41,9 +43,36 @@
       insertan los elementos.
     \item \texttt{EnumMap}: Implementación especial del \texttt{HashMap} que usa 
       enumeraciones\footnote{Refiérase a la sección \ref{sec:enum}} como llaves y tiene una función 
-      de \textit{hashing optimizada}.
+      de \textit{hashing optimizada}.\footnote{Este tipo de \textit{hashing} toma provecho de lo que 
+      se conoce como \textit{universos finitos} y lo verán en el curso de \textit{Diseño y Análisis
+      de Algoritmos}.}
       Este tipo de diccionarios es más limitado pero asegura una eficiencia mayor a la de un 
       \texttt{HashMap} tradicional.
     \item \texttt{TreeMap}: Diccionario implementado con un árbol rojo-negro.
       Es menos eficiente que un \texttt{HashMap} pero ordena los elementos por su llave.
   \end{itemize}
+
+  Veamos ahora un pequeño ejemplo de uso de \texttt{TreeMap}.
+
+  \begin{minted}{java}
+    Map<String, String[]> courses = new TreeMap<>();
+    courses.put("CC3501", new String[]{"Daniel C."});
+    courses.put("CC3102", new String[]{"Alejandro H."});
+    courses.put("CC3002", new String[]{"Alexandre B.", "Nancy H."});
+    courses.put("CC3301", new String[]{"Luis M."});
+    System.out.println(Arrays.toString(courses.get("CC3501")));
+
+    courses.remove("CC3501");
+    courses.put("CC3501", new String[]{"Nancy H."});
+    System.out.println(Arrays.toString(courses.get("CC3501")));
+
+    for (Map.Entry<String, String[]> course : courses.entrySet()) {
+      System.out.println(course.getKey() + " "
+                         + Arrays.toString(course.getValue()));
+    }
+  \end{minted}
+
+  \begin{exercise}
+    Pruebe el mismo ejemplo anterior con otros tipos de diccionarios y vea cómo cambian los 
+    resultados.
+  \end{exercise}
