@@ -1,0 +1,41 @@
+\section{Repositorios remotos}
+  \label{sec:github}
+
+  Como mencionamos antes, uno de los principales beneficios es poder utilizar \textit{Git} de manera
+  remota.
+  Para esto se necesita utilizar un servidor, y si bien es posible tener el sistema de versionado
+  montado en un servidor propio existen proveedores que ofrecen este servicio y facilitan el 
+  trabajo.
+
+  Existen varias opciones\footnote{Además de \textit{GitHub} están \textit{GitLab}, 
+  \textit{BitBucket}, \textit{Azure} y otros.} cuando se quiere utilizar un servidor, pero la más 
+  utilizada es por lejos \textit{GitHub}.\autocite{vcs-providers}
+
+  \textit{GitHub} provee muchas funcionalidades pero para este curso utilizaremos solamente las más
+  básicas.
+
+  Para detalles sobre cómo utilizar \textit{GitHub} revisen las bibliografías incluidas al final de
+  este capítulo.
+
+  Sin importar el proveedor de \textit{Git} que se use los comandos para manejar los repositorios 
+  remotos serán siempre los mismos.
+
+  Primero veamos cómo \enquote{descargar} un repositorio desde el servidor.
+  A la acción de crear una copia del repositorio remoto para utilizarlo como un repositorio local se
+  le conoce como \textit{clonar}.
+  Para esto se utiliza el comando \texttt{clone} como se muestra a continuación:
+  \begin{minted}{bash}
+    git clone https://github.com/octocat/Spoon-Knife.git
+  \end{minted}
+
+  Ejecutar la instrucción anterior creará una carpeta \texttt{Spoon-Knife} que contendrá todos los
+  contenidos del repositorio (incluyendo todas las versiones del repositorio remoto, esto quiere 
+  decir que no necesitan hacer \texttt{git init}).
+
+  Una vez que clonaron el repositorio es posible que se hagan cambios en el repositorio remoto y 
+  necesiten actualizar la versión local, para hacer esto se utiliza el comando \texttt{pull}.
+  Por ejemplo, siguiendo el ejemplo anterior haríamos:
+  \begin{minted}{bash}
+    cd Spoon-Knife
+    git pull
+  \end{minted}
