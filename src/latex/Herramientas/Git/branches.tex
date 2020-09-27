@@ -1,0 +1,17 @@
+% !TEX root = C:\Users\Ignacio\Documents\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+\section{Ramas}
+  Las ramas (o \textit{branches}) son uno de los aspectos más importantes al trabajar con 
+  \textit{Git}, estas cumplen varios objetivos, pero el caso de uso más común es cuando se trabaja
+  en equipo.
+  Cuando utilizamos un repositorio remoto, varias personas pueden clonar y hacer \textit{push} al 
+  mismo \textit{repo}, esto puede generar problemas cuando las versiones no son compatibles.
+
+  Retrocedamos un poco para explicar el funcionamiento de \textit{Git}.
+  La manera en la que \textit{Git} maneja el historial de versiones es manteniendo un grafo con los
+  \textit{commits} realizados, este grafo tiene una rama principal que se crea al iniciar un nuevo
+  repositorio y por defecto se llama \textit{master}.
+  Lo recomendado es que en la rama principal solamente se encuentren las versiones del programa que
+  están listas para ser utilizadas y se usen otras ramas para mantener las versiones durante el 
+  proceso de desarrollo.
+
+  Para crear una nueva rama en un repositorio se usa el comando \texttt{branch}
