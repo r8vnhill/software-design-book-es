@@ -2,6 +2,7 @@
 
 ## Versión 1.0
 
+- (VCS-b.5) Mezclar ramas
 - (VCS-b.4) Push a repositorios remotos
 - (VCS-b.3) Introducción a las ramas
 - (VCS-b.2) Repositorios remotos
