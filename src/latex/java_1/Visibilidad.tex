@@ -1,4 +1,41 @@
-% !TEX root = D:\Users\Ignacio\Documentos\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+% !TEX root = C:\Users\Ignacio\Documents\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
 \section{Visibilidad}
   \label{sec:access-mod}
+
+  Como se mencionó en los capítulos anteriores, una de las propiedades importantes de los objetos es
+  la encapsulación, o sea, que los elementos internos de un objeto no puedan ser manipulados desde
+  afuera.
+  Para lograr esto existe el concepto de \textit{visibilidad} (a veces llamada 
+  \textit{privacidad} o \textit{acceso}) que define qué elementos de un objeto van a poder verse 
+  desde afuera de éste.
+
+  Noten que hacer que un elemento sea visible desde fuera de un objeto no rompe la encapsulación, ya
+  que no se están manejando directamente los elementos internos del objeto, sino que es el mismo 
+  objeto el que hace visibles ciertas componentes y funcionalidades suyas, y responde a un 
+  \textit{mensaje}\footnote{El concepto de mensaje se verá en más detalle en la sección siguiente} 
+  enviado por el otro objeto con algún resultado.
+
+  En \textit{Java} existen cuatro modificadores de visibilidad: \mintinline{java}{public}, 
+  \mintinline{java}{protected}, \mintinline{java}{private} y \textit{package-private}.
+  Los modificadores de acceso pueden utilizarse para definir clases, métodos y variables, a 
+  excepción de las variables locales de un método que siempre serán internas al método e 
+  inaccesibles desde fuera de este.
+
+  El modificador \mintinline{java}{public} indica que el elemento definido va a ser visible desde 
+  cualquier otra clase.
+  \mintinline{java}{protected} se usa para definir un elemento que solamente sea accesible desde las
+  clases que heredan de la clase en la que se definió el elemento.
+  La keyword \mintinline{java}{private} por otro lado define que el elemento será visible solamente 
+  desde dentro de la clase en la que se definió.
+
+  El modificador \textit{package-private}, que es con el que se definen todos los elementos si no se
+  define explícitamente un modificador de acceso, define al elemento como solo visible dentro del 
+  paquete en el que se encuentra la clase.
+
+  TODO:
+  \begin{enumerate}
+    \item package-private malo
+    \item scope de los modificadores
+    \item getters/setters
+  \end{enumerate}
 %

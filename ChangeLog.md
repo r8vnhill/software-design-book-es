@@ -2,6 +2,7 @@
 
 ## Versión 1.0
 
+- (JV1-b.3) Introducción a modificadores de visibilidad
 - (VCS-b.5) Mezclar ramas
 - (VCS-b.4) Push a repositorios remotos
 - (VCS-b.3) Introducción a las ramas
