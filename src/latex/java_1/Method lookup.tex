@@ -1,6 +1,41 @@
 \section{\textit{Method lookup}}
   \label{sec:lookup}
 
-  Cuando un objeto recibe un mensaje, éste debe ser interpretado de alguna forma.
-  
-%
+  Cuando un objeto recibe un mensaje, éste debe ser interpretado de alguna forma, pero para esto se 
+  necesita alguna forma de saber cómo responder al mensaje.
+  El proceso de buscar la respuesta adecuada para un mensaje se conoce como \textit{method lookup}.
+
+  En \textit{Java} (y el resto de los lenguajes de tipado estático) todos los mensajes 
+  \textbf{deben} tener una forma de ser interpretados para que el programa compile, pero en el caso
+  de los lenguajes de tipado dinámico como \textit{Python} esto no necesariamente es así.
+
+  Al recibir un mensaje, el objeto que lo recibe revisa si tiene algún método para responderlo; si
+  encuentra el método entonces lo ejecuta, sino lo busca en su clase padre.
+  En caso de que no encuentre el método entonces no puede responder el mensaje y por lo tanto arroja
+  un error, ya sea al compilarse o en tiempo de ejecución dependiendo del lenguaje.
+
+  Tomemos como ejemplo las clases \texttt{Vector2D} y \texttt{VectorND} que vimos en las secciones
+  anteriores.
+  \texttt{Vector2D} solamente cuenta con un constructor y no tiene ningún método propio, por lo que
+  cualquier mensaje que reciba no podrá ser interpretado directamente.
+  Ahora, si enviamos el mensaje \texttt{add(VectorND)} a \texttt{Vector2D} lo va a buscar en dicha 
+  clase y no lo va a encontrar, como no lo encuentra se hace delegación\autocite{wp-delegation} para
+  que la clase padre interprete el mensaje.
+  En este caso, el método se encuentra en la clase \texttt{VectorND} así que se responde
+  exitosamente el mensaje.
+  Por otro lado, si enviáramos el mensaje \texttt{substract(VectorND)}, buscaría en 
+  \texttt{Vector2D} sin encontrarlo, luego buscaría en \texttt{VectorND} y, por último, en la clase
+  \texttt{Object}; al no encontrar el método no se puede responder al mensaje y ocurre un error de
+  compilación.
+
+  \begin{exercise}
+    ¿Qué ocurre si enviamos el mensaje \texttt{equals(VectorND)} a un objeto de la clase 
+    \texttt{Vector2D}?
+  \end{exercise}
+
+
+  %% region : this/super
+  \subsection{\mintinline{java}{this} y \mintinline{java}{super}}
+    Todos los objetos de \textit{Java} poseen dos \textit{pseudo-variables} para referenciar al 
+    mismo objeto.
+  % endregion

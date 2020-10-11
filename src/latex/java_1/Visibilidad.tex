@@ -31,10 +31,24 @@
   El modificador \textit{package-private}, que es con el que se definen todos los elementos si no se
   define explícitamente un modificador de acceso, define al elemento como solo visible dentro del 
   paquete en el que se encuentra la clase.
+  En principio esto debiera otorgar más privacidad que el modificador \mintinline{java}{protected},
+  pero en la práctica no es así.
+  Los paquetes definen estructura, no privacidad, esto significa que no aseguran realmente quiénes
+  podrán acceder a los elementos \textit{package-private} y su forma de uso tampoco es clara.
+  Es importante resaltar esto ya que una confusión muy común es creer que los elementos 
+  \textit{package-private} de \textit{Java} son equivalentes a los elementos 
+  \mintinline{kotlin}{internal} de \textit{C\#} o \textit{Kotlin} cuando en realidad son 
+  \textbf{totalmente distintos}.
+  En general, la recomendación será siempre evitar utilizar el modificador \textit{package-private}
+  lo más posible.\autocite{ham-package-private}\ \footnote{En las versiones más recientes de 
+  \textit{Java} se introdujo el concepto de \textit{módulo} que soluciona varios de estos problemas,
+  pero no los utilizaremos en el curso.}
 
+  Un detalle muy importante sobre los modificadores de acceso es el \textit{scope} de estos, es 
+  decir, desde dónde puede accederse \enquote{realmente} a las componentes internas de un objeto.
+  
   TODO:
   \begin{enumerate}
-    \item package-private malo
     \item scope de los modificadores
     \item getters/setters
   \end{enumerate}
