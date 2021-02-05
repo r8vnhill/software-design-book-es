@@ -23,10 +23,7 @@
 \include{Config}
 
 \begin{document}
-  % \frontmatter
-  % \maketitle
-  % \clearpage
-  \include{Portada.tex}
+  \include{Contenidos/Portada.tex}
   \begin{center}
       \thispagestyle{empty}
       \vspace*{\fill}
@@ -34,28 +31,25 @@
       \vspace*{\fill}
   \end{center}
   \clearpage
-  \include{Introducción}
+  \include{Contenidos/La_parte_del_libro_que_nadie_lee.tex}
   \tableofcontents
 
   \mainmatter
   %% region : Parte 1
-  \part{Herramientas necesarias y recomendadas}
-    \import{./Herramientas/}{Java.tex}
-    \import{./Herramientas/}{Git.tex}
-    \import{./Herramientas/}{Cmder.tex}
-  % endregion
-  \part{Objetos en \textit{Java}}
-    \include{OOP}
-    \import{./}{De Python a Java.tex}
-    \import{./}{java_1.tex}
-    \import{./}{java2.tex}
-  %
-  \part{Patrones y metodologías de diseño}
-    \chapter{\textit{Test Driven Development}}
-      \label{ch:tdd}
-    %
-    \import{./}{gui.tex}
-  %
-  % \nocite{*}
-  % \printbibliography
+  \include{Contenidos/Por_algo_se_empieza.tex}
+  %   \import{./Herramientas/}{Java.tex}
+  %   \import{./Herramientas/}{Git.tex}
+  %   \import{./Herramientas/}{Cmder.tex}
+  % % endregion
+  % \part{Objetos en \textit{Java}}
+  %   \include{OOP}
+  %   \import{./}{De Python a Java.tex}
+  %   \import{./}{java_1.tex}
+  %   \import{./}{java2.tex}
+  % %
+  % \part{Patrones y metodologías de diseño}
+  %   \chapter{\textit{Test Driven Development}}
+  %     \label{ch:tdd}
+  %   %
+  %   \import{./}{gui.tex}
 \end{document}
