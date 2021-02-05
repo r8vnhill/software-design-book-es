@@ -1,0 +1,52 @@
+\documentclass[12pt]{book}
+\usepackage{fontspec}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage[spanish]{babel}
+\usepackage{authblk}
+\usepackage{fullpage}
+\usepackage[hyphens]{url}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{minted}
+\usepackage{parskip}
+\usepackage[stable]{footmisc}
+\usepackage{import}
+\usepackage{exercise}
+\usepackage{array}
+\usepackage{csquotes}
+\usepackage[style=reading, backend=biber, refsection=chapter, citereset=chapter]{biblatex}
+
+\include{Definiciones}
+\include{Config}
+
+\begin{document}
+  \frontmatter
+  \maketitle
+  \tableofcontents
+  \include{Introducción}
+
+  \mainmatter
+  %% region : Parte 1
+  \part{Herramientas necesarias y recomendadas}
+    \import{./Herramientas/}{Java.tex}
+    \import{./Herramientas/}{Git.tex}
+    \import{./Herramientas/}{Cmder.tex}
+  % endregion
+  \part{Objetos en \textit{Java}}
+    \include{OOP}
+    \import{./}{De Python a Java.tex}
+    \import{./}{java_1.tex}
+    \import{./}{java2.tex}
+  %
+  \part{Patrones y metodologías de diseño}
+    \chapter{\textit{Test Driven Development}}
+      \label{ch:tdd}
+    %
+    \import{./}{gui.tex}
+  %
+  % \nocite{*}
+  % \printbibliography
+\end{document}
