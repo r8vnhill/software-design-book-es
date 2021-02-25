@@ -20,7 +20,7 @@
   \section{¿Qué es un Java?}
     \textit{Java} es uno de los lenguajes de programación más utilizados en el mundo (de ahí la 
     necesidad de enseñarles éste y no otro lenguaje), se caracteriza por ser un lenguaje basado en 
-    clases, orientado a objetos, fuertemente tipado y (casi totalmente) independiente del sistema 
+    clases, orientado a objetos, estática y fuertemente tipado, y (casi totalmente) independiente del sistema 
     operativo.
     
     \begin{center}
@@ -49,5 +49,49 @@
     Pasarían varios años antes de que surgieran otros lenguajes que compartieran esa característica
     (destacando entre ellos \textit{Python 2}, publicado el año 2000).
 
+    No tiene mucho sentido seguir hablando de \textit{Java} si no podemos poner en práctica lo que 
+    vayamos aprendiendo, así que es un buen momento para instalarlo.
+
+    \subsection{Instalando el \textit{JDK}}
+      El \textit{Java Development Kit} (\textit{JDK}) es un conjunto de herramientas que incluyen 
+      todo lo necesario para desarrollar aplicaciones en \textit{Java} (la \textit{JVM}, el 
+      compilador, la librería estándar, etc.), esto es lo que generalmente instalaremos si queremos
+      programar en \textit{Java}.\footnote{Existen otras herramientas que incluyen los contenidos de 
+      el \textit{JDK} de forma total o parcial, por ejemplo: \textit{Java SE}, \textit{JRE}, o 
+      incluso otros lenguajes de programación que usan la \textit{JVM}.}
+
+      \subsubsection{Windows}
+        \paragraph{Chocolatey}
+          Lo primero que necesitaremos para instalar las herramientas que usaremos será un gestor de 
+          paquetes, utilizaremos \textit{Chocolatey}.\autocite{choco}
+
+          Para partir abran una ventana de \textit{Powershell} como administrador.
+          Una vez abierta, deben ejecutar las instrucciones:
+          \begin{minted}{powershell}
+            [Net.ServicePointManager]::SecurityProtocol = `
+              [Net.SecurityProtocolType]::Tls12
+            Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
+            Invoke-WebRequest "https://chocolatey.org/install.ps1" `
+              -UseBasicParsing | Invoke-Expression
+          \end{minted}
+
+          Esto otorgará los permisos necesarios y descargará e instalará el gestor de paquetes.
+        \paragraph{(Opcional) Cmder}
+          Es sabido que las terminales por defecto de \textit{Windows} dejan bastante que desear, 
+          por es una buena idea instalar una terminal externa (o más bien un emulador de una).
+          Existen varias opciones, pero \textit{Cmder} es una de las más completas.
+          
+
+
+    \subsection{Tipos en Java}
+      Veamos ahora uno de los aspectos más importantes de la programación en \textit{Java}, sobre todo
+      viniendo de algún otro lenguaje de programación.
+      \textit{Java} es un lenguaje con tipos estáticos y fuertemente tipado, que tenga tipos estáticos
+      significa que el tipo de todas las variables debe ser dado explícitamente al momento de 
+      definirla
+
+    % TODO  Liskov HFDP p.5 override vacío
+    % TODO  Ppio. de diseño HFDP p.9 Identify the aspects of your application that vary and separate 
+    %       them from what stays the same.
   \nocite{*}
   \printbibliography[keyword=Por_algo_se_empieza]
