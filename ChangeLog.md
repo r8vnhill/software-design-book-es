@@ -2,6 +2,7 @@
 
 ## Versión 1.0
 
+- ``1.0.0-b.1`` 
 - (JV1-b.4) Uso de package-private
 - (JV1-b.3) Introducción a modificadores de visibilidad
 - (VCS-b.5) Mezclar ramas
