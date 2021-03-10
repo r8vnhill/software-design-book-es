@@ -99,6 +99,8 @@
       $c = $a + $b;
       print $c;
     \end{minted}
+
+    ¿Qué clase de tipado se ve en el ejemplo?
   \end{exercise}
   
   \begin{exercise}
@@ -114,3 +116,26 @@
     Esto podría interpretarse como que \textit{Kotlin} tiene tipado dinámico, pero no es así.
     ¿Por qué el supertipo \mintinline{kotlin}{Any} no es un ejemplo de tipado dinámico?
   \end{exercise}
+
+  \begin{exercise}
+    En \textit{Javascript} existe lo que suele llamarse \textit{unholy trinity}.
+    En términos simples, se puede entender como en la figura \ref{fig:unholy}.
+    En código tendríamos lo siguiente:
+    \begin{minted}{javascript}
+      > false == [] 
+        true
+      > false == "0"
+        true
+      > [] == "0"
+        false
+    \end{minted}
+
+    ¿Qué clase de tipado ejemplifica esto?
+  \end{exercise}
+
+  \begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Por algo se empieza/unholy.png}
+    \caption{\textit{Unholy trinity}}
+    \label{fig:unholy}
+  \end{figure}
