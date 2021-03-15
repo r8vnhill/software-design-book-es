@@ -1,0 +1,64 @@
+\subsection{Primeros pasos}
+  Si programar fuera como salir a trotar (afortunadamente no lo es), podríamos pensar que todo hasta
+  este punto fue la preparación previa, buscar las zapatillas, la ropa, poner su playlist más 
+  motivante.
+  Pero todavía no podemos comenzar a hacer ejercicio, primero debemos calentar; eso es esta parte, 
+  un calentamiento para soltar las manos con \textit{Java}.
+
+  Para los siguientes ejemplos puede serles útil tener dos terminales abiertas: una con 
+  \textit{jshell} y otra con la consola interactiva de \textit{Python}.\footnote{Los comandos para 
+  abrirlos son \texttt{jshell} y \texttt{python} respectivamente.}
+
+  Lo más básico que nos gustaría poder hacer en un programa es crear una función.
+  Partamos por algo simple, imprimir un mensaje en pantalla, en \textit{Python} esto se hace con la 
+  función \mintinline{python}{print(str)} mientras que en \textit{Java} tenemos que usar 
+  \mintinline{java}{System.out.println(String)}, vemos inmediatamente que el segundo es bastante más
+  complejo, por ahora ignoren la parte \mintinline{java}{System.out} y asuman que esa instrucción 
+  escribe en la salida estándar.\footnote{Si les ayuda, lo que hace la instrucción es escribir un 
+  mensaje en el canal de salida (\textit{out}) del sistema, que no necesariamente va a ser la salida
+  estándar siempre.}
+
+  \begin{minted}{python}
+    # Python
+    def jojo_reference(nombre):
+        print("Mi nombre es " + nombre + " y tengo tuto")
+  \end{minted}
+
+  \begin{minted}{java}
+    // Java
+    void jojoReference(String nombre) {
+      System.out.println("Mi nombre es " + nombre + " y tengo tuto");
+    }
+  \end{minted}
+
+  Revisemos los ejemplos en detalle.
+  La primera línea en ambos ejemplos es un comentario, así como en \textit{Python} los comentarios
+  comienzan con \mintinline{python}{#}, en \textit{Java} comienzan con \mintinline{java}{//}.
+
+  La siguiente línea es la \textit{firma}\footnote{Esto lo veremos en detalle en la sección 
+  \ref{sec:lookup}.} de la función.
+  En \textit{Python} las funciones se definen como:
+  \begin{minted}{python}
+    def func_name(parameters):
+  \end{minted}
+  sin necesidad de especificar los tipos por lo que explicamos en la sección anterior.
+  En \textit{Java} la sintaxis es bastante más explícita, teniendo que declarar el tipo de retorno de
+  la función y el tipo de sus parámetros de la  forma:
+  \begin{minted}{java}
+    returnType funcName(Param1Type param1, Param2Type param2, ...) {...}
+  \end{minted}
+  donde: (1) \texttt{returnType} es el tipo del valor que retorna la función, (2) \texttt{funcName} es
+  el nombre de la función y, (3) \texttt{paramXType} y \texttt{paramX} son el tipo y nombre de cada 
+  parámetro.
+  Otro detalle que podemos ver es que en \textit{Python} la función se llama \texttt{func\_name} y en 
+  \textit{Java} \texttt{funcName}, esto es por que las convenciones de ambos lenguajes son 
+  distintas; pueden revisar las convenciones de \textit{Java} en la sección \ref{sec:conventions}.
+  
+  Por último está el cuerpo de la función. 
+  En \textit{Python} el comienzo del cuerpo de una función se marca con \texttt{:} y el final de 
+  ésta está dada por la sangría (o \textit{indentación}).
+  En \textit{Java} los espacios en blanco no tienen importancia para que el programa 
+  funcione,\footnote{¡Pero sí para hacer su código legible!} en cambio, el inicio y fin de una 
+  función lo marcan la apertura y cierre de las llaves \enquote{\texttt{\{\}}}.
+  En general podremos pensar que en todos los casos en los que \textit{Python} ocupa \texttt{:} el
+  equivalente en \textit{Java} serán las llaves (e.g. \texttt{if}, \texttt{while}).
