@@ -1,0 +1,96 @@
+\subsection{Tipos primitivos}
+  Okay, ahora sabemos que \textit{Java} tiene tipos, falta saber 
+  cuáles son esos tipos.
+
+  En \textit{Java} los tipos se pueden agrupar en dos categorías: los
+  \textbf{tipos primitivos} y los \textbf{objetos}. 
+  La mayor parte de este libro se enfocará en cómo utilizar y 
+  aprovechar las propiedades de los objetos pero primero debemos 
+  entender la diferencia que tienen estos de un tipo primitivo.
+
+  Los \textit{tipos primitivos} son datos que ocupan una cantidad fija de espacio en la
+  memoria y que pueden representarse directamente como valores numéricos.
+  Esto hace que sean más eficientes de utilizar, ya que una vez que se les asigna un 
+  lugar en la memoria difícilmente tendrán que moverse a otra dirección (algo que 
+  sucederá mucho con los objetos).
+  
+  La tabla \ref{tab:primitive} muestra los tipos primitivos de \textit{Java} (en 
+  \textit{Python} también existen los tipos primitivos pero la forma en que funcionan es más 
+  compleja).
+
+  \begin{table}[ht!]
+    \centering
+    \begin{tabular}{| c | m{5em} | m{7em} | m{12em} | c |}
+      \hline
+      Tipo                      & Uso de memoria  & Rango 
+        & Uso                                               
+        & Valor por defecto           \\
+      \hline\hline
+      \mintinline{java}{byte}     & 8-bits          & [-128, 127]  
+        & Representar arreglos masivos de números pequeños  
+        & \mintinline{java}{0}        \\\hline
+      \mintinline{java}{short}    & 16-bits         & [-32.768, 32.767]
+        & Representar arreglos grandes de números pequeños  
+        & \mintinline{java}{0}        \\\hline
+      \mintinline{java}{char}     & 16-bits         & [0, 65.535]
+        & Caracteres del estándar \textit{ASCII}            
+        & \mintinline{java}{'\u0000'} \\\hline
+      \mintinline{java}{int}      & 32-bits         & \([-2^{31}, 2^{31} - 1]\)
+        & Estándar para representar enteros               
+        & \mintinline{java}{0}        \\\hline
+      \mintinline{java}{long}     & 64-bit          & \([-2^{63}, 2^{63} - 1]\)
+        & Representar enteros que no quepan en 32-bits
+        & \mintinline{java}{0L}       \\\hline
+      \mintinline{java}{float}    & 32-bit          & Estándar \textit{IEEE 754x32}
+        & Representar números reales cuando la precisión no es importante
+        & \mintinline{java}{0.0f}     \\\hline
+      \mintinline{java}{double}   & 64-bit          & Estándar \textit{IEEE 754x64}
+        & Representar números reales con mediana precisión
+        & \mintinline{java}{0.0}      \\\hline
+      \mintinline{java}{boolean}  & No definido     & \mintinline{java}{true| o |false}
+        & Valores binarios
+        & \mintinline{java}{false}    \\
+      \hline
+    \end{tabular}
+    \caption{
+      Tipos primitivos en \textit{Java} (los valores por defecto son los que toma la
+      variable si no se le entrega un valor explícitamente \textbf{y es un campo} de una
+      clase)
+    }
+    \label{tab:primitive}
+  \end{table}
+
+  Noten que la sintaxis en \textit{Java} para los valores \textit{boolean} es 
+  \mintinline{java}{true| y |false}, mientras que en \textit{Python} es 
+  \mintinline{python}{True| y |False}.
+
+  Es importante notar también
+
+  Todos los tipos primitivos en \textit{Java} tienen un objeto \enquote{equivalente} 
+  para brindar operaciones que no se pueden realizar directamente con los tipos 
+  primitivos, más adelante veremos algunas de estas funcionalidades.
+  Algunos ejemplos de esto pueden ser \mintinline{java}{int} e \textit{Integer}, o 
+  \mintinline{java}{char} y \mintinline{java}{Character}.
+  Estos objetos, junto con los \textit{strings} son tipos especiales que pueden definirse y 
+  utilizarse de una forma más simple que el resto de los objetos, algunos ejemplos:
+  
+  \begin{minted}{java}
+    // Podemos declarar un ``Integer`` de la misma forma que haríamos
+    // con un ``int``
+    int a = 1;
+    Integer b = 1;
+    // Podemos operar `a` y `b` como si fueran del mismo tipo
+    System.out.println(a + b);
+    // Un caracter se declara entre comillas simples
+    char c1 = 'c';
+    // Mientras que un String con comillas dobles
+    String c2 = "c";  // Noten que c1 es un primitivo y c2 un objeto
+    // Podemos concatenar strings
+    System.out.println("Ola" + "comotai");
+    // Los strings pueden concatenarse con objetos de otros tipos; en
+    // este caso, el resultado de la concatenación siempre será un 
+    // String
+    String s = 11 + ": entonces";
+  \end{minted}
+
+  % TODO: Ejercicios ()

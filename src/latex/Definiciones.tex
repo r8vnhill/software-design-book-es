@@ -7,3 +7,10 @@
 \newtheorem{exercise}[definition]{Ejercicio}
 \definecolor{LightGray}{gray}{0.9}
 \definecolor{Transparent}{gray}{1.0}
+
+\makeatletter
+   \let\@epipart\@endpart
+   \renewcommand{\@endpart}{\thispagestyle{epigraph}\@epipart}
+\makeatother        
+ 
+\setlength\epigraphwidth{\textwidth}
