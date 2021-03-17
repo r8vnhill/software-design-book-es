@@ -48,7 +48,7 @@
       Install-PackageProvider NuGet -MinimumVersion '2.8.5.201' -Force
       Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
       Install-Module -Name 'oh-my-posh'
-      Install-Module -Name 'Get-ChildItemColor'
+      Install-Module -Name 'Get-ChildItemColor' -AllowClobber
     \end{minted}
 
     Lo último es configurar el perfil de \textit{Powershell}, esto se hace en un archivo que
