@@ -2,6 +2,7 @@
 
 ## Versión 1.0
 
+- ``1.0.0-b.2`` Arreglos
 - ``1.0.0-a.2`` Tabla de tipos primitivos
 - ``1.0.0-a.1`` Tipos inferidos
 - ``1.0.0-b.1`` Tipos estáticos y dinámicos; tipado fuerte/débil

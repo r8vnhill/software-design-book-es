@@ -19,3 +19,33 @@
   Existen contextos en los que se refiere a los arreglos como listas, pero eso es incorrecto; más
   adelante veremos más en detalle lo que es una lista y por qué es importante hacer la diferencia
   con los arreglos.
+
+  La sintaxis para crear un arreglo es \mintinline{java}{type[] name = new type[size]}.
+  Un ejemplo podría ser:
+  \begin{minted}{java}
+    int[] integers = new int[3];
+  \end{minted}
+
+  Lo que hace el código anterior es crear un arrreglo de 3 números enteros, o más bien, reservar la
+  memoria para 3 números.
+  Luego, podríamos \enquote{llenar} el arreglo de la siguiente forma:
+  \begin{minted}{java}
+    integers[0] = 11;
+    integers[1] = 420;
+    integers[2] = 8000;
+  \end{minted}
+
+  Pero se imaginarán que iniciar así uno a uno los valores terminaría en muchas líneas de código.
+  Otra forma de hacer esto sería introduciendo un ciclo, pero para arreglos relativamente pequeños
+  \textit{Java} tiene una sintaxis más compacta:
+  \begin{minted}{java}
+    int[] integers = new int[]{11, 420, 8000};
+  \end{minted}
+
+  Noten que en esta segunda forma no especificamos el tamaño del arreglo ya que el compilador lo 
+  puede saber fácilmente.
+
+  \begin{important}
+    Una última cosa importante a tener en cuenta es que en \textit{Java} \textbf{los arreglos son 
+    homogeneos}, esto significa que no podemos crear arreglos que tengan elementos de tipos distintos.
+  \end{important}
