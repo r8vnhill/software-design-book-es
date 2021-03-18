@@ -104,6 +104,28 @@
   \end{minted}
 
   \begin{exercise}
-    Para las siguientes preguntas utilice \textit{jshell} para verificar sus respuestas
+    Dentro de \textit{jshell} pueden hacer \texttt{/vars} para obtener los datos de las variables 
+    que hayan creado, por ejemplo:
+    \begin{minted}{java}
+      jshell> int a = 1;
+      jshell> double b = 2;
+      jshell> a + b;
+      jshell> /vars
+          int a = 1
+          double b = 2.0
+          double $3 = 3.0
+    \end{minted}
+
+    Para las siguientes preguntas utilicen \textit{jshell} para verificar sus respuestas.
+    \begin{enumerate}
+      \item ¿Cuál es el tipo resultante de sumar un \texttt{int} con un \texttt{Integer}?
+      \item ¿Cuál es el resultado de hacer \mintinline{java}{'f' + 'c'}?
+        ¿De qué tipo es el resultado?
+        ¿Cambia el resultado si hacemos \mintinline{java}{char fc = 'f' + 'c'}?
+      \item ¿Qué resultado se obtiene de hacer \mintinline{java}{"f" + 'c'}?
+        ¿Cuál es el tipo resultante?
+      \item \mintinline{java}{Integer.MAX_VALUE} es una constante igual a \(2^{31} - 1\), que es el 
+        número más grande que se puede almacenar en un \mintinline{java}{int}.
+        ¿Cuáles son el resultado y tipo de hacer \mintinline{java}{Integer.MAX_VALUE + 1}?
+    \end{enumerate}
   \end{exercise}
-  % TODO: Ejercicios ()
