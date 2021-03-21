@@ -67,65 +67,84 @@
     \mintinline{python}{True| y |False}.
   \end{important}
 
-  Los tipos primitivos nos permitirán hacer las operaciones más básicas que vamos a necesitar: suma,
-  resta, multiplicación, comparación, etc.
-  Pero como \textit{Java} es de tipado estático, todas las operaciones entre primitivos también
-  deben tener un tipo definido.
-  
-  \begin{center}
-    \texttt{Hola, soy un placeholder para que sepas que esta sección todavía no está completa :3}
-  \end{center}
+  \subsubsection{\textit{Type promotion}}
+    Los tipos primitivos nos permitirán hacer las operaciones más básicas que vamos a necesitar: suma,
+    resta, multiplicación, comparación, etc.
+    Pero como \textit{Java} es de tipado estático, todas las operaciones entre primitivos también
+    deben tener un tipo definido.
+    Un ejemplo de esto es que si sumamos dos números enteros el resultado también deberá ser un 
+    entero.
 
-  Todos los tipos primitivos en \textit{Java} tienen un objeto \enquote{equivalente} 
-  para brindar operaciones que no se pueden realizar directamente con los tipos 
-  primitivos, más adelante veremos algunas de estas funcionalidades.
-  Algunos ejemplos de esto pueden ser \mintinline{java}{int} e \textit{Integer}, o 
-  \mintinline{java}{char} y \mintinline{java}{Character}.
-  Estos objetos, junto con los \textit{strings} son tipos especiales que pueden definirse y 
-  utilizarse de una forma más simple que el resto de los objetos, algunos ejemplos:
-  
-  \begin{minted}{java}
-    // Podemos declarar un ``Integer`` de la misma forma que haríamos
-    // con un ``int``
-    int a = 1;
-    Integer b = 1;
-    // Podemos operar `a` y `b` como si fueran del mismo tipo
-    System.out.println(a + b);
-    // Un caracter se declara entre comillas simples
-    char c1 = 'c';
-    // Mientras que un String con comillas dobles
-    String c2 = "c";  // Noten que c1 es un primitivo y c2 un objeto
-    // Podemos concatenar strings
-    System.out.println("Ola" + "comotai");
-    // Los strings pueden concatenarse con objetos de otros tipos; en
-    // este caso, el resultado de la concatenación siempre será un 
-    // String
-    String s = 11 + ": entonces";
-  \end{minted}
+    El \enquote{problema} surge cuando tenemos una expresión en la que no es totalmente evidente el 
+    tipo de retorno.
+    Para solucionar esto \textit{Java} implementa lo que se conoce como \textbf{\textit{type 
+    promotion}}, que se puede resumir en los siguientes pasos:
+    \begin{enumerate}
+      \item Si hay valores de tipo \mintinline{java}{byte|, |short|, o |char} en una 
+        operación el compilador los convierte en \mintinline{java}{int}
+      \item Si todos los valores de la operación son del mismo tipo, entonces retornan un valor de ese 
+        tipo; esto quiere decir que \texttt{double + double = double}, pero también que 
+        \texttt{int / int = int}.
+      \item Si quedan valores de distinto tipo, entonces se transforman al tipo \enquote{más grande}, 
+        partiendo por \mintinline{java}{long}, luego \mintinline{java}{float} y, si no puede ser 
+        ninguno de los anteriores, \mintinline{java}{double}.
+    \end{enumerate}
+  %
 
-  \begin{exercise}
-    Dentro de \textit{jshell} pueden hacer \texttt{/vars} para obtener los datos de las variables 
-    que hayan creado, por ejemplo:
+  \subsubsection{\textit{Wrappers}}
+    Todos los tipos primitivos en \textit{Java} tienen un objeto \enquote{equivalente} 
+    para brindar operaciones que no se pueden realizar directamente con los tipos 
+    primitivos, más adelante veremos algunas de estas funcionalidades.
+    A estos objetos equivalentes se les llama \textbf{\textit{wrappers}}.
+    Algunos ejemplos de esto pueden ser \mintinline{java}{int} e \textit{Integer}, o 
+    \mintinline{java}{char} y \mintinline{java}{Character}.
+    Estos objetos, junto con los \textit{strings} son tipos especiales que pueden definirse y 
+    utilizarse de una forma más simple que el resto de los objetos, algunos ejemplos:
+    
     \begin{minted}{java}
-      jshell> int a = 1;
-      jshell> double b = 2;
-      jshell> a + b;
-      jshell> /vars
-          int a = 1
-          double b = 2.0
-          double $3 = 3.0
+      // Podemos declarar un ``Integer`` de la misma forma que haríamos
+      // con un ``int``
+      int a = 1;
+      Integer b = 1;
+      // Podemos operar `a` y `b` como si fueran del mismo tipo
+      System.out.println(a + b);
+      // Un caracter se declara entre comillas simples
+      char c1 = 'c';
+      // Mientras que un String con comillas dobles
+      String c2 = "c";  // Noten que c1 es un primitivo y c2 un objeto
+      // Podemos concatenar strings
+      System.out.println("Ola" + "comotai");
+      // Los strings pueden concatenarse con objetos de otros tipos; en
+      // este caso, el resultado de la concatenación siempre será un 
+      // String
+      String s = 11 + ": entonces";
     \end{minted}
 
-    Para las siguientes preguntas utilicen \textit{jshell} para verificar sus respuestas.
-    \begin{enumerate}
-      \item ¿Cuál es el tipo resultante de sumar un \texttt{int} con un \texttt{Integer}?
-      \item ¿Cuál es el resultado de hacer \mintinline{java}{'f' + 'c'}?
-        ¿De qué tipo es el resultado?
-        ¿Cambia el resultado si hacemos \mintinline{java}{char fc = 'f' + 'c'}?
-      \item ¿Qué resultado se obtiene de hacer \mintinline{java}{"f" + 'c'}?
-        ¿Cuál es el tipo resultante?
-      \item \mintinline{java}{Integer.MAX_VALUE} es una constante igual a \(2^{31} - 1\), que es el 
-        número más grande que se puede almacenar en un \mintinline{java}{int}.
-        ¿Cuáles son el resultado y tipo de hacer \mintinline{java}{Integer.MAX_VALUE + 1}?
-    \end{enumerate}
-  \end{exercise}
+    \begin{exercise}
+      Dentro de \textit{jshell} pueden hacer \texttt{/vars} para obtener los datos de las variables 
+      que hayan creado, por ejemplo:
+      \begin{minted}{java}
+        jshell> int a = 1;
+        jshell> double b = 2;
+        jshell> a + b;
+        jshell> /vars
+            int a = 1
+            double b = 2.0
+            double $3 = 3.0
+      \end{minted}
+
+      Para las siguientes preguntas utilicen \textit{jshell} para verificar sus respuestas.
+      \begin{enumerate}
+        \item ¿Cuál es el tipo resultante de sumar un \texttt{int} con un \texttt{Integer}?
+        \item ¿Cuál es el resultado de hacer \mintinline{java}{'f' + 'c'}?
+          ¿De qué tipo es el resultado?
+          ¿Cambia el resultado si hacemos \mintinline{java}{char fc = 'f' + 'c'}?
+        \item ¿Qué resultado se obtiene de hacer \mintinline{java}{"f" + 'c'}?
+          ¿Cuál es el tipo resultante?
+        \item \mintinline{java}{Integer.MAX_VALUE} es una constante igual a \(2^{31} - 1\), que es el 
+          número más grande que se puede almacenar en un \mintinline{java}{int}.
+          ¿Cuáles son el resultado y tipo de hacer \mintinline{java}{Integer.MAX_VALUE + 1}?
+      \end{enumerate}
+    \end{exercise}
+  %
+%
