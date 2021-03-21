@@ -10,12 +10,7 @@ public class VectorND {
     this.tail = tail;
   }
 
-  public static void main(String[] args) {
-    VectorND v1 = new VectorND(new double[]{0, 1, 2});
-    VectorND v2 = v1.add(new VectorND(new double[]{1}));
-    v2.print();
-  }
-
+ 
   public VectorND add(VectorND otherVector) {
     double[] bigger, smaller;
     if (tail.length > otherVector.tail.length) {
@@ -36,6 +31,10 @@ public class VectorND {
     return new VectorND(components);
   }
 
+  public VectorND add2D(Vector2D otherVector) {
+    return null;
+  }
+  
   public void print() {
     String result = "";
     for (int idx = 0; idx < tail.length; idx++) {
