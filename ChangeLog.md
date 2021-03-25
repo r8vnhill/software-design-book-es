@@ -2,6 +2,8 @@
 
 ## Versión 1.0
 
+- ``1.0.0-b.3`` Fibonacci DYV con while
+- ``1.0.0-a.4`` Fibonacci iterativo con ciclo for
 - ``1.0.0-a.3`` Ejercicios tipado
 - ``1.0.0-b.2`` Arreglos
 - ``1.0.0-a.2`` Tabla de tipos primitivos
