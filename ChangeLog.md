@@ -2,6 +2,7 @@
 
 ## Versión 1.0
 
+- ``1.0.0-rc.1`` Capítulo introductorio a *Java*
 - ``1.0.0-b.3`` Fibonacci DYV con while
 - ``1.0.0-a.4`` Fibonacci iterativo con ciclo for
 - ``1.0.0-a.3`` Ejercicios tipado
