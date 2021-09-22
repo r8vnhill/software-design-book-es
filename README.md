@@ -1,4 +1,4 @@
-# Diseño de Software (Y cómo no morir en el proceso)
+# Cómo diseñar software (Y no morir en el proceso)
 
 La idea de este "apunte" nació como una _wiki_ de _Github_ (se pueden encontrar la wiki en este mismo 
 proyecto pero ya no será actualizada con los contenidos del libro) creada por 
