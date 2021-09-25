@@ -1,18 +1,27 @@
-# Metodologías de diseño y programación
+# Cómo diseñar software (Y no morir en el proceso)
 
-Este repositorio pretende servir de apunte para el curso de _CC3002 - Metodologías de_ 
-_diseño y programación_ del *Departamento de Ciencias de la Computación* de la 
-*Universidad de Chile*.
-Aquí podrán encontrar los contenidos del curso, enlaces y referencias a material 
-adicional que puede servir para comprender y profundizar los conceptos vistos en el ramo
-y ejercicios propuestos para ayudar a los alumnos en su estudio.
+La idea de este "apunte" nació como una _wiki_ de _Github_ (se pueden encontrar la wiki en este mismo 
+proyecto pero ya no será actualizada con los contenidos del libro) creada por 
+Juan-Pablo Silva como apoyo para el curso de _Metodologías de Diseño y Programación_ 
+dictado por el profesor Alexandre Bergel del Departamento de Ciencias de la Computación, Facultad
+de Ciencias Físicas y Matemáticas de la Universidad de Chile.
 
-Si bien este material va principalmente dirigido a los alumnos del curso, todo el 
-contenido es _open source_ y puede ser utilizado como se estime conveniente por su 
-usuario.
-No se restringe el uso de este repositorio de ninguna manera, pero se agradece que se 
-mencione el repositorio base o a los autores de este material.
+Lo que comenzó como unas notas para complementar las clases del profesor lentamente fue creciendo,
+motivado por esxs alumnxs que buscaban dónde encontrar soluciones para esas pequeñas dudas que no
+les dejaban avanzar.
 
-El contenido puede encontrarse en la sección 
-[wiki](https://github.com/CC3002-Metodologias/apunte-y-ejercicios/wiki)
-del repositorio.
+El objetivo principal del texto sigue siendo el mismo, plantear explicaciones más detalladas, 
+ejemplos alternativos a los vistos en clases y para dejar un documento al que lxs alumnxs puedan
+recurrir en cualquier momento.
+
+Este libro no busca ser un reemplazo para las clases del curso, es y será siempre un complemento.
+
+Esta obra va dirigida a los estudiantes de la facultad así como para cualquier persona que esté
+dando sus primeros pasos en programación.
+El libro presenta una introducción al diseño de software, la programación orientada a objetos y lo
+básico de los lenguajes de programación _Java_ y _Kotlin_.
+Se asume que los lectores tienen nociones básicas de programación, conocimiento básico de 
+_Python_ y, en menor medida, de _C_.
+
+Antes de comenzar, debo agradecer a las personas que hicieron posible y motivaron la escritura de
+esto: [Beatríz Graboloza](https://github.com/BeaNyann), [Dimitri Svandich](https://github.com/vmkovacs) y, por supuesto, Alexandre Bergel y Juan-Pablo Silva.
