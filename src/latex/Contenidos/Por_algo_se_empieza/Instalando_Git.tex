@@ -1,0 +1,43 @@
+% !TEX root = D:\Docs\Escuela\software-design-book-es\src\latex\METODOLOG_AS_DE_DISE_O_Y_PROGRAMACI_N_ORIENTADA_A_OBJETOS.tex
+\section{Instalando \textit{Git}}
+  %region : WINDOWS  
+ 	\subsection{\textit{Windows}}
+    \subsubsection{\textit{Chocolatey} (Recomendado)}
+      Nuevamente, el método recomendado será utilizar \textit{Chocolatey}\index{Chocolatey} para 
+      instalar \textit{Git} en \textit{Windows}.
+      
+      El proceso de instalación es simple, solamente deben ejecutar 
+      \textit{Powershell}\index{Powershell} como administrador y escribir:
+      \begin{minted}{powershell}
+        choco install git 
+        # O de forma equivalente:
+        # cinst git
+      \end{minted}
+    
+    \subsubsection{\textit{Git for Windows}}
+      \textit{Git for Windows}\index{Git for Windows} es un conjunto de herramientas que incluye \textit{Git 
+      BASH} (una interfaz de consola que emula la terminal de un sistema \textit{UNIX} 
+      que viene con \textit{Git} instalado), \textit{Git GUI} (una interfaz gráfica para 
+      manejar \textit{Git}) e integración con \textit{Windows Explorer} (esto significa 
+      que pueden hacer \textit{clic} derecho en una carpeta y abrirla desde \textit{Git 
+      BASH} o \textit{Git GUI}).
+      
+      Para instalarla deben descargar el cliente desde el 
+      \href{https://gitforwindows.org}{sitio oficial} de \textit{Git for Windows} y 
+      seguir las instrucciones del instalador.
+  %endregion
+
+  %region : LINUX
+  \subsection{Linux}
+      La forma más fácil de instalar \textit{Git} es utilizando el gestor de paquetes del
+      sistema operativo que estén usando, el problema de esto es que dependiendo de su distribución
+      de \textit{Linux} las instrucciones de instalación serán distintas, por esto se mostrará como
+      instalar en arquitecturas basadas en \textit{Debian} (como \textit{Ubuntu}), para instalar en
+      otro SO deberán revisar las instrucciones de la 
+      \href{https://git-scm.com/download/linux}{documentación oficiaL}.
+
+      Para instalar deben abrir una consola y ejecutar:
+      \begin{minted}{bash}
+        sudo apt install git-all 
+      \end{minted}
+  %endregion

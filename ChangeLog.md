@@ -2,9 +2,10 @@
 
 ## Versión 1.0
 
-| Category | Detail       | Version | Status |
-| -------- | ------------ | ------- | ------ |
-| ch(git)  | Introducción | 1.0.2.1 | RC.1   |
+| Category | Detail                         | Version | Status |
+| -------- | ------------------------------ | ------- | ------ |
+| ch(git)  | Instalación en Windows y Linux | 1.0.2.2 | RC     |
+| ch(git)  | Introducción                   | 1.0.2.1 | RC     |
 - ``1.0.0-rc.2`` Se borra el placeholder
 - ``1.0.0-rc.1`` Capítulo introductorio a *Java*
 - ``1.0.0-b.3`` Fibonacci DYV con while
