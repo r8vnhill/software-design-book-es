@@ -2,10 +2,11 @@
 
 ## Versión 1.0
 
-| Category      | Detail       | Version | Status     |
-| ------------- | ------------ | ------- | ---------- |
-| sec(intellij) | Introducción | 1.0.1.1 | INCOMPLETE |
-- ``1.0.0-rc.2`` Se borra el placeholder
+| Category          | Detail                  | Version    |
+| ----------------- | ----------------------- | ---------- |
+| chapter(intellij) | Introducción            | 1.0.1-rc.1 |
+| chapter(intellij) | Introducción(WIP)       | 1.0.1-b.1  |
+| chapter(java)     | Se borra el placeholder | 1.0.0-rc.2 |
 - ``1.0.0-rc.1`` Capítulo introductorio a *Java*
 - ``1.0.0-b.3`` Fibonacci DYV con while
 - ``1.0.0-a.4`` Fibonacci iterativo con ciclo for
