@@ -24,7 +24,7 @@
 
   \subsubsection{(Opcional) Cmder}
     Es sabido que las terminales por defecto de \textit{Windows} dejan bastante que desear, 
-    por es una buena idea instalar una terminal externa (o más bien un emulador de una).
+    por eso es una buena idea instalar una terminal externa (o más bien un emulador de una).
     Existen varias opciones, pero \textit{Cmder} es una de las más completas.
 
     Para instalar la terminal utilizaremos \textit{Chocolatey}.
@@ -56,11 +56,14 @@
     Para abrir este archivo ejecuten:
 
     \begin{minted}{powershell}
-      ise $PROFILE
+      if (-not $(Test-Path $PROFILE -Type Leaf)) {
+        New-Item $PROFILE
+      }
+      notepad $PROFILE # Aquí pueden usar el editor de texto que quieran
     \end{minted}
 
-  Esto abrirá el entorno de \textit{scripting} de \textit{Powershell} (si nunca han 
-  configurado la consola, entonces debiera estar vacío).
+  Esto abrirá notepad \texttt{D:}\footnote{Ojalá sea la última vez en su vida en la que tengan que 
+  hacerlo.} (si nunca han configurado la consola, entonces debiera estar vacío).
   Como último paso, escriban lo siguiente en el archivo de configuración y guarden los 
   cambios.\footnote{
     \url{https://github.com/CC3002-Metodologias/apunte-y-ejercicios/blob/master/install/Microsoft.PowerShell_profile.ps1}
