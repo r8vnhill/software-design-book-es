@@ -1,0 +1,53 @@
+
+\epigraphhead[471]{
+  Este libro no partía así, y si alguien leyó una versión anterior se dará cuenta.
+  Solía comenzar con una descripción e instrucciones para instalar las herramientas necesarias para
+  seguir este libro y eso no estaba mal, pero no me agradaba comenzar así, simplemente presentando
+  las herramientas sin ningún contexto de por qué ni para qué las ibamos a utilizar.
+
+  Puede parecer ridículo cambiar todo lo que ya había escrito solamente por eso, pero cuando nos 
+  enfrentamos a problemas del mundo real esto comienza a cobrar más sentido.
+  Reescribo estos capítulos por una razón simple pero sumamente importante y que será una de las
+  principales motivaciones para las decisiones de diseño que tomaremos a medida que avancemos, en
+  el desarrollo de software \textbf{lo único constante es el 
+  \textit{cambio}}.\autocite{head-first-intro}
+  Una aplicación que no puede adaptarse a los cambios, sin importar que tan bien funcione, está
+  destinada a morir.
+
+  ¿Qué sucede entonces con las herramientas que vamos a utilizar?
+  Las vamos a introducir, no podemos sacar una parte tan importante, pero no las vamos a presentar
+  todas a la vez, en su lugar las iremos explicando a medida que las vayamos necesitando.
+}
+\part{Por algo se empieza}
+
+  \subimport{Java/}{Index.tex}
+  
+  \chapter{¡Kotlin!}
+    Esta sección busca presentar \textit{Kotlin} como una alternativa a \textit{Java}, no es 
+    necesario, pero se recomienda leer el capítulo \ref{ch:java} antes de continuar este ya que 
+    muchos de los principios que se explican ahí también se cumplen para \textit{Kotlin}.
+    
+    \textit{Kotlin} es un lenguaje de programación \textit{multiplataforma}, estática y fuertemente 
+    tipado y con una inferencia de tipos más avanzada que la de \textit{Java}.
+    % TODO  Liskov HFDP p.5 override vacío
+    % TODO  Ppio. de diseño HFDP p.9 Identify the aspects of your application that vary and separate 
+    %       them from what stays the same.
+  
+    \chapter{\textit{IntelliJ}, tu nuevo \textit{bff}}
+      Hasta ahora es probable que tengan experiencia utilizando algún editor de texto como 
+      \textit{Notepad++}, \textit{Sublime} o \textit{Visual Studio Code}, eso es bueno, pero no 
+      suficiente para enfrentar problemas complejos (esto no es por desmerecer a esos editores de 
+      texto, también son herramientas poderosas apropiadas para otros contextos).
+      Es aquí cuando surge la necesidad de tener un \textit{entorno de desarrollo integrado} (IDE),
+      un IDE es como un editor de texto cualquiera, pero poderoso.
+      \textit{IntelliJ} es un IDE desarrollado por \textit{JetBrains} especializado para desarrollar
+      programas en \textit{Java} y \textit{Kotlin}, y es la herramienta que usaremos de aquí en
+      adelante.
+      \begin{center}
+        \textit{
+          Pero VSCode nunca me ha fallado ¿Por qué no puedo usarlo también para esto si le puedo 
+          instalar extensiones para programar en Java?
+        }
+      \end{center}
+
+  \nocite{*}
