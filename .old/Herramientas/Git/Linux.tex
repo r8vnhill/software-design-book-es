@@ -1,0 +1,39 @@
+% !TEX root = D:\Users\Ignacio\Documentos\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+\subsection{Linux}
+  La forma más fácil de instalar \textit{Git} es utilizando el gestor de paquetes del
+  sistema operativo que estén usando.
+  A continuación se muestran los comandos necesarios para cada distribución de 
+  \textit{Linux}:
+
+  \subsubsection{
+    \textit{Debian}\footnote{\textit{Ubuntu} es un sistema basado en \textit{Debian}}
+  }
+    \begin{minted}{bash}
+      sudo apt install git-all 
+    \end{minted}
+  %
+
+  \subsubsection{\textit{CentOS}}
+    \begin{minted}{bash}
+      sudo yum install git
+    \end{minted}
+  %
+
+  \subsubsection{\textit{Fedora}}
+    \begin{minted}{bash}
+      sudo yum install git-core
+    \end{minted}
+  %
+
+  \subsubsection{\textit{Arch Linux}\footnote{Por ejemplo \textit{Manjaro}.}}
+    \begin{minted}{bash}
+      sudo pacman -Sy git
+    \end{minted}
+  %
+
+  \subsubsection{\textit{Gentoo}}
+    \begin{minted}{bash}
+      sudo emerge --ask --verbose dev-vcs/git
+    \end{minted}
+  %
+%

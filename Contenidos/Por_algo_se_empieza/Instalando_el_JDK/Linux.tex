@@ -1,0 +1,68 @@
+\subsection{Linux (x64)}
+  \subsubsection{\textit{Open JDK} (Recomendado)}
+    Para cualquier distribución de \textit{Linux x64}, desde la terminal:
+
+    \begin{minted}{bash}
+      wget https://bit.ly/3kvJ17B
+      tar xvf openjdk-15*_bin.tar.gz
+      sudo mv jdk-15 /usr/lib/jdk-15
+    \end{minted}
+
+    Luego, para verificar que el binario se haya extraído correctamente:
+
+    \begin{minted}{bash}
+      export PATH=$PATH:/usr/lib/jdk-15/bin
+      java -version
+    \end{minted}
+
+    Luego, para ver que se haya instalado correctamente pueden hacer \texttt{java -version}, aquí es
+    muy importante que la versión que aparezca \textbf{no sea} la versión 1.8 o anteriores, en caso 
+    de que esa sea la versión instalada entonces lo recomendado es desinstalar todas las versiones
+    de \textit{Java} instaladas y repetir la instalación.
+
+    Si se instaló correctamente, entonces el último paso es agregar el \textit{JDK} a 
+    las variables de entorno del usuario, para esto primero deben saber qué 
+    \textit{shell} están ejecutando, pueden ver esto con:
+
+    \begin{minted}{bash}
+      echo $SHELL
+    \end{minted}
+
+    En mi caso, esto retorna:
+
+    \begin{minted}{text}
+      /usr/bin/zsh
+    \end{minted}
+
+    Luego, deben editar el archivo de configuración de su \textit{shell}, en mi caso ese
+    sería \mintinline{bash}{~/.zshrc} (en \textit{bash} sería \texttt{.bashrc}) y 
+    agregar al final del archivo la línea:
+    
+    \begin{minted}{bash}
+      export PATH=$PATH:/usr/lib/jdk-15/bin
+    \end{minted}
+
+  \subsubsection{Oracle Java SE}
+    Primero deben descargar el \textit{JDK} desde el
+    \href{https://www.oracle.com/java/technologies/javase-jdk15-downloads.html}{sitio de 
+    \textit{Oracle}} (asumiremos que descargaron la versión \texttt{.tar.gz}).
+    Luego, desde el directorio donde descargaron el archivo:
+
+    \begin{minted}{bash}
+      tar zxvf jdk-15.interim.update.patch_linux-x64_bin.tar.gz
+      sudo mv jdk-15.interim.update.patch /usr/lib/jdk-15.interim.update.patch
+    \end{minted}
+
+    Después, de la misma forma que se hizo con la opción anterior:
+    
+    \begin{minted}{bash}
+      export PATH=$PATH:/usr/lib/jdk-15.interim.update.patch/bin
+      java -version
+    \end{minted}
+
+    Si este comando funciona, entonces deberán modificar el archivo de configuración de su
+    \textit{shell} para incluir la línea:
+
+    \begin{minted}{bash}
+      export PATH=$PATH:/usr/lib/jdk-15.interim.update.patch/bin
+    \end{minted}

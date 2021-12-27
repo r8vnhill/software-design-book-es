@@ -1,0 +1,102 @@
+\subsection{Listas}
+  Hasta ahora hemos utilizado arreglos para almacenar información, los arreglos tienen la ventaja
+  de ser eficientes en cuanto a velocidad y memoria pero la poca flexibilidad que presentan 
+  resulta ser poco práctica para la mayoría de los casos.
+
+  El problema de la poca flexibilidad de los arreglos puede solucionarse utilizando una estructura
+  de lista.
+  Existen muchas formas de implementar listas, una de las implementaciones más comunes de lista es
+  la basada en arreglos.
+  En \textit{Java} podemos definir esta estructura de la siguiente manera:
+
+  \begin{minted}{java}
+    public class ArrayList {
+      private Object[] elements = new Object[8];
+      private int size = 0;
+
+      public Object get(int i) {
+        return elements[i];
+      }
+
+      public void add(Object o) {
+        if (++size == elements.length) {
+          grow();
+        }
+        elements[size - 1] = o;
+      }
+
+      private void grow() {
+        Object[] newArray = new Object[elements.length * 2];
+        for (int i = 0; i < elements.length; i++) {
+          newArray[i] = elements[i];
+        }
+        elements = newArray;
+      }
+    }
+  \end{minted}
+
+  Esta es una implementación estándar de una estructura de este tipo, ahora, si bien nuestra 
+  implementación es correcta en general queremos evitar \enquote{reinventar la rueda} ya que es un
+  gasto de tiempo innecesario y es propenso a cometer errores.
+  Para evitar esto \textit{Java} implementa una gran cantidad de las estructuras y algoritmos más
+  comunes.
+
+  Volviendo al ejemplo de recién, no es necesario que implementemos la clase \texttt{ArrayList} ya
+  que es parte de la librería estándar junto con implementaciones de otros tipos de listas.
+  
+  Las listas en \textit{Java} implementan la interfaz \mintinline{java}{List}.
+  Algunos de los métodos que expone esta interfaz son:
+  \begin{minted}{java}
+    // Retorna el tamaño de la lista
+    int size();
+    // Pregunta si la lista está vacía
+    boolean isEmpty();
+    // Pregunta si un elemento está en la lista
+    boolean contains(Object o); 
+    // Agrega un elemento a la lista
+    boolean add(E e);
+    // Remueve un elemento de la lista
+    boolean remove(Object o);
+    // Ordena la lista de acuerdo a su orden natural
+    // Por defecto todas las implementaciones de List utilizan MergeSort
+    void sort(Comparator<? super E> c);
+    // Vacía la lista
+    void clear();
+    // Obtiene el elemento en la posición index
+    E get(int index);
+    // Cambia el elemento en la posición index por element
+    E set(int index, E element);
+    // Retorna el índice del elemento o
+    int indexOf(Object o);
+  \end{minted}
+
+  Ahora, si queremos crear una lista de enteros podríamos hacerlo como:
+  \begin{minted}{java}
+    List<Integer> ints = new ArrayList<>();
+    for (int i = 0; i < 50; i++) {
+      ints.add(i);
+    }
+  \end{minted}
+
+  Luego, si queremos obtener los valores de la lista lo podemos hacer así:
+  \begin{minted}{java}
+    for (int i : ints) {
+      System.out.println(i)
+    }
+  \end{minted}
+
+  Noten que al momento de definir el tipo ocupamos la sintaxis \texttt{<Integer>}, esto quiere 
+  decir que la lista estará formada por elementos de tipo \texttt{Integer}.\footnote{Las 
+  listas en \textit{Java} son homogéneas.}
+  El parámetro que va entre \texttt{<...>} debe ser el nombre de una clase o interfaz (\textbf{no 
+  puede ser un tipo primitivo}), esto es lo que se conoce como \textit{tipo genérico} y lo 
+  revisaremos en más detalle en la sección \ref{sec:generics}.
+
+  Algunas implementaciones de la interfaz de listas que vale la pena mencionar son:
+  \begin{itemize}
+    \item \texttt{ArrayList}: Lista implementada con arreglos nativos de tamaño dinámico.
+    \item \texttt{LinkedList}: Implementación como una lista doblemente enlazada.
+  \end{itemize}
+
+  En general lo más común es utilizar un \texttt{ArrayList}, pero dependiendo del caso puede ser
+  más conveniente una lista enlazada.\autocite{so-linked-vs-array}

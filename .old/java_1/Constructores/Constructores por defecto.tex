@@ -1,0 +1,69 @@
+\subsection{Constructores vacíos y por defecto}
+  \label{sec:default-constructor}
+  Anteriormente, cuando hablamos de constructores (refiérase a la sección 
+  \ref{sec:constructors-1}) dijimos que eran métodos especiales que se llamaban al crear una 
+  instancia de una clase, esto es parcialmente cierto.
+  En \textit{Java} todos los métodos retornan algo, incluso los marcados como 
+  \mintinline{java}{void} retornan implícitamente un valor que no se puede utilizar y por lo tanto
+  es desechado (el detalle del manejo de memoria en \textit{Java} se verá en la sección 
+  \ref{sec:memory}), para ejemplificar esto, noten que los siguientes métodos son equivalentes:
+  
+  \begin{minted}{java}
+    public void method1() {}
+    public void method2() {
+      return;
+    }  
+  \end{minted}
+
+  ¿Qué es entonces un constructor?
+  Un constructor es un \textbf{bloque de código} que se ejecuta al momento de crear una nueva 
+  instancia de una clase.
+  ¿Por qué es importante hacer notar esta diferencia?
+  Volveremos a esto un poco más adelante.
+
+  Primero, veamos cómo se define un constructor.
+  La firma de un constructor es de la forma \texttt{[modifier] ClassName([parameters]) \{[body]\}}
+  Vayamos a un ejemplo, volvamos a la clase \texttt{Bakemon} que habíamos creado anteriormente y 
+  agreguémosle un constructor:
+  
+  \begin{minted}{java}
+    public class Bakemon {
+      public Bakemon() {
+      }
+    }
+  \end{minted}
+
+  Nuestro constructor está vacío, eso significa que lo único que hace el constructor es reservar la 
+  memoria necesaria para las instancias de ésta clase.
+  Pero ya habíamos visto antes que podíamos crear instancias de la clase sin necesidad de definir un
+  constructor, esto se debe a que \textit{Java} crea un constructor por defecto si no existe ninguno
+  en la clase.
+  Lo anterior se traduce en que el código que hicimos sea equivalente a:
+
+  \begin{minted}{java}
+    public class Bakemon {
+    }
+  \end{minted}
+
+  Agreguemos algo de funcionalidad al constructor.
+  Consideren que queremos agregarle un tipo a nuestros \textit{Bakemon}, y digamos por ahora que 
+  comenzarán sin tipo (y representemos esto como el \textit{String} \mintinline{java}{"NONE"}).
+
+  \begin{minted}{java}
+    public class Bakemon {
+      private String type;
+
+      public Bakemon() {
+        type = "NONE";
+      }
+    }
+  \end{minted}
+
+  Como estamos definiendo siempre la propiedad \texttt{type} con el mismo valor \textit{Java} provee
+  una forma más compacta de escribir esto mismo como:
+
+  \begin{minted}{java}
+    public class Bakemon {
+      private String type = "NONE";
+    }
+  \end{minted}

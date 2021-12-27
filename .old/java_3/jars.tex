@@ -1,0 +1,47 @@
+%!TEX root = C:\Users\Ignacio\Documents\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+\section{\textit{JARs}}
+  En esta sección veremos lo que son los \textit{Java Archives} más conocidos como 
+  \textit{JARs} y las herramientas de las que disponemos para crear y utilizarlos.
+
+  Hasta ahora hemos utilizado el \textit{IDE} para ejecutar nuestros programas, esto es bueno cuando
+  estamos desarrollando pero no cuando queremos entregar un producto que sea utilizable por un 
+  cliente (no podemos esperar que el cliente instale un \textit{IDE} solamente para correr el 
+  programa).
+
+  La manera más básica de ejecutar un programa en \textit{Java} es mediante la línea de comandos 
+  (\textit{CLI}), finalmente lo que hace \textit{IntelliJ} es brindar una interfaz más amigable para
+  que nosotros no tengamos que manejar el proceso de compilación manualmente.
+  Antes de ver lo que es un archivo \textit{JAR} veamos un poco más en detalle lo que hace el 
+  compilador de \textit{Java}.
+
+  Si recuerdan, para compilar un programa desde la terminal se debían ejecutar dos instrucciones,
+  primero \texttt{javac} y luego \texttt{java}.
+  ¿Pero por qué dos comandos en lugar de simplemente uno?
+  Una de las principales razones por las que \textit{Java} fue tan ampliamente adoptado en la 
+  industria es porque fue uno de los primeros lenguajes de programación que era independiente del
+  sistema operativo (i.e. que el mismo código funcionaba en \textit{Windows}, \textit{UNIX}, etc.).
+  Para lograr esto el proceso de ejecución de un programa de \textit{Java} se dividió en dos grandes
+  pasos, compilación y ejecución.
+
+  El comando \textit{javac} invoca al compilador crea archivos (\texttt{.class}) con 
+  \textit{bytecode} ejecutable por la \textit{JVM}.
+  Luego, el comando \texttt{java} toma los archivos generados por el comando anterior para 
+  convertirlos en binarios nativos del sistema operativo y así poder ejecutarlos.
+  El beneficio de esto es que los archivos generados por el primer paso de la compilación serán 
+  independientes del sistema operativo ya que no serán directamente interpretados por éste, sino que
+  por la máquina virtual.
+
+  Un \textit{JAR} es una forma de \enquote{enfrascar} en un archivo un programa junto con sus 
+  metadatos y archivos adicionales que pueda necesitar\footnote{Se suele referir a estos archivos 
+  adicionales como recursos del programa.} y así generar un programa más simple de distribuir y 
+  ejecutar.
+
+  \subimport{jars/}{command_line.tex}
+
+  TODO:
+  \begin{itemize}
+    \item JARs
+    \item JIT
+    \item CLI
+    \item Gradle
+  \end{itemize}

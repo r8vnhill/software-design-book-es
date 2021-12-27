@@ -1,0 +1,241 @@
+% !TEX root = D:\Users\Ignacio\Documentos\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+\section{Tipos}
+  Tanto \textit{Python} como \textit{Java} son lenguajes orientados a objetos, esto quiere
+  decir que todas las variables que se utilicen en un programa son objetos o tipos 
+  primitivos.
+  La diferencia está en que, al ser fuertemente tipado, en \textit{Java} es necesario 
+  definir explícitamente el tipo de todas las variables.
+  Esto hace que en \textit{Java} todo deba definirse dentro de una clase.
+
+  \subsection{Tipos primitivos}
+    Los \textit{tipos primitivos} son datos que ocupan una cantidad fija de espacio en la
+    memoria.
+    Esto hace que sean más eficientes de utilizar ya que una vez que se les asigna un 
+    lugar en la memoria difícilmente tendrán que moverse a otra dirección (algo que 
+    sucederá mucho con los objetos).
+    
+    La tabla \ref{tab:primitive} muestra los tipos primitivos de \textit{Java} (en 
+    \textit{Python} la definición de estos es más complicada, así que se omitirá).
+
+    \begin{table}[ht!]
+      \centering
+      \begin{tabular}{| c | m{5em} | m{6em} | m{12em} | c |}
+        \hline
+        Tipo                      & Uso de memoria  & Rango 
+          & Uso                                               
+          & Valor por defecto           \\
+        \hline\hline
+        \mintinline{java}{byte}     & 8-bits          & [-128, 127]  
+          & Representar arreglos masivos de números pequeños  
+          & \mintinline{java}{0}        \\\hline
+        \mintinline{java}{short}    & 16-bits         & [-32.768, 32.767]
+          & Representar arreglos grandes de números pequeños  
+          & \mintinline{java}{0}        \\\hline
+        \mintinline{java}{char}     & 16-bits         & [0, 65.535]
+          & Caracteres del estándar \textit{ASCII}            
+          & \mintinline{java}{'\u0000'} \\\hline
+        \mintinline{java}{int}      & 32-bits         & \([-2^{31}, 2^{31} - 1]\)
+          & Estándar para representar enteros               
+          & \mintinline{java}{0}        \\\hline
+        \mintinline{java}{long}     & 64-bit          & \([-2^{63}, 2^{63} - 1]\)
+          & Representar enteros que no quepan en 32-bits
+          & \mintinline{java}{0L}       \\\hline
+        \mintinline{java}{float}    & 32-bit          & Estándar \textit{IEEE 754x32}
+          & Representar números reales cuando la precisión no es importante
+          & \mintinline{java}{0.0f}     \\\hline
+        \mintinline{java}{double}   & 64-bit          & Estándar \textit{IEEE 754x64}
+          & Representar números reales con mediana precisión
+          & \mintinline{java}{0.0}      \\\hline
+        \mintinline{java}{boolean}  & No definido     & \mintinline{java}{true| o |false}
+          & Valores binarios
+          & \mintinline{java}{false}    \\
+        \hline
+      \end{tabular}
+      \caption{
+        Tipos primitivos en \textit{Java} (los valores por defecto son los que toma la
+        variable si no se le entrega un valor explícitamente \textbf{y es un campo} de una
+        clase)
+      }
+      \label{tab:primitive}
+    \end{table}
+
+    Todos los tipos primitivos en \textit{Java} tienen un objeto \enquote{equivalente} 
+    para brindar operaciones que no se pueden realizar directamente con los tipos 
+    primitivos, e.g. utilizarlos como tipos genéricos (esto se verá en la última parte del 
+    apunte).
+
+    Noten que la sintaxis en \textit{Java} para los valores \textit{boolean} es 
+    \mintinline{java}{true| y |false}, mientras que en \textit{Python} es 
+    \mintinline{python}{True| y |False}.
+
+    \begin{important}
+      Los \texttt{String} no son tipos primitivos.
+    \end{important}
+  %
+
+  \subsection{Objetos y clases}
+    Como mencionamos anteriormente, un objeto es una instancia de una clase, por lo que para
+    definir un objeto primero debe definirse la clase a la que pertenece.
+    En ambos lenguajes, las clases se definen con la \textit{keyword} 
+    \mintinline{java}{class}.
+    Para ver la sintaxis en ambos casos comencemos con un ejemplo simple, crear una clase 
+    que represente un punto en 2 dimensiones.
+
+    En \textit{Python} esto se puede lograr de la siguiente forma:
+
+    \begin{listing}[ht!]
+      \begin{minted}{python}
+        class Vector2D:
+            def __init__(self, x, y):
+                self.x = x
+                self.y = y
+      \end{minted}
+    \end{listing}
+
+    Luego, se pueden crear y utilizar instancias de esta clase como en el siguiente 
+    ejemplo:
+
+    \begin{listing}[ht!]
+      \begin{minted}{python}
+        point = Vector2D(1, 3)
+        print(point.x)
+        print(point.y)
+      \end{minted}
+    \end{listing}
+
+    Y en \textit{Java}:
+    \begin{listing}[ht!]
+      \begin{minted}{java}
+        class Vector2D {
+          double x, y;
+
+          Vector2D(double x, double y) {
+            this.x = x;
+            this.y = y;
+          }
+        }
+      \end{minted}
+    \end{listing}
+
+    Para crear instancias de una clase en \textit{Java} se utiliza la \textit{keyword} 
+    \mintinline{java}{new}, de esta forma se puede hacer:
+
+    \begin{minted}{java}
+      Vector2D point = new Vector2D(1, 3);
+      System.out.println(point.x);
+      System.out.println(point.y);
+    \end{minted}
+
+    Tanto \mintinline{python}{__init__} como \mintinline{java}{Vector2D(double, double)}
+    son los constructores de la clase y se explicarán en detalle en la siguiente sección.
+
+    \subsubsection{Métodos}
+      \label{sec:methods}
+      En el capítulo anterior se explicó como, además de almacenar datos, los objetos 
+      pueden realizar acciones mediante métodos, en \textit{Python} un método se define 
+      como \mintinline{python}{def method_name(param1, param2, ...): ...}, en 
+      \textit{Java} la sintaxis es un poco más tediosa ya que se debe explicitar el tipo 
+      de los parámetros que recibe el método y el tipo del dato que retorna de la forma
+      \mintinline{java}{returnType methodName(param1Type param1, param2Type param2, ...) {...}}.
+
+      Agreguemos 2 métodos a la clase \texttt{Vector2D}, uno que sume las coordenadas de 2
+      puntos retornando un nuevo punto, y otro que imprima un punto en pantalla como 
+      \texttt{(x, y)}.
+
+      En \textit{Python}:
+      \begin{listing}[ht!]
+        \begin{minted}{python}
+          # Dentro de la clase Vector2D
+          def add(self, other_point):
+              return Vector2D(self.x + other_point.x,
+                             self.y + other_point.y)
+          
+          def print(self):
+              print(f"({self.x}, {self.y})")
+        \end{minted}
+      \end{listing}
+
+      Y se pueden utilizar estos métodos de la forma:
+
+      \begin{listing}[ht!]
+        \begin{minted}{python}
+          point = Vector2D(1, 3)
+          new_point = point.add(Vector2D(-1, 2))
+          new_point.print()
+        \end{minted}
+      \end{listing}
+
+      En el caso de \textit{Java} debemos especificar el tipo de retorno o, en el caso de 
+      que no retorne nada, \mintinline{java}{void}.
+      Entonces:
+
+      \begin{listing}[ht!]
+        \begin{minted}{java}
+          // Dentro de la clase Vector2D
+          Vector2D add(Vector2D otherPoint) {
+            return new Vector2D(x + otherPoint.x, y + otherPoint.y);
+          }
+
+          void print() {
+            System.out.println("(" + x + ", " + y + ")");
+          }
+        \end{minted}
+      \end{listing}
+
+      Y luego puede utilizarse de la forma:
+
+      \begin{listing}[ht!]
+        \begin{minted}{java}
+          Vector2D point = new Vector2D(1, 3);
+          Vector2D newPoint = point.add(new Vector2D(-1, 2));
+          newPoint.print();
+        \end{minted}
+      \end{listing}
+
+      \begin{note}
+        En el caso de \textit{Python}, los métodos reciben un parámetro 
+        \mintinline{python}{self} que se le entrega implícitamente al momento de invocar 
+        la función (en el curso \textit{CC4101 - Lenguajes de programación} se explica la 
+        razón detrás de esto).
+
+        \textit{Java} por otro lado no necesita de ese parámetro, por lo que basta que no
+        se declaren parámetros en la definición del método para indicar que éste no recibe
+        parámetros.
+        
+        Un caso en particular a tener en cuenta es el lenguaje \textit{C}, donde si no se 
+        especifican los parámetros que recibe una función se interpreta como que puede 
+        recibir cualquier número y tipo de parámetros.
+        Si se quiere que efectivamente no se reciban parámetros se debe especificar 
+        explícitamente de la forma \mintinline{c}{returnType function(void) {...}}.
+      \end{note}
+
+      \begin{exercise}
+        Cree un método \textit{printPolar()} que imprima el punto en coordenadas polares 
+        de la forma \texttt{(r, t)}, donde:
+        \[
+          \begin{aligned}
+            r &= \sqrt{x^2 + y^2} \\
+            t &= \begin{cases}
+              \arctan\left(\frac{y}{x}\right)       
+                & \mbox{si } x > 0                      \\
+              \arctan\left(\frac{y}{x}\right) + \pi 
+                & \mbox{si } x < 0 \wedge y \ge 0 \\
+              \arctan\left(\frac{y}{x}\right) - \pi 
+                & \mbox{si } x < 0 \wedge y < 0   \\
+              \frac{\pi}{2}                         
+                & \mbox{si } x = 0 \wedge y > 0   \\
+              -\frac{\pi}{2}                         
+                & \mbox{si } x = 0 \wedge y < 0   \\
+              \text{indefinido}                     
+                & \mbox{si } x = 0 \wedge y = 0
+            \end{cases}
+          \end{aligned}
+        \]
+
+        Para esto, ocupe los métodos 
+        \mintinline{java}{Math.sqrt(double)| y | Math.atan(double)}, y el valor
+        \mintinline{java}{Math.PI}.
+      \end{exercise}
+    %
+  %
+%

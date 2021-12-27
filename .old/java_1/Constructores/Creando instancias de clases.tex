@@ -1,0 +1,159 @@
+% !TEX root = D:\Users\Ignacio\Documentos\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+\subsection{Creando instancias de clases}
+  Ahora, veamos un poco más en detalle qué es lo que está ocurriendo cuando se crea un objeto.
+  Los objetos se crean con la keyword \mintinline{java}{new}, eso ya lo habíamos visto. 
+  ¿Pero qué es exactamente lo que hace la instrucción \mintinline{java}{new}?
+
+  Cuando creamos un objeto, lo que estamos haciendo es enviar el mensaje \mintinline{java}{new} 
+  \textbf{a la clase} de la que queremos crear la instancia.
+  Al recibir el mensaje, la clase invoca a su constructor y retorna una instancia de ella (un 
+  objeto).
+  Podemos hacer un símil de esto con los objetos (estructuras) de \textit{C}.
+  Consideren el siguiente código:
+
+  \begin{minted}{c}
+    deftype struct {
+      char* type;
+    } Bakemon;
+
+    Bakemon createBakemon() {
+      Bakemon* bakemon = (Bakemon*) malloc(sizeof(Bakemon));
+      bakemon->type = "NONE";
+      return *bakemon;
+    }
+  \end{minted}
+
+  Los constructores, al igual que los métodos, pueden recibir parámetros, entonces, si quisieramos 
+  que nuestro \textit{Bakemon} tenga un nombre y una cantidad de \textit{hit points}. 
+  Esto lo podemos lograr con:
+
+  \begin{minted}{java}
+    public class Bakemon {
+      private String name;
+      private int hitPoints;
+      private String type = "NONE";
+
+      public Bakemon(String name, int hitPoints) {
+        this.name = name;
+        this.hitPoints = hitPoints;
+      }
+    }
+  \end{minted}
+
+  Ahora, con este nuevo constructor podemos crear instancias de la clase como:
+  \begin{minted}{java}
+    Bakemon glamorant = new Bakemon("Glamorant", 10);
+    Bakemon italicore = new Bamekon("Italicore", 15);
+  \end{minted}
+
+  ¿Qué pasa ahora si intentamos hacer \mintinline{java}{new Bakemon()}?
+  Nuestro código no compilaría ya que no existe un constructor sin parámetros ya que, como 
+  declaramos un constructor explícitamente, \textit{Java} no crea un constructor por defecto como
+  habíamos visto en la sección anterior.
+  Si quisiéramos lograr el mismo comportamiento anterior tendríamos que declarar un constructor que
+  no reciba parámetros.
+
+  En \textit{Java} (a diferencia de \textit{Python} por ejemplo) se pueden declarar múltiples 
+  constructores para una clase.
+  Luego, podemos añadir dos constructores adicionales a nuestra clase de la forma
+
+  \begin{minted}{java}
+    public class Bakemon {
+      private String name;
+      private int hitPoints;
+      private String type = "NONE";
+
+      public Bakemon() {
+      }
+
+      public Bakemon(String name, int hitPoints) {
+        this.name = name;
+        this.hitPoints = hitPoints;
+      }
+
+      public Bakemon(String name, int hitPoints, String type) {
+        this.name = name;
+        this.hitPoints = hitPoints;
+        this.type = type;
+      }
+    }
+  \end{minted}
+
+  Noten que tanto en \mintinline{java}{Bakemon(String, int)} y 
+  \mintinline{java}{Bakemon(String, int, String)} asignamos las variables de instancia \texttt{name}
+  y \texttt{hitPoints}, esto puede llevar a problemas y, como veremos en más detalles en la 
+  siguiente parte del apunte, en general querremos evitar la duplicación de código.
+  Para evitar esto podemos reutilizar constructores de la misma clase con el mensaje 
+  \mintinline{java}{this(...)} que llamará al constructor que tenga los mismos tipos de parámetros
+  que el mensaje que se envía.
+  Es importante notar que \mintinline{java}{this} y \mintinline{java}{this(...)} son cosas 
+  distintas, la primera es una pseudo-variable (véase sección \ref{sec:lookup}) mientras que la 
+  segunda es un mensaje.
+  Veamos como mejorar los constructores.
+
+  \begin{minted}{java}
+    public class Bakemon {
+      private String name;
+      private int hitPoints;
+      private String type = "NONE";
+
+      public Bakemon() {
+      }
+
+      public Bakemon(String name, int hitPoints) {
+        this.name = name;
+        this.hitPoints = hitPoints;
+      }
+
+      public Bakemon(String name, int hitPoints, String type) {
+        this(name, hitPoints);
+        this.type = type;
+      }
+    }
+  \end{minted}
+
+  \begin{exercise}
+    Suponga que agregamos a la clase el método
+    \begin{minted}{java}
+      public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
+      }
+    \end{minted}
+
+    ¿Puedo llamar al método \mintinline{java}{setHitPoints(int)} desde el constructor?
+    Por ejemplo:
+    \begin{minted}{java}
+      public Bakemon(String name, int hitPoints) {
+        this.name = name;
+        setHitPoints(hitPoints);
+      }
+    \end{minted}
+  \end{exercise}
+
+  \begin{exercise}
+    ¿Puedo enviar el mensaje \mintinline{java}{this(...)} desde un método?
+    ¿Por qué razón?
+  \end{exercise}
+
+  \begin{exercise}
+    Suponga que modificamos el constructor de la clase por
+    \begin{minted}{java}
+      public Bakemon(String name, int hitPoints, String type) {
+        this.type = type;
+        this(name, hitPoints);
+      }
+    \end{minted}
+    ¿Cambia esto el comportamiento de la clase?
+    ¿Qué sentido tiene ese comportamiento?
+  \end{exercise}
+
+  \begin{exercise}
+    ¿Pueden haber constructores privados en una clase?
+    ¿Qué utilidad tendría esto?  
+  \end{exercise}
+
+  \begin{exercise}
+    ¿Puede una clase tener sólo constructores privados?
+    ¿En qué contexto podría resultar útil esto?
+  \end{exercise}
+

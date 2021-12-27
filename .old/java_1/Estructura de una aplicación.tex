@@ -1,0 +1,26 @@
+% !TEX root = D:\Users\Ignacio\Documentos\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+\section{Estructura de una aplicación}
+  Como se explicó en el capítulo anterior en \textit{Java} (casi) todo son objetos, por 
+  esto la aplicaciones se componen de clases que se referencian entre sí.
+  Por este motivo, una aplicación en \textit{Java} es finalmente una clase con un método
+  \texttt{main} que indica que es ejecutable (este método \texttt{main} puede estar 
+  implícito en algunos contextos, un ejemplo de este caso se verá cuando se revise 
+  \textit{testing} en el capítulo \ref{ch:tdd}).
+  La firma\footnote{Refiérase a la sección \ref{sec:lookup}}\ de este método 
+  \textbf{siempre} debe ser \mintinline{java}{public static void main(String[] args)}
+  (o lo que es equivalente \mintinline{java}{public static void main(String... args)}), 
+  esto quiere decir que si tenemos una clase con el método:
+
+  \begin{minted}{java}
+    public void main(String[] args) {
+      System.out.println("I am gravely mistaken");
+    }
+  \end{minted}
+
+  esta clase no será ejecutable.
+  
+  \subimport{Estructura de una aplicación/}{Creación de un proyecto.tex}
+  \newpage
+  \subimport{Estructura de una aplicación/}{Configuración de un proyecto.tex}
+  \subimport{Estructura de una aplicación/}{Paquetes.tex}
+%

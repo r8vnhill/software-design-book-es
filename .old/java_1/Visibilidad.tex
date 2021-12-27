@@ -1,0 +1,55 @@
+% !TEX root = C:\Users\Ignacio\Documents\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+\section{Visibilidad}
+  \label{sec:access-mod}
+
+  Como se mencionó en los capítulos anteriores, una de las propiedades importantes de los objetos es
+  la encapsulación, o sea, que los elementos internos de un objeto no puedan ser manipulados desde
+  afuera.
+  Para lograr esto existe el concepto de \textit{visibilidad} (a veces llamada 
+  \textit{privacidad} o \textit{acceso}) que define qué elementos de un objeto van a poder verse 
+  desde afuera de éste.
+
+  Noten que hacer que un elemento sea visible desde fuera de un objeto no rompe la encapsulación, ya
+  que no se están manejando directamente los elementos internos del objeto, sino que es el mismo 
+  objeto el que hace visibles ciertas componentes y funcionalidades suyas, y responde a un 
+  \textit{mensaje}\footnote{El concepto de mensaje se verá en más detalle en la sección siguiente} 
+  enviado por el otro objeto con algún resultado.
+
+  En \textit{Java} existen cuatro modificadores de visibilidad: \mintinline{java}{public}, 
+  \mintinline{java}{protected}, \mintinline{java}{private} y \textit{package-private}.
+  Los modificadores de acceso pueden utilizarse para definir clases, métodos y variables, a 
+  excepción de las variables locales de un método que siempre serán internas al método e 
+  inaccesibles desde fuera de este.
+
+  El modificador \mintinline{java}{public} indica que el elemento definido va a ser visible desde 
+  cualquier otra clase.
+  \mintinline{java}{protected} se usa para definir un elemento que solamente sea accesible desde las
+  clases que heredan de la clase en la que se definió el elemento.
+  La keyword \mintinline{java}{private} por otro lado define que el elemento será visible solamente 
+  desde dentro de la clase en la que se definió.
+
+  El modificador \textit{package-private}, que es con el que se definen todos los elementos si no se
+  define explícitamente un modificador de acceso, define al elemento como solo visible dentro del 
+  paquete en el que se encuentra la clase.
+  En principio esto debiera otorgar más privacidad que el modificador \mintinline{java}{protected},
+  pero en la práctica no es así.
+  Los paquetes definen estructura, no privacidad, esto significa que no aseguran realmente quiénes
+  podrán acceder a los elementos \textit{package-private} y su forma de uso tampoco es clara.
+  Es importante resaltar esto ya que una confusión muy común es creer que los elementos 
+  \textit{package-private} de \textit{Java} son equivalentes a los elementos 
+  \mintinline{kotlin}{internal} de \textit{C\#} o \textit{Kotlin} cuando en realidad son 
+  \textbf{totalmente distintos}.
+  En general, la recomendación será siempre evitar utilizar el modificador \textit{package-private}
+  lo más posible.\autocite{ham-package-private}\ \footnote{En las versiones más recientes de 
+  \textit{Java} se introdujo el concepto de \textit{módulo} que soluciona varios de estos problemas,
+  pero no los utilizaremos en el curso.}
+
+  Un detalle muy importante sobre los modificadores de acceso es el \textit{scope} de estos, es 
+  decir, desde dónde puede accederse \enquote{realmente} a las componentes internas de un objeto.
+  
+  TODO:
+  \begin{enumerate}
+    \item scope de los modificadores
+    \item getters/setters
+  \end{enumerate}
+%

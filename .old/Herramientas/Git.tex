@@ -1,0 +1,64 @@
+% !TEX root = C:\Users\Ignacio\Documents\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+\chapter{\textit{Git}}
+  \textit{Git} es un sistema de control de versiones (\textit{VCS}) distribuido para 
+  mantener un historial de los cambios que se realizan en los archivos durante el 
+  desarrollo de una aplicación.
+
+  Se creó con el objetivo de manejar las versiones del \textit{kernel} de \textit{Linux}.
+  Es un proyecto de código abierto y fue adquiriendo popularidad con los años (según un 
+  estudio realizado por \textit{StackOverflow}, \textit{Git} es el sistema de 
+  versionado utilizado por el 70 \% de sus usuarios).
+  
+  Existen muchos otros sistemas de versionado que también se utilizan en la industria,
+  en particular \textit{Mercurial}, \textit{Perforce} y \textit{Subversion} son algunos de 
+  los más importantes.
+  
+  \section{Instalación}
+    Como \textit{Git} es un proyecto \textit{open-source} existen diversas maneras de 
+    instalarlo, en particular aquí se ejemplificarán algunas.
+
+    \subimport{Git/}{Linux.tex}
+    \subimport{Git/}{Windows.tex}
+    \subimport{Git/}{MacOS.tex}
+  %
+
+  \section{Configuración}
+    Primero, para comprobar que se haya instalado correctamente, deben ejecutar el 
+    comando:
+
+    \begin{minted}{bash}
+      git --version
+    \end{minted}
+
+    El resultado que debiera retornar este comando es algo del estilo (para el caso de 
+    \textit{Windows} instalado con \textit{Chocolatey}):
+
+    \begin{minted}{text}
+      git version 2.21.0.windows.1
+    \end{minted}
+
+    Dependiendo de la manera en que hayan instalado \textit{Git} es posible que 
+    necesiten configurar las credenciales, para esto deben ejecutar los comandos:
+    
+    \begin{minted}{bash}
+      git config --global user.name "Xen-Tao"
+      git config --global user.email xentao@depa.na
+    \end{minted}
+
+    Reemplazando los datos con su nombre y correo.
+    Luego, haciendo \mintinline{bash}{git config -l} verifiquen que su usuario y correo se
+    hayan registrado correctamente.
+  %
+
+  \subimport{Git/}{Repositorios.tex}
+  \subimport{Git/}{github.tex}  
+  \subimport{Git/}{branches.tex}
+  \subimport{Git/}{markdown.tex}
+
+  %
+
+  \section{Ejercicios}
+  %
+  \nocite{*}
+  \printbibliography[keyword=git]
+%

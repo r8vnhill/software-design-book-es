@@ -1,0 +1,156 @@
+% !TEX root = D:\Users\Ignacio\Documentos\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+\section{Constructores}
+  \label{sec:constructors-1}
+  
+  En la sección anterior creamos una clase \texttt{Vector2D} que se inicializaba con 2
+  parámetros.
+  El método que se encarga de crear una instancia de una clase se llama constructor.
+
+  El constructor es un método especial que no tiene tipo de retorno (esto es distinto a 
+  que retorne \mintinline{java}{void}) y que se llama al momento de crear una instancia de
+  una clase.
+
+  En \textit{Python} el constructor de una clase se define como 
+  \mintinline{python}{def __init__(self, param1, param2, ...):}, mientras que en 
+  \textit{Java} se hace creando un método con la firma 
+  \mintinline{java}{ClassName(Param1Type param1, Param2Type param2, ...) {...}}.
+  En el caso de \textit{Java}, el método constructor \textbf{debe llamarse igual que la 
+  clase} a la que pertenece.
+
+  Por defecto en \textit{Python} y \textit{Java}, si no se define un constructor 
+  explícitamente, las clases tienen un constructor vacío que se crea implícitamente y lo 
+  único que hace es reservar un espacio en memoria para el objeto que se vaya a crear, 
+  esto es lo mismo que si se definiera una clase como:
+
+  \begin{listing}[ht!]
+    \begin{minted}{java}
+      class ClassName {
+        ClassName() {}
+      }
+    \end{minted}
+  \end{listing}
+
+  \begin{important}
+    Si se define un constructor de forma explícita entonces no se crea el constructor por 
+    defecto.
+  \end{important}
+
+  El objetivo de los constructores es definir las condiciones iniciales de un objeto, 
+  generalmente esto significa iniciar las variables de instancia.
+
+  Supongan ahora que queremos crear usuarios para alguna aplicación.
+  Todos los usuarios deben tener un nombre que los identifique y opcionalmente pueden 
+  ingresar su género.
+  ¿Cómo manejamos la existencia de parámetros opcionales?
+
+  En \textit{Python} se pueden utilizar parámetros por defecto, por lo que se podría 
+  implementar esto como:
+
+  \begin{listing}[ht!]
+    \begin{minted}{python}
+      class User:
+          def __init__(self, username, gender="Non specified"):
+              self.username = username
+              self.gender = gender
+    \end{minted}
+  \end{listing}
+
+  Esto no es posible de hacer en \textit{Java} ya que no existen parámetros por defecto.
+  En vez de eso lo que se puede hacer (y que no se puede hacer en \textit{Python}) es 
+  crear múltiples constructores, entonces:
+
+  \begin{listing}[ht!]
+    \begin{minted}{java}
+      class User {
+        String username, gender;
+
+        User(String username, String gender) {
+          this.username = username;
+          this.gender = gender;
+        }
+
+        User(String username) {
+          this(username, "Non specified");
+        }
+      }
+    \end{minted}
+  \end{listing}
+
+  En el próximo capítulo profundizaremos en el funcionamiento de \textit{Java} y 
+  explicaremos cómo funciona \mintinline{java}{this}, pero por ahora lo que necesitan 
+  saber es que \mintinline{java}{this(username, "Non specified")} llama al otro 
+  constructor con esos parámetros.
+
+  \begin{exercise}
+    Existen lenguajes de programación como \textit{Smalltalk} que no tienen constructores,
+    sino que los objetos se crean vacíos y los parámetros se inician luego con un método
+    \enquote{normal}.
+
+    ¿Por qué es conveniente que los constructores sean métodos especiales?
+    Discuta
+  \end{exercise}
+
+  \subsection{Casos especiales}
+    Existen objetos especiales que pueden iniciarse sin necesidad de llamar explícitamente
+    al constructor.
+    En \textit{Java} este es el caso de las clases \texttt{Array} y \texttt{String}.
+
+    El caso de los \textit{strings} es el más típico ya que cuando creamos un objeto de 
+    tipo \mintinline{java}{String} no hacemos \mintinline{java}{new String(...)} (aunque 
+    se puede), sino que simplemente escribimos texto entre comillas dobles.
+    Es importante notar en este punto que los \textit{strings} se definen entre comillas
+    dobles y los caracteres entre comillas simples, entonces \mintinline{java}{'a'} es un
+    primitivo pero \mintinline{java}{"a"} es un objeto.
+    
+    El otro caso son los arreglos, a diferencia de los \textit{strings}, estos sí se crean
+    utilizando la \textit{keyword} \mintinline{java}{new}, pero no se llama explícitamente al 
+    constructor.
+    En cambio, existen dos maneras de iniciar un arreglo.
+
+    Los arreglos tienen un \textbf{tamaño fijo} (un arreglo no es lo mismo que una lista), 
+    por lo que es necesario definir ese tamaño al momento de crearlo.
+    La sintaxis para hacer esto es \mintinline{java}{T[] array = new T[size]}, esto va a 
+    crear un arreglo de tamaño \texttt{size} de elementos de tipo \texttt{T} lleno con 
+    valores nulos o, en caso de ser un tipo primitivo, con sus valores por defecto.
+    Por ejemplo:
+
+    \begin{listing}[ht!]
+      \begin{minted}{java}
+        int[] ints = new int[3];
+        ints[0] = 100;
+        ints[2] = 11;
+        System.out.println(ints[0]); // Imprime 100
+        System.out.println(ints[1]); // Imprime 0
+      \end{minted}
+    \end{listing}
+
+    La otra manera de crear un arreglo es pasándole inmediatamente sus valores, la 
+    sintaxis es similar a la anterior con la diferencia de que no se define el tamaño 
+    (porque éste se infiere por la cantidad de valores).
+    Así, el mismo arreglo del ejemplo anterior se puede crear de la siguiente forma:
+
+    \begin{listing}[ht!]
+      \begin{minted}{java}
+        int[] ints = new int[] {100, 0, 11};
+      \end{minted}
+    \end{listing}
+
+    \begin{exercise}
+      Cree una clase \texttt{Figure2D} con un método \mintinline{java}{printType()}
+      que imprima el tipo de la figura.
+      Para esto, considere una figura como un conjunto de puntos (de la clase 
+      \mintinline{java}{Vector2D}), donde \mintinline{java}{printType()} debe indicar que
+      la figura es un punto si ésta tiene un solo punto, si tiene 2 puntos entonces dice 
+      que es una línea y si tiene 3 o más entonces es un polígono.
+
+      Resuelva este ejercicio utilizando solo constructores, y variables de instancia de 
+      tipo primitivo, \mintinline{java}{Vector2D}, \textit{strings} y arreglos, y sin
+      utilizar métodos adicionales (tampoco los de las clases \texttt{String} o 
+      \texttt{Array}) ni instrucciones de control de flujo (como 
+      \mintinline{java}{if| o |switch}).
+
+      \textit{Hint: Utilice varios constructores y \textbf{al menos} una variable de 
+      instancia.}
+    \end{exercise}
+  %
+%

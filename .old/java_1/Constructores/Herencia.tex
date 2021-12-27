@@ -1,0 +1,106 @@
+% !TEX root = C:\Users\smfla\Documents\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+\subsection{Constructores y herencia}
+  Ya hemos mencionado anteriormente cómo la herencia es una de las propiedades más poderosas de la
+  programación orientada a objetos, entonces una pregunta natural sería cómo funcionan los 
+  constructores cuando hay herencia.
+
+  Tomemos como punto de partida el ejemplo de vectores que vimos en el capítulo 
+  \ref{ch:python-java}.
+
+  Primero modifiquemos un poco la clase \texttt{VectorND} para integrar los modificadores de 
+  privacidad que vimos en la sección anterior:
+
+  \begin{minted}{java}
+    public class VectorND {
+      protected double[] tail;
+
+      public VectorND(double[] tail) {
+        this.tail = tail;
+      }
+
+      public VectorND add(VectorND otherVector) {
+        // Igual que antes
+      }
+
+      public void print() {
+        // Igual que antes
+      }
+    }
+  \end{minted}
+  
+  Ahora, también habíamos definido una clase \texttt{Vector2D} que heredaba de \texttt{VectorND},
+  modifiquemos también esta clase para restringir su visibilidad.
+
+  \begin{minted}{java}
+    public class Vector2D extends VectorND {
+      public Vector2D(double x, double y) {
+        super(new double[]{x, y});
+      }
+    }
+  \end{minted}
+
+  Noten que el constructor de \texttt{Vector2D} hace una llamada a \mintinline{java}{super(...)}, 
+  es importante que no confundan este mensaje con la pseudo-variable \mintinline{java}{super}.
+  Lo que hace este mensaje es enviar un mensaje a la superclase para que ésta ejecute el constructor
+  que reciba los parámetros que se le pasaron (en este caso \mintinline{java}{VectorND(double[])}).
+
+  Una pregunta que podría surgirnos ahora es la necesidad de llamar explícitamente al constructor
+  de la clase padre.
+  ¿No podríamos simplemente hacer lo siguiente?
+
+  \begin{minted}{java}
+    public Vector2D(double x, double y) {
+      this.tail = new double[]{x, y};
+    }
+  \end{minted}
+  
+  Si intentan correr el código anterior se van a dar cuenta que no compila, la razón de esto es 
+  similar a lo que sucedía si no declarábamos explícitamente un constructor en la clase, por defecto
+  todos los constructores hacen una llamada implícita al constructor de su clase padre sin 
+  argumentos a no ser que se llame explícitamente a \mintinline{java}{super(...)}.
+  Esto quiere decir que el código del ejemplo anterior es equivalente a:
+
+  \begin{minted}{java}
+    public Vector2D(double x, double y) {
+      super();
+      this.tail = new double[]{x, y};
+    }
+  \end{minted}
+
+  Luego, como la clase \texttt{VectorND} no tiene ningún constructor que no reciba argumentos 
+  entonces el código no compila.
+
+  Otra pregunta interesante es si los constructores se heredan.
+  Para explicar esto partamos por un ejemplo.
+  La velocidad se puede definir como un vector dentro de un espacio euclidiano de \(n\) dimensiones,
+  luego, la velocidad es equivalente a la clase \texttt{VectorND} que ya definimos.
+  Podríamos definir una clase para la velocidad que sea una especialización de un vector.
+  
+  \begin{minted}{java}
+    public class Velocity extends VectorND {
+    }
+  \end{minted}
+
+  Si los constructores se heredan entonces podríamos crear un objeto velocidad utilizando el 
+  constructor de la superclase de la forma:
+
+  \begin{minted}{java}
+    Velocity v = new Velocity(new double[]{0, 1, 2, 3});
+  \end{minted}
+  
+  Nuevamente, si intentan correr ese código el programa no va a compilar.
+  Esto se debe a que en \textit{Java}\footnote{Hay lenguajes que \textbf{sí tienen} herencia de 
+  constructores (e.g. \textit{Python}).} los constructores \textbf{no se heredan}.
+  Es muy importante tener esto en cuenta ya que un error común es confundir la llamada implícita a
+  \mintinline{java}{super()} con herencia de constructores.
+
+  \begin{exercise}
+    ¿Se puede enviar el mensaje \mintinline{java}{super(...)} desde fuera del constructor de la 
+    clase?
+  \end{exercise}
+
+  \begin{exercise}
+    ¿Se le ocurre una razón por la cuál en \textit{Java} no se tiene herencia de constructores?
+    \textit{Hint:} Piense en la definición de constructor que se dio en la sección 
+    \ref{sec:default-constructor}.
+  \end{exercise}

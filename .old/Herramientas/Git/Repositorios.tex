@@ -1,0 +1,128 @@
+% !TEX root = D:\Users\Ignacio\Documentos\Escuela\CC3002 - Metodologías de Diseño y Programación\apunte-y-ejercicios\src\latex\Apunte.tex
+\section{Repositorios}
+  Un repositorio (generalmente llamado \textit{repo}) se puede entender como un proyecto
+  con un sistema de versionado integrado.
+
+  En el caso de \textit{Git}, uno de los principales beneficios es que puede utilizarse
+  de manera local o remota utilizando un servidor o un \textit{host} de repositorios 
+  (vea la sección \ref{sec:github}).
+
+  Para utilizar \textit{Git} primero se debe crear un repositorio, para esto se utiliza el comando
+  \texttt{init}.
+  Comencemos entonces por crear un \textit{repo}, para esto abran una terminal y ejecuten:
+
+  \begin{minted}{bash}
+    mkdir my-repo && cd my-repo # Crea y se ubica en una carpeta
+    git init
+  \end{minted}
+
+  Esto creará un repositorio dentro de la carpeta \texttt{my-repo}.
+
+  En cualquier momento podemos revisar el estado del repositorio con la instrucción 
+  \texttt{status}, luego:
+
+  \begin{minted}{bash}
+    git status
+  \end{minted}
+
+  Debiera entregar como resultado:
+
+  \begin{minted}{text}
+    On branch master
+
+    No commits yet
+
+    nothing to commit (create/copy files and use "git add" to track)
+  \end{minted}
+
+  Veamos ahora como agregar archivos al sistema de versionado.
+  Para esto creen un archivo \texttt{README.md} y déjenlo en blanco, con el archivo creado corran
+  nuevamente \texttt{git status}.
+
+  Hemos creado un archivo, pero este no se agrega inmediatamente al sistema de versionado, esto es
+  bueno ya que, como veremos más adelante, no queremos que todos nuestros archivos se agreguen a 
+  \textit{Git}.
+  Para agregar un archivo, esto se hace con el comando \texttt{add} y luego el nombre del archivo
+  que se quiera agregar o \enquote{\texttt{.}} para agregar todos los archivos.
+  Entonces, si queremos agregar el archivo que creamos lo haríamos como:
+
+  \begin{minted}{bash}
+    git add README.md 
+    # O equivalentemente 
+    git add .
+  \end{minted}
+
+  Sin embargo, lo que acabamos de hacer no es suficiente para que los archivos aparezcan en el 
+  historial del \textit{VCS}. Lo que hicimos se conoce como \textit{staging}, y es una etapa previa
+  a agregar los archivos a \textit{Git}.
+  Prueben hacer \texttt{git status} de nuevo y vean el resultado.
+
+  A cada \enquote{versión} almacenada en el historial de \textit{Git} se le llama \textit{commit}.
+  Para incluir los archivos de \textit{staging} al sistema de versionado se utiliza el comando 
+  \texttt{commit}, este comando debe ir acompañado además de un comentario para que el usuario pueda
+  identificar el \textit{commit}.
+  Vamos al ejemplo:
+
+  \begin{minted}{bash}
+    git commit -m "My first commit :D"
+  \end{minted}
+
+  Prueben hacer \texttt{git status} de nuevo.
+
+  Ahora, hay una razón por la cuál hacer \textit{stage} y \textit{commit} son dos procesos 
+  separados: \textbf{no es posible deshacer un \textit{commit}}.
+  Esto tiene como consecuencia que cualquier archivo o cambio que se haga al repositorio permanecerá
+  en el historial y no podrá borrarse de ahí, incluso si el archivo se borra.
+  Esto es de especial importancia cuando se guarda información de carácter privado en el directorio
+  del \textit{repo}.
+
+  Primero, creemos un archivo \texttt{secret.txt} y digamos que no queremos que ese archivo se 
+  agregue a \textit{Git}.
+  Veamos dos maneras de evitar que este archivo se agregue al historial.
+
+  La primera es hacer \textit{unstage} del cambio, esto se puede hacer cuando se hace \texttt{add} a
+  algún archivo incorrecto, para nuestro ejemplo sería de la siguiente forma:
+
+  \begin{minted}{bash}
+    git add .
+  \end{minted}
+
+  Esto va a hacer \textit{stage} de todos los archivos.
+  Si hacen \texttt{git status} verán que el archivo está esperando a que se le haga \textit{commit}.
+  Ahora, para hacer \textit{unstage} haríamos:
+
+  \begin{minted}{bash}
+    git rm --cached secret.txt
+  \end{minted}
+
+  La otra opción es indicarle a \textit{Git} que ignore ciertos archivos al momento de hacer 
+  \textit{stage} (si el archivo ya había sido agregado con \texttt{add} entonces tienen que hacer lo
+  indicado antes).
+  Para definir los archivos que serán ignorados \textit{Git} utiliza un archivo especial llamado 
+  \texttt{.gitignore}, este archivo contiene los nombres de los archivos (o patrones de nombres) que
+  se quiere ignorar.
+  Para ilustrar esto, primero creen el archivo \texttt{.gitignore} en el repositorio con el 
+  siguiente contenido:
+
+  \begin{minted}{bash}
+    # .gitignore
+    secret.txt
+  \end{minted}
+
+  Esto le dice a \textit{Git} que no queremos que se mantengan versiones del archivo 
+  \texttt{secret.txt}.
+  Ahora, esto no es práctico cuando tenemos muchos archivos, para eso podemos usar patrones de 
+  nombres, supongamos que quisiéramos ignorar todos los archivos que contengan la palabra 
+  \textit{secret}, esto lo podemos hacer como:
+
+  \begin{minted}{bash}
+    # .gitignore
+    *secret*
+  \end{minted}
+
+  Para detalles sobre como utilizar \textit{gitignore} refiéranse a la documentación oficial de 
+  \textit{Git}\autocite{gitignore}.
+  Adicionalmente, existen herramientas para generar archivos \texttt{.gitignore} a partir de 
+  \textit{templates}, en particular una de las más utilizadas y completas es 
+  \url{https://www.gitignore.io}.
+%
