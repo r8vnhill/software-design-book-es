@@ -11,8 +11,5 @@
     "activityBar.background": "#59093D",
     "titleBar.activeBackground": "#7D0D55",
     "titleBar.activeForeground": "#FFFBFE"
-  },
-  "cSpell.words": [
-    "endregion"
-  ]
+  }
 }
