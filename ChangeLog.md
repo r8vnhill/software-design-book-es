@@ -2,9 +2,15 @@
 
 ## Versión 1.0
 
-| Category      | Detail       | Version | Status     |
-| ------------- | ------------ | ------- | ---------- |
-| sec(intellij) | Introducción | 1.0.1.1 | INCOMPLETE |
+| Category          | Detail                  | Version    |
+| ----------------- | ----------------------- | ---------- |
+| ch(git)  | Comienzo instalación Git en Mac | 1.0.2-b.3 |
+| ch(git)  | Instalación en Windows y Linux  | 1.0.2-b.2 |
+| ch(git)  | Introducción                    | 1.0.2-b.1 |
+| chapter(intellij) | Introducción            | 1.0.1-rc.1 |
+| chapter(intellij) | Introducción(WIP)       | 1.0.1-b.1  |
+| chapter(java)     | Se borra el placeholder | 1.0.0-rc.2 |
+
 - ``1.0.0-rc.2`` Se borra el placeholder
 - ``1.0.0-rc.1`` Capítulo introductorio a *Java*
 - ``1.0.0-b.3`` Fibonacci DYV con while
