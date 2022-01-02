@@ -4,6 +4,7 @@
 
 | Category          | Detail                          | Version    |
 | ----------------- | ------------------------------- | ---------- |
+| chapter(kotlin)   | Instalando Kotlin: Introducción | 1.0.3-a.1  |
 | chapter(kotlin)   | Motivación                      | 1.0.3-b.1  |
 | chapter(git)      | Comienzo instalación Git en Mac | 1.0.2-b.3  |
 | chapter(git)      | Instalación en Windows y Linux  | 1.0.2-b.2  |
