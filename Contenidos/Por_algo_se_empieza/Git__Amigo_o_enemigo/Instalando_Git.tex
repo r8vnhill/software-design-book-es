@@ -1,4 +1,3 @@
-% !TEX root = D:\Docs\Escuela\software-design-book-es\src\latex\METODOLOG_AS_DE_DISE_O_Y_PROGRAMACI_N_ORIENTADA_A_OBJETOS.tex
 \section{Instalando \textit{Git}}
   %region : WINDOWS  
  	\subsection{\textit{Windows}}
@@ -44,7 +43,20 @@
 
   %region : MAC
   \subsection{macOS}
-    \subsubsection{Git mediante Xcode}
-      La forma más simple de instalar \textit{Git} en sistemas \textit{macOS}\index{macOS}
+    \subsubsection{\textit{Git} mediante \textit{Xcode CLT} (Recomendado)}
+      La forma más simple de instalar \textit{Git} en sistemas \textit{macOS}\index{macOS} es a 
+      través de \textit{Xcode CLT}\index{Xcode CLT} (¡No confundir con \textit{Xcode}!), en este 
+      caso, lo primero que deberán hacer es instalar el \textit{CLT} desde una terminal:
       
+      \begin{minted}{bash}
+        xcode-select --install
+      \end{minted}
+      
+      Una vez instalada esta herramienta\footnote{Pueden verificar que se haya instalaado de forma 
+      correcta ejecutando \texttt{xcode-select -p}.} para instalar \textit{Git} bastará ejecutar el
+      siguiente comando en la terminal:
+
+      \begin{minted}{bash}
+        git --version
+      \end{minted}
   %endregion
