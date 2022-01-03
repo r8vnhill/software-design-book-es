@@ -14,7 +14,32 @@
   
   %region : JETBRAINS TOOLBOX
   \subsection{JetBrains Toolbox}
-    \textit{JetBrains Toolbox} es una herramienta que facilita la instalación de los productos de
+    \textit{JetBrains Toolbox}\index{JetBrains Toolbox} es una herramienta que facilita la instalación de los productos de
     \textit{JetBrains}, manejar distintos proyectos y también hace más fácil actualizar las
     herramientas.
+
+    Instalar \textit{Toolbox} se puede hacer descargando la herramienta desde el 
+    \href{https://www.jetbrains.com/toolbox-app/}{sitio oficial}.
+
+    Alternativamente, también podemos instalarla desde la terminal.
+
+    \subsubsection*{Windows}
+      \begin{minted}{powershell}
+        choco install jetbrainstoolbox
+      \end{minted}
+    
+    \subsubsection*{Linux}
+      \begin{minted}{bash}
+        BASE_URL="https://data.services.jetbrains.com/products/download"
+        PLATFORM="?platform=linux&code=TBA"
+
+        wget --show-progress -qO ./toolbox.tar.gz $BASE_URL$PLATFORM
+        
+        TOOLBOX_TEMP_DIR=$(mktemp -d)
+        tar -C "$TOOLBOX_TEMP_DIR" -xf toolbox.tar.gz
+        rm ./toolbox.tar.gz
+        "$TOOLBOX_TEMP_DIR"/*/jetbrains-toolbox
+
+        rm -r "$TOOLBOX_TEMP_DIR"
+      \end{minted}
   %endregion
