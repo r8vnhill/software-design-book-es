@@ -1,0 +1,173 @@
+\subsubsection{Recursión y control de flujo}
+    Veamos algo un poquito más complicado, supongamos que queremos computar el \(n\mathrm{-ésimo}\)
+    número de la \textit{sucesión de Fibonacci}, esta secuencia está definida por:
+    \[
+      \begin{aligned}
+        f_0 &= 0  \\
+        f_1 &= 1  \\
+        f_n &= f_{n - 1} + f_{n - 2}
+      \end{aligned}
+    \]
+
+    Esta definición es naturalmente recursiva, y podemos implementarla fácilmente de la siguiente 
+    forma:
+
+    \begin{minted}{python}
+      # Python
+      def fibonacci(n):
+        if n < 2:
+          return n
+        return fibonacci(n - 1) + fibonacci(n - 2)
+    \end{minted}
+
+    \begin{minted}{java}
+      // Java
+      int fibonacci(int n) {
+        if (n < 2) {
+          return n;
+        }
+        return fibonacci(n - 1) + fibonacci(n - 2);
+      }
+    \end{minted}
+
+    Con lo que hemos visto hasta ahora debiera ser fácil darse cuenta que ambos códigos son 
+    equivalentes.
+    
+    Ahora, si bien la recursión puede ser una solución \enquote{elegante},\footnote{Al menos según 
+    Olmedo} requiere de más recursos que una solución iterativa ya que, como veremos más adelante,
+    los llamados sucesivos a funciones comienzan a llenar la pila de ejecución y si no tenemos 
+    cuidado la podemos llenar (nuestro querido \textit{stack overflow}).
+
+    Podemos implementar la función de Fibonacci de manera relativamente simple con el siguiente
+    algoritmo:
+
+    \begin{minted}{python}
+      # Python
+      def fibonacci(n):
+        a = 0
+        b = 1
+        for k in range(0, n + 1):
+          c = b + a
+          a = b
+          b = c
+        return a
+    \end{minted}
+
+    \begin{minted}{java}
+      // Java
+      int fibonacci(int n) {
+        int a = 0;
+        int b = 1;
+        for (int k = 0; k <= n; k++) {
+          int c = b + a;
+          a = b;
+          b = c;
+        }
+        return a;
+      }
+    \end{minted}
+
+    Aquí se comienza a notar un poco más la diferencia entre ambos lenguajes, en particular la 
+    sintaxis del ciclo \mintinline{java}{for}.
+    Revisemos esto en detalle, el ciclo se define en base a 3 componentes: 
+    \begin{inparaenum}[(1)]
+      \item un estado inicial (\texttt{initialize}),
+      \item una condición de repetición (\texttt{test}) y
+      \item una actualización del estado (\texttt{update}),
+    \end{inparaenum}
+    con esto podríamos escribir un ciclo genérico como:
+    
+    \begin{minted}{java}
+      for (initialize; test; update) { ... }
+    \end{minted}
+
+    En el ejemplo específico que vimos recién definimos el estado inicial de \texttt{k} como 
+    \mintinline{java}{int k = 0}. 
+    Luego, en cada iteración comprobamos la condición de repetición \mintinline{java}{k <= n}, esto 
+    quiere decir que si al final de una iteración se tiene que \(\mathtt{k} \leq \mathtt{n}\), 
+    entonces se realizará otra pasada por el ciclo.
+    El último componente, \texttt{update}, es una instrucción que se ejecuta \emph{al final} de cada
+    ciclo y que generalmente es una asignación (e.g. \texttt{i++}, \texttt{i += 2}, 
+    \texttt{i /= 10}).
+    Todas las componentes del \java{for} son opcionales, lo que permite hacer un ciclo infinito con
+    \java{for (;;)} (una muestra de maldad pura).
+
+    Veamos ahora un algoritmo más eficiente (y complicado) para generar la secuencia:\footnote{Tanto 
+    la versión recursiva como la iterativa con \java{for} son algoritmos con complejidad \(O(n)\), 
+    mientras que utilizando un algoritmo del tipo \textit{divide-and-conquer} se obtiene una 
+    complejidad de \(O(\log(n))\).}
+
+    \begin{minted}{python}
+      # Python
+      def fibonacci(n):
+        if n <= 0:
+          return 0
+        i = n - 1
+        aux_one = 0
+        aux_two = 1
+        a, b = aux_two, aux_one
+        c, d = aux_one, aux_two
+        while i > 0:
+          if i % 2 == 1:  # si `i` es impar
+            aux_one = d * b + c * a
+            aux_two = d * (b + a) + c * b
+            a, b = aux_one, aux_two
+          aux_one = c ** 2 + d ** 2
+          aux_two = d * (2 * c + d)
+          c, d = aux_one, aux_two
+          i /= 2
+        return a + b
+    \end{minted}
+
+    \begin{minted}{java}
+      // Java
+      int fibonacci(int n) {
+        if (n <= 0) {
+          return 0;
+        }
+        i = n - 1;
+        auxOne = 0;
+        auxTwo = 1;
+        int a, b, c, d;
+        a = c = auxOne;
+        b = d = auxTwo;
+        while (i > 0) {
+          if (i % 2 == 1) {
+            auxOne = d * b + c * a;
+            auxTwo = d * (b + a) + c * b;
+            a = auxOne;
+            b = auxTwo;
+          }
+          auxOne = c * c + d * d;
+          auxTwo = d * (2 * c + d);
+          c = auxOne;
+          d = auxTwo;
+          i /= 2;
+        }
+        return a + b;
+      }
+    \end{minted}
+    
+    No entraremos en detalles sobre los segmentos de código recién mostrados ya que no es el enfoque
+    del libro, pero es una buena idea leer ambos con detenimiento para ver las diferencias entre
+    \textit{Python} y \textit{Java}.
+
+    Con esto ya nos familiarizamos con la sintáxis básica de \textit{Java}, en el capítulo siguiente
+    tomaremos un desvío y nos despediremos de \textit{jshell}
+    \begin{center}
+      uwu
+    \end{center}
+    pero no estén tristes, porque a partir de aquí es donde se pone bueno.
+
+    \begin{exercise}
+      Considere la función:
+      \begin{minted}{java}
+        void countdown(int n) {
+          System.out.println(n--);
+        }
+      \end{minted}
+      ¿Qué imprime?
+
+      ¿Qué sucede si cambio la instrucción \java{n--} por \java{--n}?
+      ¿Por qué?
+    \end{exercise}
