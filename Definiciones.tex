@@ -46,3 +46,21 @@
    }
 }
 
+\newtcblisting{bash}{
+   enhanced,
+   breakable,
+   listing engine=minted,
+   minted style=perldoc,
+   minted language=bash,
+   minted options={autogobble},
+   colback=blue!5!white,
+   colframe=Emerald!75!black,
+   listing only,
+   left=5mm,enhanced,
+   overlay={
+      \begin{tcbclipinterior}
+         \fill[Emerald!20!white] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+      \end{tcbclipinterior}
+   }
+}
+
