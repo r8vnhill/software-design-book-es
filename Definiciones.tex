@@ -64,3 +64,20 @@
    }
 }
 
+\newtcblisting{kotlin}{
+   enhanced,
+   breakable,
+   listing engine=minted,
+   minted style=manni,
+   minted language=kotlin,
+   minted options={autogobble},
+   colback=Orange!5!white,
+   colframe=Peach!75!black,
+   listing only,
+   left=5mm,enhanced,
+   overlay={
+      \begin{tcbclipinterior}
+         \fill[Peach!20!white] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+      \end{tcbclipinterior}
+   }
+}
