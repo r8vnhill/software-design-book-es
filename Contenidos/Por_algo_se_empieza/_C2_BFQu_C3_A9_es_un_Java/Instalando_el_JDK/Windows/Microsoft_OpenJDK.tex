@@ -1,0 +1,33 @@
+\subsubsection{Microsoft OpenJDK}
+  \textit{Microsoft} cuenta con una distribución propia de \textit{OpenJDK}, esta distribución no
+  tiene ninguna diferencia respecto a la mostrada anteriormente, sólo que el número de versión
+  puede variar un poco.
+
+  La primera opción de instalación (la más fácil) es utilizar el gestor de paquetes nativo de 
+  \textit{Windows} (\textit{Windows Package Manager}\index{Windows Package Manager}).
+  Este gestor de paquetes viene incluido en las versiones más modernas de \textit{Windows 10} y en
+  todas las versiones de \textit{Windows 11}.
+  Pueden ver si su computador tiene esta herramienta ejecutando:
+
+  \begin{powershell}
+    winget --version
+  \end{powershell}
+
+  En caso de que eso funcione correctamente, para instalar el \textit{JDK} basta que ejecuten:
+
+  \begin{powershell}
+    winget install Microsoft.OpenJDK.17
+  \end{powershell}
+
+  Si lo anterior no funciona, entonces desde la terminal:
+
+  \begin{powershell}
+    $url = 'https://aka.ms/download-jdk/' `
+      + 'microsoft-jdk-17.0.1.12.1-windows-x64.msi'
+    Invoke-WebRequest -Uri $url -OutFile 'microsoft-jdk-17.msi'
+    cmd /c 'msiexec /i microsoft-jdk-17.msi ' `
+      + 'ADDLOCAL=FeatureMain,FeatureEnvironment,' `
+      + 'FeatureJarFileRunWith,FeatureJavaHome ' `
+      + 'INSTALLDIR="c:\Program Files\Java\"'
+    Remove-Item 'microsoft-jdk-17.msi'
+  \end{powershell}
