@@ -7,11 +7,11 @@
       
       El proceso de instalación es simple, solamente deben ejecutar 
       \textit{Powershell}\index{Powershell} como administrador y escribir:
-      \begin{minted}{powershell}
+      \begin{powershell}
         choco install git 
         # O de forma equivalente:
         # cinst git
-      \end{minted}
+      \end{powershell}
     
     \subsubsection{\textit{Git for Windows}}
       \textit{Git for Windows}\index{Git for Windows} es un conjunto de herramientas que incluye \textit{Git 
@@ -33,12 +33,12 @@
     de \textit{Linux}\index{Linux} las instrucciones de instalación serán distintas, por esto se 
     mostrará como instalar en arquitecturas basadas en \textit{Debian} (como \textit{Ubuntu}), para 
     instalar en otro SO deberán revisar las instrucciones de la 
-    \href{https://git-scm.com/download/linux}{documentación oficiaL}.
+    \href{https://git-scm.com/download/linux}{documentación oficial}.
 
     Para instalar deben abrir una consola y ejecutar:
-    \begin{minted}{bash}
+    \begin{bash}
       sudo apt install git-all 
-    \end{minted}
+    \end{bash}
   %endregion
 
   %region : MAC
@@ -48,15 +48,29 @@
       través de \textit{Xcode CLT}\index{Xcode CLT} (¡No confundir con \textit{Xcode}!), en este 
       caso, lo primero que deberán hacer es instalar el \textit{CLT} desde una terminal:
       
-      \begin{minted}{bash}
+      \begin{bash}
         xcode-select --install
-      \end{minted}
+      \end{bash}
       
       Una vez instalada esta herramienta\footnote{Pueden verificar que se haya instalaado de forma 
       correcta ejecutando \texttt{xcode-select -p}.} para instalar \textit{Git} bastará ejecutar el
       siguiente comando en la terminal:
 
-      \begin{minted}{bash}
+      \begin{bash}
         git --version
-      \end{minted}
+      \end{bash}
+    \subsubsection{\textit{Git} mediante \textit{Homebrew}}
+      Otra forma de instalar \textit{Git} es utilizando \textit{Homebrew}, esto también es simple de
+      hacer.
+      En una terminal ejecuten:
+
+      \begin{bash}
+        brew install git
+      \end{bash}
+
+      Luego, para comprobar la instalación hacemos:
+
+      \begin{bash}
+        git --version
+      \end{bash}
   %endregion

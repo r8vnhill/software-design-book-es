@@ -28,6 +28,12 @@
  %%
 \newcommand{\java}[1]{\mintinline{java}{#1}}
 
+% | Creates an index from text and renders the text.
+\newcommand{\idx}[1]{#1\index{#1}}
+
+% | Creates an index from text and renders the text in italics.
+\newcommand{\idxit}[1]{\textit{#1}\index{#1}}
+
 \newtcblisting{powershell}{
    enhanced,
    breakable,
@@ -78,6 +84,24 @@
    overlay={
       \begin{tcbclipinterior}
          \fill[Peach!20!white] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+      \end{tcbclipinterior}
+   }
+}
+
+\newtcblisting{md}{
+   enhanced,
+   breakable,
+   listing engine=minted,
+   minted style=trac,
+   minted language=markdown,
+   minted options={autogobble},
+   colback=Gray!5!white,
+   colframe=Gray!75!black,
+   listing only,
+   left=5mm,enhanced,
+   overlay={
+      \begin{tcbclipinterior}
+         \fill[Gray!20!white] (frame.south west) rectangle ([xshift=5mm]frame.north west);
       \end{tcbclipinterior}
    }
 }
