@@ -1,3 +1,11 @@
+\title{EL TIEMPO PASA, Y EL SOFTWARE MUERE}
+
+\author{Ignacio Slater}
+\newcommand{\subtitle}{Cómo diseñar programas resistentes al cambio}
+\affil{Departamento de Ciencias de la Computación, Universidad de Chile}
+
+\date{\today}
+
 
 \newtheorem{theorem}{Theorem}
 \newtheorem*{note}{Nota}
@@ -8,10 +16,10 @@
 \definecolor{LightGray}{gray}{0.9}
 \definecolor{Transparent}{gray}{1.0}
 
-\makeatletter
-   \let\@epipart\@endpart
-   \renewcommand{\@endpart}{\thispagestyle{epigraph}\@epipart}
-\makeatother        
+% \makeatletter
+%    \let\@epipart\@endpart
+%    \renewcommand{\@endpart}{\thispagestyle{epigraph}\@epipart}
+% \makeatother        
  
 \setlength\epigraphwidth{\textwidth}
 
@@ -19,3 +27,81 @@
  % Java inline source code
  %%
 \newcommand{\java}[1]{\mintinline{java}{#1}}
+
+% | Creates an index from text and renders the text.
+\newcommand{\idx}[1]{#1\index{#1}}
+
+% | Creates an index from text and renders the text in italics.
+\newcommand{\idxit}[1]{\textit{#1}\index{#1}}
+
+\newtcblisting{powershell}{
+   enhanced,
+   breakable,
+   listing engine=minted,
+   minted style=emacs,
+   minted language=powershell,
+   minted options={autogobble},
+   colback=blue!5!white,
+   colframe=Cerulean!75!black,
+   listing only,
+   left=5mm,enhanced,
+   overlay={
+      \begin{tcbclipinterior}
+         \fill[Cerulean!20!white] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+      \end{tcbclipinterior}
+   }
+}
+
+\newtcblisting{bash}{
+   enhanced,
+   breakable,
+   listing engine=minted,
+   minted style=perldoc,
+   minted language=bash,
+   minted options={autogobble},
+   colback=blue!5!white,
+   colframe=Emerald!75!black,
+   listing only,
+   left=5mm,enhanced,
+   overlay={
+      \begin{tcbclipinterior}
+         \fill[Emerald!20!white] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+      \end{tcbclipinterior}
+   }
+}
+
+\newtcblisting{kotlin}{
+   enhanced,
+   breakable,
+   listing engine=minted,
+   minted style=manni,
+   minted language=kotlin,
+   minted options={autogobble},
+   colback=Orange!5!white,
+   colframe=Peach!75!black,
+   listing only,
+   left=5mm,enhanced,
+   overlay={
+      \begin{tcbclipinterior}
+         \fill[Peach!20!white] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+      \end{tcbclipinterior}
+   }
+}
+
+\newtcblisting{md}{
+   enhanced,
+   breakable,
+   listing engine=minted,
+   minted style=trac,
+   minted language=markdown,
+   minted options={autogobble},
+   colback=Gray!5!white,
+   colframe=Gray!75!black,
+   listing only,
+   left=5mm,enhanced,
+   overlay={
+      \begin{tcbclipinterior}
+         \fill[Gray!20!white] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+      \end{tcbclipinterior}
+   }
+}

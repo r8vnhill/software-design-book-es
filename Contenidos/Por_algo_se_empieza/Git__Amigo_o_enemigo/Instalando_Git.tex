@@ -1,0 +1,76 @@
+\section{Instalando \textit{Git}}
+  %region : WINDOWS  
+ 	\subsection{\textit{Windows}}
+    \subsubsection{\textit{Chocolatey} (Recomendado)}
+      Nuevamente, el método recomendado será utilizar \textit{Chocolatey}\index{Chocolatey} para 
+      instalar \textit{Git} en \textit{Windows}\index{Windows}.
+      
+      El proceso de instalación es simple, solamente deben ejecutar 
+      \textit{Powershell}\index{Powershell} como administrador y escribir:
+      \begin{powershell}
+        choco install git 
+        # O de forma equivalente:
+        # cinst git
+      \end{powershell}
+    
+    \subsubsection{\textit{Git for Windows}}
+      \textit{Git for Windows}\index{Git for Windows} es un conjunto de herramientas que incluye \textit{Git 
+      BASH} (una interfaz de consola que emula la terminal de un sistema \textit{UNIX} 
+      que viene con \textit{Git} instalado), \textit{Git GUI} (una interfaz gráfica para 
+      manejar \textit{Git}) e integración con \textit{Windows Explorer} (esto significa 
+      que pueden hacer \textit{clic} derecho en una carpeta y abrirla desde \textit{Git 
+      BASH} o \textit{Git GUI}).
+      
+      Para instalarla deben descargar el cliente desde el 
+      \href{https://gitforwindows.org}{sitio oficial} de \textit{Git for Windows} y 
+      seguir las instrucciones del instalador.
+  %endregion
+
+  %region : LINUX
+  \subsection{Linux}
+    La forma más fácil de instalar \textit{Git} es utilizando el gestor de paquetes del
+    sistema operativo que estén usando, el problema de esto es que dependiendo de su distribución
+    de \textit{Linux}\index{Linux} las instrucciones de instalación serán distintas, por esto se 
+    mostrará como instalar en arquitecturas basadas en \textit{Debian} (como \textit{Ubuntu}), para 
+    instalar en otro SO deberán revisar las instrucciones de la 
+    \href{https://git-scm.com/download/linux}{documentación oficial}.
+
+    Para instalar deben abrir una consola y ejecutar:
+    \begin{bash}
+      sudo apt install git-all 
+    \end{bash}
+  %endregion
+
+  %region : MAC
+  \subsection{macOS}
+    \subsubsection{\textit{Git} mediante \textit{Xcode CLT} (Recomendado)}
+      La forma más simple de instalar \textit{Git} en sistemas \textit{macOS}\index{macOS} es a 
+      través de \textit{Xcode CLT}\index{Xcode CLT} (¡No confundir con \textit{Xcode}!), en este 
+      caso, lo primero que deberán hacer es instalar el \textit{CLT} desde una terminal:
+      
+      \begin{bash}
+        xcode-select --install
+      \end{bash}
+      
+      Una vez instalada esta herramienta\footnote{Pueden verificar que se haya instalaado de forma 
+      correcta ejecutando \texttt{xcode-select -p}.} para instalar \textit{Git} bastará ejecutar el
+      siguiente comando en la terminal:
+
+      \begin{bash}
+        git --version
+      \end{bash}
+    \subsubsection{\textit{Git} mediante \textit{Homebrew}}
+      Otra forma de instalar \textit{Git} es utilizando \textit{Homebrew}, esto también es simple de
+      hacer.
+      En una terminal ejecuten:
+
+      \begin{bash}
+        brew install git
+      \end{bash}
+
+      Luego, para comprobar la instalación hacemos:
+
+      \begin{bash}
+        git --version
+      \end{bash}
+  %endregion

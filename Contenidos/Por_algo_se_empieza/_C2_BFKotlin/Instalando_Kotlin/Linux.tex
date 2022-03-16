@@ -1,0 +1,27 @@
+\subsection{\textit{Linux}}
+  Para instalar \textit{Kotlin} en sistemas \textit{Linux} se
+  recomienda utilizar \textit{SDKMAN!}\footnote{El \enquote{!} es 
+  parte del nombre}.
+  Instalar \textit{SDKMAN!} es relativamente simple, solo deben correr
+  los comandos que presentamos a continuación y seguir los pasos
+  que aparezcan en pantalla.
+
+  \begin{bash}
+    curl -s "https://get.sdkman.io" | bash
+    source "/home/roac/.sdkman/bin/sdkman-init.sh"
+  \end{bash}
+
+  Como es costumbre, podemos probar que se instaló correctamente con:
+  \begin{bash}
+    sdk version
+  \end{bash}
+
+  Con \textit{SDKMAN!} instalado, obtener \textit{Kotlin} es tan simple como:
+  \begin{bash}
+    sdk install kotlin
+  \end{bash}
+
+  Y comprobamos la instalación haciendo:
+  \begin{bash}
+    kotlinc -version
+  \end{bash}
