@@ -23,13 +23,14 @@
 
     Alternativamente, también podemos instalarla desde la terminal.
 
-    \subsubsection*{Windows}
-      \begin{minted}{powershell}
+    \begin{tcolorbox}[enhanced, breakable, title=Windows]
+      \begin{powershell}
         choco install jetbrainstoolbox
-      \end{minted}
+      \end{powershell}
+    \end{tcolorbox}
     
-    \subsubsection*{Linux}
-      \begin{minted}{bash}
+    \begin{tcolorbox}[enhanced, breakable, title=Linux/Mac]
+      \begin{bash}
         BASE_URL="https://data.services.jetbrains.com/products/download"
         PLATFORM="?platform=linux&code=TBA"
 
@@ -41,5 +42,6 @@
         "$TOOLBOX_TEMP_DIR"/*/jetbrains-toolbox
 
         rm -r "$TOOLBOX_TEMP_DIR"
-      \end{minted}
+      \end{bash}
+    \end{tcolorbox}
   %endregion

@@ -34,6 +34,19 @@
 % | Creates an index from text and renders the text in italics.
 \newcommand{\idxit}[1]{\textit{#1}\index{#1}}
 
+% | Inserts a figure in the document
+% | 
+% | Arguments:
+% |   #1: the position of the figure (float)
+% |   #2: the path to the image
+% |   #3: the caption of the figure
+% |   #4: the label of the figure
+% |   #5: \includegraphics options
+\newcommand{\insertFigure}[3][]{
+   \includegraphics[width=0.6\textwidth]{Por_algo_se_empieza/idea64_tools_jshell.png}
+   \caption{Acceso a la consola \textit{JShell}}
+}
+
 \newtcblisting{powershell}{
    enhanced,
    breakable,
