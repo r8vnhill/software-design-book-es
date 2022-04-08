@@ -1,3 +1,4 @@
+^^A !TEX root = D:\Docs\Escuela\software-design-book-es\El_tiempo_pasa_y_el_software_muere_2C_Dise_C3_B1ando_programas_resistentes_al_cambio_-_Slater.tex
 \title{EL TIEMPO PASA, Y EL SOFTWARE MUERE}
 
 \author{Ignacio Slater}
@@ -46,6 +47,22 @@
    \includegraphics[width=0.6\textwidth]{Por_algo_se_empieza/idea64_tools_jshell.png}
    \caption{Acceso a la consola \textit{JShell}}
 }
+\ExplSyntaxOn
+^^A region : Commands
+% | Creates a new tcolorbox environment with enhanced borders, breakable content, and a title.
+\NewDocumentEnvironment { defaultbox } { o +b } {
+  \IfNoValueTF {#1} {
+    \begin{tcolorbox}[enhanced, breakable]
+      #2
+    \end{tcolorbox}
+  } {
+    \begin{tcolorbox}[enhanced, breakable, title=#1]
+      #2
+    \end{tcolorbox}
+  }
+} {}
+^^A endregion
+\ExplSyntaxOff
 
 \newtcblisting{powershell}{
    enhanced,
