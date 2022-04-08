@@ -34,9 +34,17 @@
     \textit{Python} provee módulos y \textit{C++} tiene \textit{namespaces}, ambas cumplen los 
     mismos objetivos que los paquetes, pero se utilizan de forma distinta. 
     Es importante informarse de esas diferencias cuando están aprendiendo un nuevo lenguaje.}
-    El estándar para nombrar paquetes es el mismo para \textit{Java} y \textit{Kotlin}: el nombre 
-    no puede contener mayúsculas ni guión bajo y se pueden incluir \texttt{-}, pero esto último se
-    debe evitar (i.e. no lo hagan).
+    El estándar para nombrar paquetes es el mismo para \textit{Java} y \textit{Kotlin}, en general
+    es recomendado utilizar el nombre de algún sitio web para asegurarse de que el nombre del 
+    paquete es único (para evitar problemas de nombres duplicados al utilizar librerías externas).
+    Veamos algunos ejemplos:
+    
+    \begin{java}
+      package cl.ravenhill.intellijbasics; // Bien
+      package cl.ravenhill.intelliJBasics; // Mal, el nombre no debe incluir mayúsculas
+      package cl.ravenhill.intellij\_basics; // Mal, el nombre no debe incluir guiones bajos
+      package cl.ravenhill.intellij-basics; // Permitido, pero no recomendado
+    \end{java}
     
     
   \subsection{Mi primer \textit{Java}}
