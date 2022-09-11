@@ -1,0 +1,73 @@
+\subsubsection{Windows Terminal (Opcional)}
+  Para instalar lo que necesitaremos basta con tener \textit{Powershell}, la terminal integrada de
+  \textit{Windows} (por favor, NUNCA usen \textit{cmd}), pero actualmente \textit{Windows} provee
+  una nueva terminal llamada \textit{Windows Terminal}
+  \autocite{cinnamon-msftOverviewWindowsTerminal}\footnote{Es increíble pensar que a alguien
+  le pagaron por idear ese nombre.} (WT).
+  \textit{WT} viene instalada en las 
+  versiones más nuevas de \textit{Windows 10} y en todas las versiones de \textit{Windows 11}.
+  Pueden usar el \textit{Buscador de Windows} para abrir la aplicación \enquote{\textit{Terminal}}
+  o, si quieren hacerle creer a su abuela que son capaces de hackear la NASA,\footnote{En caso de 
+  una investigación por parte de cualquier entidad federal o similar, el autor de este libro no 
+  tiene ninguna participación con este grupo ni con las personas que lo integran, no sé cómo 
+  estoy aquí, probablemente agregado por un tercero, no apoyo ninguna acción por parte de los 
+  lectores de este libro.} pueden abrir \textit{Powershell} y ejecutar la instrucción:
+  \begin{powershell}
+    wt.exe
+  \end{powershell}
+
+  Si no encuentran la aplicación o si el comando anterior arrojó un error, pueden instalar la 
+  terminal usando \textit{winget}, para esto deben ejecutar el siguiente comando en 
+  \textit{Powershell}:
+  \begin{powershell}
+    winget install Microsoft.WindowsTerminal
+  \end{powershell}
+
+  A partir de ahora, cada vez que hable de \textit{Powershell} me estaré refiriendo a una sesión
+  de \textit{Powershell} corriendo en \textit{Windows Terminal}.
+
+  \begin{tcolorbox}[enhanced, breakable, title=\textit{Oh-My-Posh}]
+    Utilizar \textit{Windows Terminal} en lugar de la \textit{terminal de Windows} (jaja) por 
+    defecto es una mejora, pero podemos mejorar aún más.
+    Una de las ventajas de WT es la capacidad de personalización que otorga a sus usuarios, esto 
+    podemos hacerlo a mano o usar alguna herramienta que lo haga por nosotrxs, aquí les voy a 
+    mostrar una de esas herramientas.
+
+    \textit{Oh-My-Posh}\autocite{HomeOhMy} es una herramienta para personalizar \textit{Windows 
+    Terminal} de forma simple, como les voy a mostrar en un instante.
+    Para instalar \textit{Oh-My-Posh} abran WT y ejecuten el siguiente comando:
+    \begin{powershell}
+      winget install JanDeDobbeleer.OhMyPosh -s winget
+    \end{powershell}
+
+    Ahora que tenemos \textit{Oh-My-Posh} instalado, decirle a \textit{Powershell} que lo use,
+    aquí voy a usar \textit{Notepad} porque viene instalado con todas las versiones de 
+    \textit{Windows}, cosa que espero no volver a hacer en la vida.
+    En PS:
+
+    \begin{powershell}
+      # Para poder ejecutar scripts
+      Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
+      # Creamos el archivo sólo si no existe
+      if (-not (Test-Path $PROFILE)) {
+        New-Item -ItemType File -Path $PROFILE -Force
+      }
+      notepad.exe $PROFILE
+    \end{powershell}
+
+    Luego escribamos al comienzo del archivo el siguiente código:
+    \begin{powershell}
+      oh-my-posh.exe init pwsh `
+        --config -join($env:POSH_THEMES_PATH,
+          "\powerlevel10k_rainbow.omp.json") | `
+        Invoke-Expression
+    \end{powershell}
+    
+    Lo último que necesitas es instalar alguna de las fuentes de \url{https://www.nerdfonts.com},
+    ahí descomprimen el archivo, seleccionan todos los archivos descomprimidos y con clic derecho
+    debiera darles la opción de instalar.
+    
+    Ahora la próxima vez que abran la terminal podrán ver los cambios que hicimos.
+    Si quieren darle una identidad propia a su terminal pueden revisar la 
+    \href{https://ohmyposh.dev/docs}{documentación} de \textit{Oh-My-Posh}.
+  \end{tcolorbox}

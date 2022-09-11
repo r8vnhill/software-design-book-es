@@ -1,7 +1,8 @@
 \documentclass[12pt]{book}
-\include{Packages}
-\include{Definiciones}
-\include{Config}
+\usepackage{import}
+\subimport{.}{Packages}
+\subimport{.}{Definiciones}
+\subimport{.}{Config}
 
 \begin{document}
   \import{Contenidos}{_index.tex}
