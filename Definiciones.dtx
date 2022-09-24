@@ -1,3 +1,4 @@
+^^A !TEX root = D:\Docs\Escuela\software-design-book-es\El_tiempo_pasa_y_el_software_muere_2C_Dise_C3_B1ando_programas_resistentes_al_cambio_-_Slater.tex
 \title{EL TIEMPO PASA, Y EL SOFTWARE MUERE}
 
 \author{Ignacio Slater}
@@ -16,10 +17,10 @@
 \definecolor{LightGray}{gray}{0.9}
 \definecolor{Transparent}{gray}{1.0}
 
-% \makeatletter
-%    \let\@epipart\@endpart
-%    \renewcommand{\@endpart}{\thispagestyle{epigraph}\@epipart}
-% \makeatother        
+^^A % \makeatletter
+^^A %    \let\@epipart\@endpart
+^^A %    \renewcommand{\@endpart}{\thispagestyle{epigraph}\@epipart}
+^^A % \makeatother        
  
 \setlength\epigraphwidth{\textwidth}
 
@@ -27,6 +28,28 @@
  % Java inline source code
  %%
 \newcommand{\java}[1]{\mintinline{java}{#1}}
+
+% | Creates an index from text and renders the text.
+\newcommand{\idx}[1]{#1\index{#1}}
+
+% | Creates an index from text and renders the text in italics.
+\newcommand{\idxit}[1]{\textit{#1}\index{#1}}
+
+% | Inserts a figure in the document
+% | 
+% | Arguments:
+% |   #1: the position of the figure (float)
+% |   #2: the path to the image
+% |   #3: the caption of the figure
+% |   #4: the label of the figure
+% |   #5: \includegraphics options
+\newcommand{\insertFigure}[3][]{
+   \includegraphics[width=0.6\textwidth]{Por_algo_se_empieza/idea64_tools_jshell.png}
+   \caption{Acceso a la consola \textit{JShell}}
+}
+
+% | tcolorbox environment with enhanced borders, breakable content, and a title.
+\newtcolorbox{defaultbox}[1][]{enhanced, breakable, title=#1}
 
 \newtcblisting{powershell}{
    enhanced,
@@ -78,6 +101,24 @@
    overlay={
       \begin{tcbclipinterior}
          \fill[Peach!20!white] (frame.south west) rectangle ([xshift=5mm]frame.north west);
+      \end{tcbclipinterior}
+   }
+}
+
+\newtcblisting{md}{
+   enhanced,
+   breakable,
+   listing engine=minted,
+   minted style=trac,
+   minted language=markdown,
+   minted options={autogobble},
+   colback=Gray!5!white,
+   colframe=Gray!75!black,
+   listing only,
+   left=5mm,enhanced,
+   overlay={
+      \begin{tcbclipinterior}
+         \fill[Gray!20!white] (frame.south west) rectangle ([xshift=5mm]frame.north west);
       \end{tcbclipinterior}
    }
 }

@@ -1,10 +1,14 @@
-\documentclass[12pt]{book}
+\listfiles
+\RequirePackage{scrlfile}
+\ReplaceClass{article}{book}
+\documentclass{ltxdoc}
 \usepackage{import}
-\subimport{.}{Packages}
-\subimport{.}{Definiciones}
-\subimport{.}{Config}
+% \documentclass[12pt]{book}
+\subimport{./}{Packages}
+\subimport{./}{Definiciones.dtx}
+\subimport{./}{Config}
 
 \begin{document}
-  \import{Contenidos}{_index.tex}
+  \subimport{Contenidos/}{_contenidos.index.tex}
   \printindex
 \end{document}

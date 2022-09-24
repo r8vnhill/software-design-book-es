@@ -3,10 +3,10 @@
 
   Para esto tenemos dos opciones:
   %%region : OPENJDK + CHOCOLATEY
-  \begin{tcolorbox}[enhanced, breakable, title=OpenJDK con Chocolatey (Recomendado)]
+  \begin{defaultbox}[OpenJDK con Chocolatey (Recomendado)]
     %%region : CHOCOLATEY
     Lo primero que necesitaremos para instalar las herramientas que usaremos será un gestor de 
-    paquetes, utilizaremos \textit{Chocolatey}.\autocite{choco}\index{Chocolatey}
+    % paquetes, utilizaremos \textit{Chocolatey}.\cite{choco}%\index{Chocolatey}
   
     Para partir abran una ventana de \textit{Powershell} como administrador.
     Una vez abierta, deben ejecutar las instrucciones:\footnote{
@@ -20,24 +20,24 @@
         -UseBasicParsing | Invoke-Expression
     \end{powershell}
   
-    Esto otorgará los permisos necesarios y descargará e instalará el gestor de paquetes.
+    % Esto otorgará los permisos necesarios y descargará e instalará el gestor de paquetes.
   
-    Para comprobar que el programa se haya instalado correctamente corran el comando:
-    \begin{powershell}
-      choco -?
-    \end{powershell}
-    %%endregion 
+    % Para comprobar que el programa se haya instalado correctamente corran el comando:
+    % \begin{powershell}
+    %   choco -?
+    % \end{powershell}
+    % %%endregion 
     
-    Con chocolatey esto es simple, solamente deben ejecutar:
-    \begin{powershell}
-      cinst openjdk -y
-    \end{powershell}
+    % Con chocolatey esto es simple, solamente deben ejecutar:
+    % \begin{powershell}
+    %   cinst openjdk -y
+    % \end{powershell}
     
-    Luego, para ver que se haya instalado correctamente pueden hacer \texttt{java -version}, aquí es
-    muy importante que la versión que aparezca \textbf{no sea} la versión 1.8 o anteriores, en caso 
-    de que esa sea la versión instalada entonces lo recomendado es desinstalar todas las versiones
-    de \textit{Java} instaladas y repetir la instalación.
-  \end{tcolorbox}
+    % Luego, para ver que se haya instalado correctamente pueden hacer \texttt{java -version}, aquí es
+    % muy importante que la versión que aparezca \textbf{no sea} la versión 1.8 o anteriores, en caso 
+    % de que esa sea la versión instalada entonces lo recomendado es desinstalar todas las versiones
+    % de \textit{Java} instaladas y repetir la instalación.
+  \end{defaultbox}
   %%region : CMDER
   \begin{tcolorbox}[enhanced,breakable, colframe=SpringGreen!75!black, title=(Opcional) Cmder]
     Es sabido que las terminales por defecto de \textit{Windows} dejan bastante que desear, 
