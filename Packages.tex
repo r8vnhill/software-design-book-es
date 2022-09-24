@@ -1,3 +1,8 @@
+%% FONTSPEC – ADVANCED FONT SELECTION IN XELATEX AND LUALATEX %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% | Fontspec is a package for XELATEX and LuaLATEX. 
+% | It provides an automatic and unified interface to feature-rich AAT and OpenType fonts through 
+% | the NFSS in LATEX running on XETEX or LuaTEX engines.
+% | The package requires the l3kernel and xparse bundles from the LATEX3 development team.
 \usepackage{fontspec}
 \usepackage{amsmath}
 \usepackage{amsthm}
@@ -8,6 +13,14 @@
 \usepackage[hyphens]{url}
 \usepackage{hyperref}
 \usepackage{graphicx}
+%% XCOLOR %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% | The package starts from the basic facilities of the color package, and provides easy 
+% | driver-independent access to several kinds of color tints, shades, tones, and mixes of arbitrary 
+% | colors. 
+% | It allows a user to select a document-wide target color model and offers complete tools for 
+% | conversion between eight color models. 
+% | Additionally, there is a command for alternating row colors plus repeated non-aligned material 
+% | (like horizontal lines) in tables. Colors can be mixed like \color{red!30!green!40!blue}.
 \usepackage[dvipsnames]{xcolor}
 \usepackage{minted}
 \usepackage{parskip}
@@ -22,18 +35,13 @@
 \usepackage{epigraph}
 % | Extended List Environments
 \usepackage{paralist}
-\usepackage{fancyhdr}
-\usepackage{imakeidx}
-\usepackage[skins, minted, breakable]{tcolorbox}
-
-%region : PACKAGE DESCRIPTIONS
-
-% | FANCYHDR
+%% FANCYHDR %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % | The package provides extensive facilities, both for constructing headers and footers, and for 
 % | controlling their use (for example, at times when LATEX would automatically change the heading 
 % | style in use).
-
-% | TCOLORBOX
+\usepackage{fancyhdr}
+\usepackage{imakeidx}
+%% TCOLORBOX %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % | This package provides an environment for coloured and framed text boxes with a heading line. 
 % | Optionally, such a box may be split in an upper and a lower part; thus the package may be used 
 % | for the setting of LATEX examples where one part of the box displays the source code and the 
@@ -41,20 +49,7 @@
 % |
 % | Another common use case is the setting of theorems. 
 % | The package supports saving and reuse of source code and text parts.
-
-% | COLORX
-% | The package starts from the basic facilities of the color package, and provides easy 
-% | driver-independent access to several kinds of color tints, shades, tones, and mixes of arbitrary 
-% | colors. 
-% | It allows a user to select a document-wide target color model and offers complete tools for 
-% | conversion between eight color models. 
-% | Additionally, there is a command for alternating row colors plus repeated non-aligned material 
-% | (like horizontal lines) in tables. Colors can be mixed like \color{red!30!green!40!blue}.
-
-%endregion
-
-%%
-
+\usepackage[skins, minted, breakable]{tcolorbox}
 \usepackage[spanish]{cleveref}
 \usepackage{expl3}
 \usepackage{xparse}
