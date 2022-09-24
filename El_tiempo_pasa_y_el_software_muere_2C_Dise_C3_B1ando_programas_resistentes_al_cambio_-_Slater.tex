@@ -2,12 +2,13 @@
 \RequirePackage{scrlfile}
 \ReplaceClass{article}{book}
 \documentclass{ltxdoc}
+\usepackage{import}
 % \documentclass[12pt]{book}
-\include{Packages}
-\include{Definiciones.dtx}
-\include{Config}
+\subimport{./}{Packages}
+\subimport{./}{Definiciones.dtx}
+\subimport{./}{Config}
 
 \begin{document}
-  \subimport{Contenidos}{_por_algo_se_empieza.index.tex}
+  \subimport{Contenidos/}{_contenidos.index.tex}
   \printindex
 \end{document}
