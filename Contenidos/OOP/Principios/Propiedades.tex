@@ -1,0 +1,255 @@
+\section{Propiedades}
+  Para las siguientes secciones utilizaremos como ejemplos un juego de cartas inspirado en
+  \textit{Yu-Gi-Oh!}.
+
+  \subsection{Composición}
+    Comencemos modelando al jugador.
+    Un jugador tiene un nombre, una cantidad de puntos de vida y un mazo de cartas.
+    Un primer intento podría ser el siguiente:
+
+    \begin{kotlin}
+      class Player(
+        name: String,
+        healthPoints: Int,
+        deck: MutableList<String>,
+        cardsText: MutableMap<String, String>,
+        cardsAttacks: MutableMap<String, Int>
+      ) {
+        val name: String
+        var healthPoints: Int
+        val deck: MutableList<String>
+        val cardsText: MutableMap<String, String>
+        val cardsAttacks: MutableMap<String, Int>
+
+        init {
+          this.name = name
+          this.healthPoints = healthPoints
+          this.deck = deck
+          this.cardsText = cardsText
+          this.cardsAttacks = cardsAttacks
+        }
+      }
+    \end{kotlin}
+
+    Aquí introducimos dos nuevos tipos de datos: \textit{MutableList} y \textit{MutableMap}.
+    Un \textit{MutableList} es una lista que puede ser modificada, es decir, podemos agregar y
+    eliminar elementos de la lista.
+    Una lista, al igual que un arreglo, es homogénea, es decir, todos los elementos de la lista
+    deben ser del mismo tipo.
+    El tipo de elementos de la lista se indica entre \texttt{<>}.
+
+    Un \textit{MutableMap} es un diccionario que puede ser modificado.
+    Un diccionario es una estructura de datos que asocia una clave con un valor.
+    En este caso, el tipo de la clave y el tipo del valor se indican entre \texttt{<>}.
+
+    Ahora, podemos crear un jugador:
+
+    \begin{kotlin}
+      val deck = mutableListOf("White-eyes Blue Dragon", "Light Magician")
+      val cardsText = mutableMapOf(
+        "White-eyes Blue Dragon" to "Legendary dragon of destruction",
+        "Light Magician" to "The ultimate sorcerer with a powerful attack"
+      )
+      val cardsAttacks = mutableMapOf(
+        "White-eyes Blue Dragon" to 3000,
+        "Light Magician" to 2500
+      )
+      val player = Player("Yulian", 8000, deck, cardsText, cardsAttacks)
+      println(player.name)
+      println(player.healthPoints)
+      println(player.deck)
+      println(player.cardsText)
+    \end{kotlin}
+
+    Sin embargo, este modelo tiene algunos problemas.
+    Por ejemplo, cada vez que agregamos una carta al mazo, debemos agregar también su texto y su
+    ataque a los diccionarios.
+    ¿Qué pasa entonces si se nos olvida agregar una carta al diccionario de texto?
+
+    La composicion es la propiedad de todos los objetos de contener a cualquier otro objeto.
+    Podemos pensar la composición de objetos como la composición de funciones matemáticas.
+    Por ejemplo, la función \texttt{f(x) = x + 1} es una composición de las funciones
+    \texttt{g(x) = x + 1} y \texttt{h(x) = x}.
+
+    Para solucionar este problema podemos crear una clase que represente a una carta y tenga campos
+    para el texto y el ataque.
+    De la misma forma que antes, podemos crear una nueva clase utilizando \textit{IntelliJ}, 
+    nombremos a la clase \textit{Card} y agreguemos los campos \textit{name}, \textit{text} y
+    \textit{attack}.
+
+    \begin{kotlin}
+      class Card(name: String, text: String, attack: Int) {
+        val name: String
+        val text: String
+        val attack: Int
+
+        init {
+          this.name = name
+          this.text = text
+          this.attack = attack
+        }
+      }
+    \end{kotlin}
+
+    Una vez que tenemos la clase \textit{Card}, podemos modificar la clase \textit{Player} para que
+    utilice la nueva clase.
+
+    \begin{kotlin}
+      class Player(
+        name: String,
+        healthPoints: Int,
+        deck: MutableList<Card>
+      ) {
+        val name: String
+        var healthPoints: Int
+        val deck: MutableList<Card>
+
+        init {
+          this.name = name
+          this.healthPoints = healthPoints
+          this.deck = deck
+        }
+      }
+    \end{kotlin}
+
+    Note que ahora nuestro código es más conciso y fácil de leer, esto es una de las ventajas que
+    nos ofrece la composición.
+    La composición es una de las propiedades más importantes de la programación orientada a objetos,
+    ya que nos permite separar problemas complejos en en problemas más simples.
+    
+    En realidad desde un comienzo estábamos usando composición sin saberlo, ya que la clase 
+    \textit{Player} es una composición de las clases \textit{String}, \textit{Int}, 
+    \textit{MutableList} y \textit{MutableMap}.
+    El problema está en que no la estábamos aprovechando al máximo.
+    
+    \begin{center}
+      ¿Ahora la estamos aprovechando al máximo :0?
+    \end{center}
+
+    No realmente, eso es algo que iremos desarrollando a lo largo del libro.
+
+  \subsection{Encapsulación}
+    Supongamos que queremos agregar un método para que una carta pueda atacar a un jugador.
+    Esto es bastante simple de implementar, solo debemos restar los puntos de ataque de la carta
+    al jugador.
+    Definamos el método \texttt{attack} en la clase \textit{Card} de la siguiente forma:
+
+    \begin{kotlin}
+      fun attack(player: Player) {
+        player.healthPoints -= this.attack
+      }
+    \end{kotlin}
+
+    \begin{note}
+      El operador \texttt{-=} (resta y asignación) es una abreviación de \texttt{a = a - b}.
+    \end{note}
+
+    Ahora podemos atacar a un jugador con una carta:
+
+    \begin{kotlin}
+      val deck = mutableListOf(
+        Card("White-eyes Blue Dragon", "Legendary dragon of destruction", 3000),
+        Card("Light Magician", "The ultimate sorcerer with a powerful attack", 2500)
+      )
+      val player = Player("Yulian", 8000, deck)
+      player.deck[0].attack(player)
+      println(player.healthPoints)
+    \end{kotlin}
+
+    Sin embargo, este código tiene un problema.
+    ¿Qué pasa si el ataque de la carta es mayor que los puntos de vida del jugador?
+    En este caso, el jugador tendrá puntos de vida negativos y eso podría causar problemas en el
+    juego.
+
+    Para solucionar este problema podemos agregar una condición en el método \texttt{attack}:
+
+    \begin{kotlin}
+      fun attack(player: Player) {
+        if (attack < player.healthPoints) {
+          player.healthPoints -= attack
+        } else {
+          player.healthPoints = 0
+        }
+      }
+    \end{kotlin}
+
+    Sin embargo, ahora tenemos un problema diferente.
+    ¿Qué pasa si hay otras formas en las que el jugador puede perder puntos de vida?
+    Entonces tendríamos que agregar una condición en cada método que modifique los puntos de vida
+    del jugador.
+    Esto haría nuestro código muchísimo más difícil de mantener.
+    
+    La encapsulación es la propiedad de los objetos de \enquote{empaquetar} sus datos y métodos, manejando
+    y controlando el acceso a ellos.
+
+    ¿Cómo podemos aplicar la encapsulación en este caso?
+    Lo primero será definir un método para modificar los puntos de vida del jugador, esto podemos
+    hacerlo creando un método \textit{takeDamage} en la clase \textit{Player}:
+
+    \begin{kotlin}
+      fun takeDamage(damage: Int) {
+        if (damage < healthPoints) {
+          healthPoints -= damage
+        } else {
+          healthPoints = 0
+        }
+      }
+    \end{kotlin}
+
+    Ahora podemos modificar el método \texttt{attack} para que utilice el nuevo método:
+
+    \begin{kotlin}
+      fun attack(player: Player) {
+        player.takeDamage(this.attack)
+      }
+    \end{kotlin}
+
+    Pero esto no es suficiente, ya que los puntos de vida del jugador pueden ser modificados desde
+    cualquier parte del código sin utilizar el método \texttt{takeDamage}.
+    Para solucionar esto podemos utilizar un modificador de acceso llamado \textit{private}.
+    Este modificador de acceso nos permite definir que un campo o método solo puede ser accedido
+    desde la \textbf{misma clase}.\footnote{Que un campo o método sea privado no significa que no
+    pueda ser accedido desde otros objetos, solo significa que no puede ser accedido desde objetos 
+    de otras clases.}
+    
+    Para hacer que un campo o método sea privado debemos agregar el modificador de acceso
+    \texttt{private} antes de su definición.
+    Por ejemplo, podemos hacer que el campo \textit{healthPoints} de la clase \textit{Player} sea
+    privado de la siguiente forma:
+
+    \begin{kotlin}
+      class Player(
+        name: String,
+        healthPoints: Int,
+        deck: MutableList<Card>
+      ) {
+        val name: String
+        private var healthPoints: Int
+        val deck: MutableList<Card>
+        ...
+      }
+    \end{kotlin}
+
+    Ahora el campo \textit{healthPoints} solo puede ser accedido desde la clase \textit{Player}.
+    
+    \begin{center}
+      Yay
+    \end{center}
+
+    Pero introducimos otro problema.
+
+    \begin{center}
+      Bro
+    \end{center}
+
+    Hicimos que el campo \textit{healthPoints} sólo pueda ser asignado desde la clase 
+    \textit{Player}, pero además hicimos que sólo pueda ser \enquote{visto} desde la misma clase.
+    Esto significa que no podemos hacer cosas como \texttt{println(player.healthPoints)}.
+    Podemos solucionar esto creando un método \textit{getHealthPoints} en la clase \textit{Player},
+    pero \textit{Kotlin} nos ofrece una forma más simple de hacer esto.
+    La idea es decir que una variable es pública, pero que su valor sólo puede ser asignado 
+    (\textit{set}) desde la misma clase.
+
+    \begin{kotlin}
+      var healthPoints: Int private set
+    \end{kotlin}

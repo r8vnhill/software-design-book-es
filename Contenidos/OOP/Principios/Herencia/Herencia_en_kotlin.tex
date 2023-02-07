@@ -1,0 +1,112 @@
+
+\subsection{Herencia en Kotlin}
+  En \textit{Kotlin} existen dos tipos de clases:
+
+  \begin{itemize}
+    \item \textbf{Clases finales}: estas clases no pueden ser heredadas.
+    \item \textbf{Clases abiertas}: estas clases pueden ser heredadas.
+  \end{itemize}
+
+  Por defecto, todas las clases son finales, para hacer una clase abierta se utiliza la palabra
+  reservada \textit{open}.
+  Por ejemplo, la clase \textit{Card} que definimos antes podría ser abierta:
+
+  \begin{kotlin}
+    open class Card(name: String, text: String, attack: Int) {...} 
+  \end{kotlin}
+
+  Ahora, creemos una nueva clase \textit{MonsterCard} que herede de \textit{Card}, esto lo haremos
+                        
+  \begin{kotlin}
+    class MonsterCard(name: String, text: String, attack: Int) : Card(name, text, attack) {
+      ...
+    }
+  \end{kotlin}
+
+  Vamos viendo:
+  \begin{enumerate}
+    \item Definimos la clase \textit{MonsterCard} como haríamos normalmente.
+    \item Luego de los parámetros del constructor, escribimos dos puntos (\texttt{:}) y el nombre
+      de la clase de la que queremos heredar.
+    \item Luego de los dos puntos, escribimos el nombre de la clase de la que queremos heredar
+    \item Finalmente, entre paréntesis escribimos los parámetros del constructor de la clase
+      de la que queremos heredar.
+  \end{enumerate}
+
+  \begin{important}
+    Una clase puede tener una única superclase, pero una clase padre puede tener múltiples
+    subclases.
+  \end{important}
+
+  Antes de seguir volvamos a la clase \textit{Card}.
+  En la clase \textit{Card} no se declara explícitamente una clase padre, la keyword siendo 
+  \textit{explícitamente}.
+  Esto es porque en \textit{Kotlin} todas las clases heredan de la clase \textit{Any}, que es la
+  clase padre de todas las clases, y por lo tanto, la clase padre de \textit{Card}.
+  Esto significa que lo que hicimos antes es equivalente a:
+
+  \begin{kotlin}
+    open class Card(name: String, text: String, attack: Int) : Any() {...}
+  \end{kotlin}
+
+  Noten que agregamos paréntesis después del nombre de la clase padre, esto es porque \textit{Any}
+  tiene un constructor vacío, y por lo tanto, debemos llamarlo explícitamente.
+  Lo primero que se ejecuta en el constructor de una clase es el constructor de la clase padre,
+  antes de ejecutar cualquier otra línea de código.
+
+  Como vimos, cuando una clase hereda de otra, hereda todas las propiedades y métodos de la clase
+  padre.
+  Esto significa que no tenemos que volver a definir las propiedades \textit{name}, \textit{text}
+  y \textit{attack} en la clase \textit{MonsterCard}, ya que estas propiedades ya están definidas
+  en la clase \textit{Card}.
+  Lo mismo ocurre con el método \texttt{attack}, ya que este método está definido en la clase
+  \textit{Card} y por lo tanto, está disponible para la clase \textit{MonsterCard}.
+  Así tendremos algo como:
+
+  \begin{kotlin}
+    open class Card(name: String, text: String, attack: Int) {
+      val name: String = name
+      val text: String = text
+      val attack: Int = attack
+
+      fun attack(player: Player) {...}
+    }
+  \end{kotlin}
+
+  \begin{kotlin}
+    class MonsterCard(name: String, text: String, attack: Int) : Card(name, text, attack)
+  \end{kotlin}
+
+  ¿Notaron que la clase \textit{MonsterCard} no tiene llaves?
+  Esto es porque la clase \textit{MonsterCard} no tiene código adicional, por lo tanto, no
+  necesitamos definir un cuerpo para la clase.
+
+  Por último modifiquemos el método \texttt{attack} de la clase \textit{Card} para que sólo las
+  cartas de monstruos puedan atacar.
+
+  \begin{kotlin}
+    fun attack(player: Player) {
+      when(this) {
+        is MonsterCard -> player.takeDamage(this.attack)
+        else -> println("You can't attack with this card")
+      }
+    }
+  \end{kotlin}
+
+  Aquí tenemos una cosa nueva, la keyword \textit{is}.
+  Esta keyword nos permite verificar si una variable es de un tipo determinado.
+
+  Quizás ya vienen venir esto, pero tenemos un problema.
+  ¿Qué sucede si queremos agregar nuevos tipos de cartas?
+  Pues tendríamos que agregar nuevas condiciones al método \texttt{attack} de la clase 
+  \textit{Card}.
+  Es decir, seguimos sin encapsular el cambio.
+
+  \begin{defaultbox}[Single-Responsibility Principle]
+    Una clase debe tener \textbf{una y solamente} una razón para cambiar, por lo que toda clase 
+    debe tener una sola responsabilidad
+  \end{defaultbox}
+
+  El problema aquí lo podemos resumir en que la clase \textit{Card} tiene la responsabilidad de
+  conocer a todos los tipos de cartas que existen, esto es innecesario ya que cada clase conoce
+  su propio tipo.

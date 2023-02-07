@@ -1,0 +1,51 @@
+\subsection{Programación dinámica}
+  La programación dinámica es una técnica de programación que consiste en guardar los resultados
+  intermedios de una función para evitar calcularlos nuevamente.
+  En el caso de la función de Fibonacci, si calculamos el valor de \texttt{f(5)} sabemos que para
+  calcular el valor de \texttt{f(6)} necesitamos calcular el valor de \texttt{f(5)} y \texttt{f(4)}.
+  Si guardamos el valor de \texttt{f(5)} podemos calcular el valor de \texttt{f(6)} sin tener que
+  calcular nuevamente el valor de \texttt{f(5)}.
+  De esta manera, podemos calcular el valor de \texttt{f(6)} sin tener que calcular el valor de
+  \texttt{f(5)} ni el valor de \texttt{f(4)}.
+  
+  Para implementar la programación dinámica vamos a utilizar un arreglo de enteros, este es un nuevo
+  tipo de dato de \textit{Kotlin}.
+  Un arreglo es una colección de elementos del mismo tipo, podemos crear un arreglo de enteros de la
+  siguiente manera:
+  
+  \begin{kotlin}
+    val array = IntArray(10)
+  \end{kotlin}
+
+  En este caso creamos un arreglo de 10 elementos de tipo entero.
+
+  Ahora volvemos al tema de mutabilidad.
+  Un arreglo es un tipo de dato mutable, es decir, podemos cambiar la información que contiene.
+
+  Para acceder a un elemento del arreglo utilizamos el operador \texttt{[]}, por ejemplo:
+
+  \begin{kotlin}
+    val array = IntArray(3)
+    array[0] = 1  // El primer elemento del arreglo es el elemento 0
+    array[1] = 2
+    array[2] = 3  // El último elemento del arreglo es el elemento 2
+  \end{kotlin}
+
+  Si intentamos acceder a un elemento que no existe, por ejemplo \texttt{array[3]}, obtendremos un
+  error.
+
+  Con esto podemos implementar la función de Fibonacci usando programación dinámica:
+
+  \begin{kotlin}
+    fun dynamicFibonacci(n: Int): Int {
+      val memo = IntArray(n + 1)
+      memo[0] = 0
+      memo[1] = 1
+      for (i in 2..n) {
+        memo[i] = memo[i - 1] + memo[i - 2]
+      }
+      return memo[n]
+    }
+  \end{kotlin}
+
+  Con esto ya estamos listxs para enfrentar al mundo.

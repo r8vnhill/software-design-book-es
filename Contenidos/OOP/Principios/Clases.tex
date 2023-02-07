@@ -1,0 +1,122 @@
+\section{Clases}
+  Una clase es un modelo que define la estructura de un objeto.
+  Podemos pensarla como una plantilla que podemos rellenar con datos para crear objetos.
+  Una clase es una abstracción de un objeto, es decir, es una representación de un \textbf{tipo} de
+  objeto.
+  Por ejemplo, podemos definir una clase llamada \textit{Person} que represente a una persona.
+
+  Para definir una clase debemos usar la palabra reservada \textit{class} seguida del nombre de la
+  clase.
+  En \textit{IntelliJ} debemos hacer click derecho sobre el paquete \url{cl.ravenhill.oop.essential}
+  y seleccionar la opción \textit{New} \texttt{->} \textit{Kotlin Class/File} y seleccionar la 
+  opción \textit{Class}.
+  Esto creará el siguiente archivo:
+
+  \begin{kotlin}
+    package cl.ravenhill.oop.essential
+
+    class Person {
+    }
+  \end{kotlin}
+
+  Ahora podemos agregar campos a la clase:
+
+  \begin{kotlin}
+    class Person {
+      var name: String = ""
+      var age: Int = 0
+    }
+  \end{kotlin}
+
+  Como podemos ver, los campos de una clase se definen de la misma forma que los campos de un 
+  objeto.
+
+  Ahora, podemos crear objetos a partir de la clase \textit{Person}:
+
+  \begin{kotlin}
+    fun main() {
+      val person = Person()
+      person.name = "Pepe"
+      person.age = 30
+      println("Name: ${person.name}")
+      println("Age: ${person.age}")
+      
+      val person2 = Person()
+      person2.name = "Pepa"
+      person2.age = 25
+      println("Name: ${person2.name}")
+      println("Age: ${person2.age}")
+    }
+  \end{kotlin}
+
+  \subsection{Constructores primarios}
+    Un constructor es un bloque de código (\textbf{no} una función) que se ejecuta al momento de 
+    crear un objeto a partir de una clase.
+    En \textit{Kotlin} podemos definir dos tipos de constructores: \textbf{primarios} y
+    \textbf{secundarios}.
+
+    Por ahora veamos cómo definir un constructor primario, ya que podemos introducir los 
+    constructores secundarios más adelante cuando los necesitemos.
+    Un constructor primario se define dentro de un bloque \textit{init} (de nuevo, \textbf{no} es 
+    una función).
+    Un constructor primario puede recibir parámetros, los cuales se definen en la declaración de la
+    clase, con una sintáxis similar a la de los métodos.
+    Esto se ve mejor con un ejemplo:
+    
+    \begin{kotlin}
+      class Person(name: String, age: Int) {
+        val name: String
+        val age: Int
+
+        init {
+          this.name = name
+          this.age = age
+        }
+      }
+    \end{kotlin}
+    
+    Vamos viendo lo que está pasando:
+
+    \begin{itemize}
+      \item Primero definimos los campos de la clase, los cuales son \textit{name} y \textit{age}.
+      \item Luego definimos los campos de la clase.
+      \item Dentro del bloque \textit{init} asignamos los valores de los parámetros a los campos de
+        la clase.
+    \end{itemize}
+
+    Pero hay dos cosas que probablemente les hagan ruido:
+
+    \begin{itemize}
+      \item ¿Qué son \texttt{this.name} y \texttt{this.age}?
+      \item ¿Estamos asignando nuevos valores a variables de sólo lectura? 
+    \end{itemize}
+
+    La segunda pregunta es fácil de responder: no, no estamos asignando nuevos valores a variables 
+    de sólo lectura.
+    Como el constructor primario se ejecuta al momento de crear un objeto, los campos de la clase
+    aún no se han inicializado, por lo que podemos asignarles un valor.
+
+    La primera pregunta es un poco más compleja de responder, porque necesitamos entender el 
+    concepto de \textit{method-lookup} que veremos más adelante.
+    Por ahora, basta con decir que \texttt{this.name} y \texttt{this.age} hacen referencia a los
+    campos de la clase, y no a los parámetros del constructor.
+
+    \begin{note}
+      Existen otras (mejores) formas de definir un constructor primario, pero por ahora nos 
+      limitaremos a ésta para no introducir tantos conceptos nuevos.
+    \end{note}
+
+    Ahora podemos repetir el ejemplo anterior, pero usando el constructor primario que acabamos de
+    definir:
+
+    \begin{kotlin}
+      fun main() {
+        val person = Person("Pepe", 30)
+        println("Name: ${person.name}")
+        println("Age: ${person.age}")
+        
+        val person2 = Person("Pepa", 25)
+        println("Name: ${person2.name}")
+        println("Age: ${person2.age}")
+      }
+    \end{kotlin}

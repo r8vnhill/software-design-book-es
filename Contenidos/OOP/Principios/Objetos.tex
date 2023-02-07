@@ -1,0 +1,87 @@
+\section{Objetos}
+  Un objeto es una \textit{abstracción} que contiene información y maneras de manejar esta información
+  La información contenida dentro de un objeto no es visible desde afuera (a esto se le conoce como transparencia)
+  Un objeto se compone de su estado (campos) y su comportamiento (métodos).
+
+  En \textit{Kotlin} podemos crear objetos con la palabra reservada \textit{object} seguida del 
+  nombre del objeto.
+  Para crear un objeto desde \textit{IntelliJ} primero crearemos un nuevo proyecto de la misma forma
+  que lo hicimos en el capítulo anterior, nombrémoslo \enquote{oop-introduction}.
+  Con el proyecto creado crearemos un nuevo paquete llamado \url{cl.ravenhill.oop.essential}, 
+  hacemos click derecho sobre el paquete y seleccionamos la opción \textit{New} \texttt{->} 
+  \textit{Object} y lo llamaremos \textit{Dice}.
+  Esto nos creará un archivo llamado \textit{Dice.kt} dentro del paquete que acabamos de crear con
+  el siguiente contenido:
+
+  \begin{kotlin}
+    package cl.ravenhill.oop.essential
+
+    object Dice {
+    }
+  \end{kotlin}
+
+  Como podemos ver, el objeto \textit{Dice} no tiene ningún campo ni método, por lo que no es muy
+  útil.
+  Para agregar campos y métodos a un objeto debemos agregarlos dentro de las llaves del objeto.
+
+  Agreguemos un campo llamado \textit{sides} que será un número entero que representará la cantidad
+  de caras del dado.
+  Para agregar un campo a un objeto debemos agregar la palabra reservada \textit{var} seguida del
+  nombre del campo, podemos omitir el tipo de dato ya que \textit{Kotlin} lo infiere 
+  automáticamente y es obvio por contexto.
+  Digamos que nuestro dado tiene 6 caras, por lo que nuestro campo \textit{sides} tendrá el valor
+  por defecto de 6.
+
+  \begin{kotlin}
+    object Dice {
+      var sides = 6
+    }
+  \end{kotlin}
+
+  Ahora agreguemos un método llamado \textit{roll} que nos permita tirar el dado.
+
+  \begin{kotlin}
+    /**
+     * Object that represents an n-sided dice.
+     * 
+     * @property sides Number of sides of the dice.
+     */
+    object Dice {
+      var sides = 6
+
+      /**
+       * Rolls the dice.
+       * 
+       * @return A random number between 1 and the number of sides of the dice.
+       */
+      fun roll(): Int {
+        return (1..sides).random()
+      }
+    }
+  \end{kotlin}
+
+  Como podemos ver, el método \textit{roll} no recibe ningún parámetro y retorna un número entero.
+  Para generar un número aleatorio entre 1 y 6 podemos usar la función \textit{random} de la clase
+  \textit{IntRange} que nos permite generar un número aleatorio entre un rango de números.
+
+  Noten las anotaciones \texttt{@property} y \texttt{@return} que agregamos al objeto y al método.
+  Estas anotaciones nos permiten agregar documentación más detallada a nuestro código.
+  Estas anotaciones son opcionales, pero es una buena práctica agregarlas para hablar un lenguaje
+  común con otros desarrolladores.
+  
+  Luego, podemos utilizar el objeto que creamos de la siguiente forma:
+
+  \begin{kotlin}
+    fun main() {
+      println("Dice roll: ${Dice.roll()}")
+      Dice.sides = 20
+      println("Dice roll: ${Dice.roll()}")
+    }
+  \end{kotlin}
+
+  \begin{important}
+    Los objetos son estáticos, es decir, no podemos crear instancias de ellos, por lo que no podemos
+    tener múltiples objetos del mismo tipo.
+    Los objetos son útiles cuando queremos crear una única instancia de un objeto que se comparte
+    por toda la aplicación.
+  \end{important}

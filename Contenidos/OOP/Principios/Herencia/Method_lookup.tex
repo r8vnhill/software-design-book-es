@@ -1,0 +1,206 @@
+\subsection{Method-lookup}
+  Antes de continuar debemos entender algunos conceptos nuevos.
+
+  El primer concepto nuevo es el de \textbf{firma}.
+  Todas las funciones tienen una firma, que es la combinación de su nombre y sus parámetros.
+  Por ejemplo, la función \texttt{attack} tiene la firma \texttt{attack(Int)}.
+  Toda función debe tener una firma única dentro de una clase, es decir, no puede haber dos 
+  funciones con el mismo nombre y los mismos parámetros en una misma clase, aunque estas funciones 
+  tengan distinto tipo de retorno.
+  Por ejemplo, no podemos tener dos funciones \texttt{attack(Int)} en la misma clase, aunque una
+  tenga tipo de retorno \texttt{Int} y la otra \texttt{String}.
+  Esto es porque la firma de una función es lo único que importa a la hora de llamar a una función,
+  y no el tipo de retorno.
+
+  Por ejemplo, si tenemos dos funciones \texttt{attack(Int)} y \texttt{attack(String)}, podemos
+  llamar a ambas funciones de la siguiente manera:
+  
+  \begin{kotlin}
+    attack(1)
+    attack("1")
+  \end{kotlin}
+
+  Esto lo que se conoce como \textbf{sobrecarga de funciones} (o \textbf{overloading}).
+
+  \begin{defaultbox}[Sobrecarga de funciones]
+    La sobrecarga de funciones es una característica de los lenguajes de programación que permite
+    definir varias funciones con el mismo nombre, pero con distinto número de parámetros o distinto
+    tipo de parámetros.
+    En Kotlin, la sobrecarga de funciones se realiza de forma automática, por lo que no es necesario
+    declarar explícitamente que una función está sobrecargada.
+    En otros lenguajes, como \textit{Pascal}, es necesario declarar explícitamente que una función
+    está sobrecargada.
+  \end{defaultbox}
+
+  Lo siguiente que debemos entender es el concepto de \textbf{mensaje}.
+  Pola propiedad de encapsulamiento, sabemos que no podemos acceder a los atributos de una clase
+  sin pasar por un \enquote{filtro}.
+  Esto es, no podemos acceder a los atributos de una clase directamente, sino que debemos hacerlo
+  a través de mensajes (message passing).
+
+  \begin{defaultbox}[Method-lookup]
+    El proceso de búsqueda de una función a la que enviar un mensaje se conoce como 
+    \textbf{method-lookup}.
+
+    El method-lookup se realiza de la siguiente manera:
+    \begin{enumerate}
+      \item Se busca la función en la clase actual.
+      \item Si no se encuentra, se busca en la clase padre.
+      \item Si no se encuentra, se busca en la clase padre de la clase padre.
+      \item Y así sucesivamente hasta llegar a la clase \texttt{Any}.
+      \item Si no se encuentra en ninguna de las clases, se produce un error.
+    \end{enumerate}
+    
+    En los lenguajes de tipado estático, el method-lookup siempre se resuelve en tiempo de 
+    compilación.
+  \end{defaultbox}
+
+  \begin{note}
+    Un compilador es un programa que traduce un programa de un lenguaje a otro.
+    En general cuando hablamos de compilación nos referimos a la traducción de un lenguaje de alto 
+    nivel a un lenguaje de bajo nivel con el objetivo de que pueda ser ejecutado por una máquina.
+    
+    Por otro lado, un interprete es un programa que ejecuta directamente un programa de un lenguaje
+    de alto nivel.
+
+    Ejemplos de lenguajes compilados son \textit{C}, \textit{C++}, \textit{Java}, \textit{C\#} y
+    \textit{Kotlin}.
+    Ejemplos de lenguajes interpretados son \textit{Python}, \textit{Ruby}, \textit{MATLAB} y
+    \textit{Lisp}.
+  \end{note}
+
+  Una manera (no tan lejana de la realidad) de entender el method-lookup es pensar que cada objeto
+  tiene una tabla en los que una columna son los mensajes que puede recibir y otra columna son las
+  funciones que se ejecutan cuando se recibe ese mensaje.
+  Cuando se envía un mensaje a un objeto, el objeto busca en su tabla la función que se debe
+  ejecutar para ese mensaje y la ejecuta.
+  Si no encuentra la función en su tabla, busca en la tabla de su padre y así sucesivamente hasta
+  llegar a la tabla de \texttt{Any}.
+  
+  Ahora, antes dijimos que la firma de una función debe ser única dentro de una clase.
+  ¿Pero qué pasa cuando una clase tiene un método con la misma firma que un método de su padre?
+
+  \begin{defaultbox}[Sobrescritura de funciones]
+    La sobrescritura (overloading) de métodos es una característica de los lenguajes de programación 
+    que permite definir una función con la misma firma que una función de la clase padre.
+    En Kotlin, la sobrecarga \textbf{no} se realiza de forma automática, por lo que es necesario
+    declarar explícitamente que una función está sobrescrita con la palabra reservada
+    \textit{override}.
+  \end{defaultbox}
+
+  \begin{note}
+    Al igual que con las clases, existen las funciones abiertas y finales.
+  \end{note}
+
+  Ahora sí, volvamos a nuestro ejemplo.
+  Teníamos que los ataques funcionaban de la siguiente manera:
+
+  \begin{itemize}
+    \item Si la carta es un \textit{Monstruo}, el ataque se realiza con el ataque del monstruo.
+    \item Si no es un monstruo, entonces no se puede atacar.
+  \end{itemize}
+
+  Podemos pensar esto de la siguiente forma: ningúna carta puede atacar, excepto los monstruos.
+  ¿Cómo podemos expresar esto en código?
+
+  \begin{kotlin}
+    open class Card(name: String, text: String, attack: Int) {
+      val name: String = name
+      val text: String = text
+      val attack: Int = attack
+
+      open fun attack(player: Player) {
+        println("You can't attack with this card")
+      }
+    }
+  \end{kotlin}
+
+  \begin{kotlin}
+    class MonsterCard(name: String, text: String, attack: Int) : Card(name, text, attack) {
+      override fun attack(player: Player) {
+        player.takeDamage(this.attack)
+      }
+    }
+  \end{kotlin}
+
+  Probemos nuestro código:
+
+  \begin{kotlin}
+    val dragon = MonsterCard("White-eyes Blue Dragon", "Legendary dragon of destruction", 3000)
+    val reflect = Card("Reflect Strength", "When a Monster Card attacks you, it is destroyed", 0)
+    val deck = mutableListOf(dragon, reflect)
+    val player = Player("Yulian", 8000, deck)
+    println("$player has ${player.healthPoints} health points")
+    dragon.attack(player)
+    println("$player has ${player.healthPoints} health points")
+    reflect.attack(player)
+    println("$player has ${player.healthPoints} health points")
+  \end{kotlin}
+
+  Si ejecutamos el código, obtenemos algo como lo siguiente:
+
+  \begin{minted}{text}
+    cl.ravenhill.oop.essential.Player@cc34f4d has 8000 health points
+    cl.ravenhill.oop.essential.Player@cc34f4d has 5000 health points
+    You can't attack with this card
+    cl.ravenhill.oop.essential.Player@cc34f4d has 5000 health points
+  \end{minted}
+
+  \begin{center}
+    ¿Qué?
+  \end{center}
+
+  Como ya hemos dicho, todos los objetos heredan de \textit{Any}, esto implica que heredan las 
+  propiedades y métodos de \textit{Any}.
+  En particular, heredan el método \texttt{toString(): String}.
+
+  Cuando hacemos \texttt{println("\$player")}, en realidad lo que estamos haciendo es hacer 
+  \texttt{println(player.toString())}.
+  El método \texttt{toString()} es un método que poseen todos los objetos que devuelve un string
+  que representa al objeto.
+  Por defecto, el método \texttt{toString()} de \textit{Any} devuelve el nombre de la clase seguido
+  de \texttt{@} y un número que indica donde está ubicado el objeto en memoria.
+  En nuestro caso, el objeto \texttt{player} está ubicado en la dirección de memoria 
+  \texttt{cc34f4d}.
+
+  \begin{defaultbox}[Sobrescritura de toString]
+    Si queremos que nuestro objeto se imprima de una forma más amigable, podemos sobrescribir el
+    método \texttt{toString()}.
+  \end{defaultbox}
+
+  ¿Cómo hacemos esto?
+  Simplemente sobrescribiendo el método \texttt{toString()} de la siguiente forma:
+
+  \begin{kotlin}
+    override fun toString(): String {
+      return name
+    }  
+  \end{kotlin}
+
+  \begin{exercise}
+    ¿Qué pasa si se ejecuta el siguiente código?
+    ¿Por qué?
+
+    \begin{kotlin}
+      open class A {
+        open fun f(): Unit {
+          println("A.f()")
+        }
+      }
+
+      class B : A() {
+        override fun f(): String {
+          return "B.f()"
+        }
+      }
+      
+      fun main() {
+        val a: A = B()
+        a.f()
+      }
+    \end{kotlin}
+  \end{exercise}
+
+  \begin{exercise}
+    Implemente las clases \texttt{MagicCard} y \texttt{TrapCard} que hereden de \texttt{Card}.
+  \end{exercise}

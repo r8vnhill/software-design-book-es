@@ -1,0 +1,39 @@
+\subsection{Implementación iterativa}
+  \label{subsec:Implementacion_iterativa}
+
+  Para la implementación iterativa utilizaremos la expresión \textit{for}.
+  La idea es mantener dos variables, \texttt{minusOne} y \texttt{minusTwo}, que representan los dos 
+  últimos números de la sucesión de Fibonacci, y una variable \texttt{resul} que representa el 
+  número actual.
+
+  La implementación es la siguiente:
+  \begin{kotlin}
+    fun iterativeFibonacci(n: Int): Int {
+      var minusTwo = 0  // f(0)
+      var minusOne = 1  // f(1)
+      var result = 0    // f(n)
+      for (i in 1..n) {
+        result = minusTwo + minusOne
+        minusTwo = minusOne
+        minusOne = result
+      }
+      return result
+    }
+  \end{kotlin}
+
+  Veamos lo que está pasando:
+
+  \begin{itemize}
+    \item La función \textit{iterativeFibonacci} recibe un número entero y devuelve un número 
+      entero.
+    \item La función inicializa las variables \texttt{minusOne}, \texttt{minusTwo} y \texttt{result} 
+      con los valores correspondientes a los números de Fibonacci 0, 1 y 0.
+    \item La función itera desde 1 hasta el número recibido. 
+      El operandor \texttt{..}, llamado \texttt{rangeTo}, crea un rango de números que va desde el 
+      número de la izquierda hasta el número de la derecha, incluyendo ambos (i.e. \texttt{1..5} es 
+      el rango \([1, 5] = \{1, 2, 3, 4, 5\}\)).
+    \item En cada iteración la función actualiza las variables \texttt{minusOne}, \texttt{minusTwo} y 
+      \texttt{result} con los valores correspondientes a los números de Fibonacci de la iteración 
+      actual.
+    \item Al finalizar la función devuelve el valor de la variable \texttt{result}.
+  \end{itemize}

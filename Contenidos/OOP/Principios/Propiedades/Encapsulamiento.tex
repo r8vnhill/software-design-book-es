@@ -1,0 +1,135 @@
+
+\section{Encapsulamiento}
+  Supongamos que queremos agregar un método para que una carta pueda atacar a un jugador.
+  Esto es bastante simple de implementar, solo debemos restar los puntos de ataque de la carta
+  al jugador.
+  Definamos el método \texttt{attack} en la clase \textit{Card} de la siguiente forma:
+
+  \begin{kotlin}
+    fun attack(player: Player) {
+      player.healthPoints -= this.attack
+    }
+  \end{kotlin}
+
+  \begin{note}
+    El operador \texttt{-=} (resta y asignación) es una abreviación de \texttt{a = a - b}.
+  \end{note}
+
+  Ahora podemos atacar a un jugador con una carta:
+
+  \begin{kotlin}
+    val deck = mutableListOf(
+      Card("White-eyes Blue Dragon", "Legendary dragon of destruction", 3000),
+      Card("Light Magician", "The ultimate sorcerer with a powerful attack", 2500)
+    )
+    val player = Player("Yulian", 8000, deck)
+    player.deck[0].attack(player)
+    println(player.healthPoints)
+  \end{kotlin}
+
+  Sin embargo, este código tiene un problema.
+  ¿Qué pasa si el ataque de la carta es mayor que los puntos de vida del jugador?
+  En este caso, el jugador tendrá puntos de vida negativos y eso podría causar problemas en el
+  juego.
+
+  Para solucionar este problema podemos agregar una condición en el método \texttt{attack}:
+
+  \begin{kotlin}
+    fun attack(player: Player) {
+      if (attack < player.healthPoints) {
+        player.healthPoints -= attack
+      } else {
+        player.healthPoints = 0
+      }
+    }
+  \end{kotlin}
+
+  Sin embargo, ahora tenemos un problema diferente.
+  ¿Qué pasa si hay otras formas en las que el jugador puede perder puntos de vida?
+  Entonces tendríamos que agregar una condición en cada método que modifique los puntos de vida
+  del jugador.
+  Esto haría nuestro código muchísimo más difícil de mantener.
+
+  \begin{defaultbox}[Encapsulamiento]
+    El \textbf{encapsulamiento} es la propiedad de los objetos de \enquote{empaquetar} sus datos y 
+    métodos, manejando y controlando el acceso a ellos.
+  \end{defaultbox}
+
+  ¿Cómo podemos aplicar la encapsulación en este caso?
+  Lo primero será definir un método para modificar los puntos de vida del jugador, esto podemos
+  hacerlo creando un método \textit{takeDamage} en la clase \textit{Player}:
+
+  \begin{kotlin}
+    fun takeDamage(damage: Int) {
+      if (damage < healthPoints) {
+        healthPoints -= damage
+      } else {
+        healthPoints = 0
+      }
+    }
+  \end{kotlin}
+
+  Ahora podemos modificar el método \texttt{attack} para que utilice el nuevo método:
+
+  \begin{kotlin}
+    fun attack(player: Player) {
+      player.takeDamage(this.attack)
+    }
+  \end{kotlin}
+
+  Pero esto no es suficiente, ya que los puntos de vida del jugador pueden ser modificados desde
+  cualquier parte del código sin utilizar el método \texttt{takeDamage}.
+  Para solucionar esto podemos utilizar un modificador de acceso llamado \textit{private}.
+  Este modificador de acceso nos permite definir que un campo o método solo puede ser accedido
+  desde la \textbf{misma clase}.\footnote{Que un campo o método sea privado no significa que no
+  pueda ser accedido desde otros objetos, solo significa que no puede ser accedido desde objetos 
+  de otras clases.}
+
+  Para hacer que un campo o método sea privado debemos agregar el modificador de acceso
+  \texttt{private} antes de su definición.
+  Por ejemplo, podemos hacer que el campo \textit{healthPoints} de la clase \textit{Player} sea
+  privado de la siguiente forma:
+
+  \begin{kotlin}
+    class Player(
+      name: String,
+      healthPoints: Int,
+      deck: MutableList<Card>
+    ) {
+      val name: String
+      private var healthPoints: Int
+      val deck: MutableList<Card>
+      ...
+    }
+  \end{kotlin}
+
+  Ahora el campo \textit{healthPoints} solo puede ser accedido desde la clase \textit{Player}.
+
+  \begin{center}
+    Yay
+  \end{center}
+
+  Pero introducimos otro problema.
+
+  \begin{center}
+    Bro
+  \end{center}
+
+  Hicimos que el campo \textit{healthPoints} sólo pueda ser asignado desde la clase 
+  \textit{Player}, pero además hicimos que sólo pueda ser \enquote{visto} desde la misma clase.
+  Esto significa que no podemos hacer cosas como \texttt{println(player.healthPoints)}.
+  Podemos solucionar esto creando un método \textit{getHealthPoints} en la clase \textit{Player},
+  pero \textit{Kotlin} nos ofrece una forma más simple de hacer esto.
+  La idea es decir que una variable es pública, pero que su valor sólo puede ser asignado 
+  (\textit{set}) desde la misma clase.
+
+  \begin{kotlin}
+    var healthPoints: Int private set
+  \end{kotlin}
+
+  El encapsulamiento es un concepto clave en el desarrollo de software, porque (como veremos en este 
+  libro) siempre vamos a querer \textit{encapsular el cambio}.
+  En este caso, si ahora quisieramos hacer que los puntos de vida del jugador sí puedan ser 
+  negativos, solo tendríamos que modificar el método \texttt{takeDamage} y no tendríamos que
+  modificar los múltiples métodos que podrían querer modificar los puntos de vida del jugador.
+  

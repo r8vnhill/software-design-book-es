@@ -1,0 +1,83 @@
+
+\subsection{Implementación básica (recursiva)}
+  La implementación más sencilla es la recursiva, esta es la que se muestra en la ecuación
+  \ref{eq:Funcion_de_Fibonacci}.
+
+  Empecemos por entender un poco lo que es una expresión de control de flujo.
+  Una expresión de control de flujo es una expresión que controla el orden en el que se ejecutan
+  las instrucciones de un programa.
+  En \textit{Kotlin} existen cuatro tipos de instrucciones de control de flujo:
+
+  \begin{itemize}
+    \item \textit{if-else}: es una \textbf{expresión} que evalúa una condición y ejecuta una instrucción
+      si la condición es verdadera y otra si es falsa.
+    \item \textit{when}: es una \textbf{expresión} que evalúa una condición y ejecuta una instrucción
+      dependiendo del valor de la condición.
+      Pueden pensar en esto como una versión más potente del \textit{if-else}.
+    \item \textit{for}: es una \textbf{instrucción} que ejecuta una instrucción un número determinado de
+      veces.
+    \item \textit{while}: es una \textbf{instrucción} que ejecuta una instrucción mientras una condición
+      sea verdadera.
+  \end{itemize}
+
+  Para la implementación recursiva de la función de Fibonacci vamos a usar la expresión 
+  \textit{if-else}.
+  La implementación de la función de Fibonacci en \textit{Kotlin} es la siguiente:
+
+  \begin{kotlin}
+    fun recursiveFibonacci(n: Int): Int {
+      if (n <= 1) {
+        return n
+      } else {
+        return recursiveFibonacci(n - 1) + recursiveFibonacci(n - 2)
+      }
+    }
+  \end{kotlin}
+
+  Veamos lo que está pasando:
+
+  \begin{itemize}
+    \item La función \textit{recursiveFibonacci} recibe un número entero y devuelve un
+      número entero.
+    \item La función evalúa si el número recibido es menor o igual a 1.
+    \item Si el número es menor o igual a 1, la función devuelve el número recibido.
+    \item Si el número es mayor a 1, la función devuelve la suma de la función llamada con el
+      número recibido menos 1 y la función llamada con el número recibido menos 2.
+  \end{itemize}
+
+  Algo importante sobre las expresiones \textit{if-else} y \textit{when} es que son expresiones
+
+  \begin{center}
+    omg!
+  \end{center}
+
+  esto significa que pueden ser evaluadas y devolver un valor, a esto se le llama reducción.
+  Con esto en mente, veremos que podemos utilizar la expresión \textit{if-else} para asignar
+  valores a variables.
+  Veamos un ejemplo:
+
+  \begin{kotlin}
+    fun printIsPositive(n: Int) {
+      val isPositive = if (n > 0) {
+        true
+      } else {
+        false
+      }
+      println(isPositive)
+    }
+  \end{kotlin}
+
+  Recordemos que si el tipo de retorno es \texttt{Unit} no es necesario especificarlo.
+
+  \begin{exercise}
+    Simplifique la implementación de la función de Fibonacci usando \textit{if-else} como 
+    expresión.
+    \textit{Hint: utilice una expresión de la forma \texttt{return if (condicion) \{expresion1\} 
+    else \{expresion2\}}.}
+  \end{exercise}
+
+  \begin{exercise}
+    ¿Qué sucede si se llama a la función de Fibonacci con un número negativo?
+    ¿Cómo se puede solucionar este problema?
+    Discuta, no debe implementar la solución.
+  \end{exercise}
