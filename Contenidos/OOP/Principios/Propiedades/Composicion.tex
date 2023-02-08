@@ -1,9 +1,8 @@
 \section{Composición}
-  Para las siguientes secciones utilizaremos como ejemplos un juego de cartas inspirado en
-  \textit{Yu-Gi-Oh!}.
 
   Comencemos modelando al jugador.
-  Un jugador tiene un nombre, una cantidad de puntos de vida y un mazo de cartas.
+  Un jugador tiene un \textbf{nombre}, una cantidad de \textbf{puntos de vida} y un \textbf{mazo} de 
+  cartas.
   Un primer intento podría ser el siguiente:
 
   \begin{kotlin}
@@ -30,7 +29,9 @@
     }
   \end{kotlin}
 
-  Aquí introducimos dos nuevos tipos de datos: \textit{MutableList} y \textit{MutableMap}.
+  Aquí introducimos dos nuevos tipos de datos: 
+  \textit{MutableList}\autocite{MutableListKotlinProgramming} y 
+  \textit{MutableMap}.\autocite{MutableMapKotlinProgramming}
   Un \textit{MutableList} es una lista que puede ser modificada, es decir, podemos agregar y
   eliminar elementos de la lista.
   Una lista, al igual que un arreglo, es homogénea, es decir, todos los elementos de la lista
@@ -66,7 +67,8 @@
   ¿Qué pasa entonces si se nos olvida agregar una carta al diccionario de texto?
 
   \begin{defaultbox}[Composición]
-    La \textbf{composicion} es la propiedad de todos los objetos de contener a cualquier otro objeto.
+    La \textbf{composición}\index{Composición} es la propiedad de todos los objetos de contener a 
+    cualquier otro objeto.
     Podemos pensar la composición de objetos como la composición de funciones matemáticas.
     Por ejemplo, la función \(f(x) = x + 1\) es una composición de las funciones \(g(x) = x + 1\) y
     \(h(x) = x\).
