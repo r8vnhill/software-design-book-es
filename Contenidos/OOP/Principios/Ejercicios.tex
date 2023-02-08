@@ -1,2 +1,156 @@
+\newpage
 \section{Ejercicios}
   \label{sec:oop:principios:ejercicios}
+
+  \begin{Exercise}[title={Puntos en el espacio}]
+    \Question Defina una clase \texttt{Point2D} que represente un punto en el plano.
+    \Question Defina el método \texttt{Point2D::toString(): String} que devuelva una representación del 
+      punto en el formato \texttt{Point2D(x, y)}.
+    \Question La distancia entre dos puntos \(p\) y \(q\) se define como:
+      \[d(p, q) = \sqrt{(p_x - q_x)^2 + (p_y - q_y)^2}\]
+      Defina un método \texttt{Point2D::distanceTo(Point2D): Double} que calcule la distancia entre dos 
+      puntos.
+      \textit{Hint: puede importar \texttt{kotlin.math.sqrt} para usar la función raíz cuadrada de 
+      la librería estándar de \textit{Kotlin}.}
+    \Question Defina la función \texttt{Point2D::distanceToOrigin(): Double} que calcule la 
+      distancia entre un punto y el origen del sistema de coordenadas.
+    \Question Considere la siguiente implementación de la interfaz \texttt{Point}:
+      \begin{kotlin}
+        interface Point {
+          val coordinates: DoubleArray
+          fun distanceTo(other: Point): Double
+          fun distanceToOrigin(): Double
+        }
+      \end{kotlin}
+      Modifique la clase \texttt{Point2D} para que implemente la interfaz \texttt{Point}.
+    \Question Defina una clase \texttt{Point3D} que implemente la interfaz \texttt{Point}.
+      Para esto considere que la distancia entre dos puntos en el espacio se define como:
+      \[d(p, q) = \sqrt{(p_x - q_x)^2 + (p_y - q_y)^2 + (p_z - q_z)^2}\]
+    \Question Defina una clase \texttt{PointND} que represente un punto en un espacio de 
+      \textit{n} dimensiones.
+      Para esto considere que la distancia entre dos puntos en el espacio se define como:
+      \[d(p, q) = \sqrt{\sum_{i=1}^n (p_i - q_i)^2}\]
+      y que puede calcularse de la siguiente forma:
+      \begin{enumerate}
+        \item Dados dos puntos \(p\) y \(q\), almacene las coordenadas del más corto (menos 
+          dimensiones) en una variable \texttt{shorter} y las del más largo (más dimensiones) en una
+          variable \texttt{longer}.
+        \item Cree una variable \texttt{sum} que almacene el valor 0.
+        \item Para cada coordenada \(i\) en \texttt{shorter}:
+          \begin{enumerate}
+            \item Calcule la diferencia entre la coordenada \(i\) de \texttt{shorter} y la 
+              coordenada \(i\) de \texttt{longer}.
+            \item Eleve el resultado al cuadrado.
+            \item Sumelo a la variable \texttt{sum}.
+          \end{enumerate}
+        \item Para cada coordenada \(i\) en \texttt{longer} que no haya sido considerada en el paso 
+          anterior:
+          \begin{enumerate}
+            \item Eleve la coordenada al cuadrado.
+            \item Sumelo a la variable \texttt{sum}.
+          \end{enumerate}
+        \item Calcule la raíz cuadrada de \texttt{sum}.
+      \end{enumerate}
+    \Question Modifique su estructura de clases para representar \texttt{Point2D} y \texttt{Point3D} 
+      como subclases de \texttt{PointND}.
+    \Question Defina una clase \texttt{Line2D} que represente una línea a partir de dos puntos.
+    \Question Cree un método \texttt{Line2D::getLength(): Double} que calcule la longitud de la 
+      línea.
+      \textit{Hint: puede usar el método \texttt{PointND::distanceTo(PointND)} para calcular la
+      distancia entre dos puntos.}
+    \Question Implemente el método \texttt{Line2D::distanceTo(Point2D): Double} que calcule la 
+      distancia entre una línea y un punto.
+      Para esto considere que para toda línea que pase por los puntos \(p\) y \(q\), la distancia
+      entre la línea y el punto \(r\) se define como:
+      \[
+        d(p, q, r) = \frac{
+          |(q_y - p_y)r_x - (q_x - p_x)r_y + q_xp_y - q_yp_x|
+        }{
+          \sqrt{(q_y - p_y)^2 + (q_x - p_x)^2}
+        }
+      \]
+  \end{Exercise}
+
+  \begin{Exercise}[title={Algebra Vectorial}]
+    \Question Un vector euclideano es un objeto matemático que tiene una magnitud y una dirección.
+      Otra forma de pensar en un vector es como una flecha que va desde el origen del sistema de
+      coordenadas hasta un punto en el espacio.
+      Defina una clase \texttt{Vector3D} que represente un vector en el plano.
+    \Question Defina un método \texttt{Vector3D::toString(): String} que devuelva una representación
+      del vector en el formato \texttt{Vector3D(x, y, z)}.
+    \Question Dos vectores son iguales si sus coordenadas son iguales.
+      Defina un método \texttt{Vector3D::equalTo(Vector3D): Boolean} que determine si dos vectores 
+      son iguales.
+    \Question La suma de dos vectores se define como:
+      \[
+        \mathbf{v} + \mathbf{w} = 
+          (\mathbf{v}_x + \mathbf{w}_x, \mathbf{v}_y + \mathbf{w}_y, \mathbf{v}_z + \mathbf{w}_z)
+      \]
+      Defina un método \texttt{Vector3D::plus(Vector3D): Vector3D} que calcule la suma de dos 
+      vectores.
+    \Question La resta de dos vectores se define como:
+      \[
+        \mathbf{v} - \mathbf{w} = 
+          (\mathbf{v}_x - \mathbf{w}_x, \mathbf{v}_y - \mathbf{w}_y, \mathbf{v}_z - \mathbf{w}_z)
+      \]
+      Defina un método \texttt{Vector3D::minus(Vector3D): Vector3D} que calcule la resta de dos 
+      vectores.
+    \Question El producto de un vector por un escalar se define como:
+      \[
+        \mathbf{v} \cdot \alpha = 
+          (\alpha \mathbf{v}_x, \alpha \mathbf{v}_y, \alpha \mathbf{v}_z)
+      \]
+      Defina un método \texttt{Vector3D::times(Double): Vector3D} que calcule el producto de un 
+      vector por un escalar.
+    \Question El largo (magnitud o norma) de un vector se define como:
+      \[
+        ||\mathbf{v}|| = \sqrt{\mathbf{v}_x^2 + \mathbf{v}_y^2 + \mathbf{v}_z^2}
+      \]
+      Defina un método \texttt{Vector3D::length(): Double} que calcule el largo de un vector.
+    \Question Normalizar un vector es el proceso de convertirlo en un vector unitario.
+      Un vector unitario es aquel cuyo largo es 1.
+      Para normalizar un vector, se divide cada coordenada por el largo del vector.
+      Defina un método \texttt{Vector3D::normalize(): Vector3D} que devuelva un vector unitario 
+      con la misma dirección que el vector original.
+    \Question El producto punto entre dos vectores se define como:
+      \[
+        \mathbf{v} \cdot \mathbf{w} = 
+          \mathbf{v}_x \mathbf{w}_x + \mathbf{v}_y \mathbf{w}_y + \mathbf{v}_z \mathbf{w}_z
+      \]
+      Defina un método \texttt{Vector3D::dot(Vector3D): Double} que calcule el producto punto entre 
+      dos vectores.
+    \Question El producto cruz entre dos vectores se define como:
+      \[
+        \mathbf{v} \times \mathbf{w} = 
+          (\mathbf{v}_y \mathbf{w}_z - \mathbf{v}_z \mathbf{w}_y, 
+           \mathbf{v}_z \mathbf{w}_x - \mathbf{v}_x \mathbf{w}_z, 
+           \mathbf{v}_x \mathbf{w}_y - \mathbf{v}_y \mathbf{w}_x)
+      \]
+      Defina un método \texttt{Vector3D::cross(Vector3D): Vector3D} que calcule el producto cruz 
+      entre dos vectores.
+    \Question El ángulo entre dos vectores se define como:
+      \[
+        \theta = \arccos{\left(\frac{\mathbf{v} \cdot \mathbf{w}}{||\mathbf{v}|| ||\mathbf{w}||}\right)}
+      \]
+      Defina un método \texttt{Vector3D::angleTo(Vector3D): Double} que calcule el ángulo entre dos 
+      vectores.
+      \textit{Hint: puede importar \url{kotlin.math.acos} para calcular el arcocoseno.}
+    \Question Defina un método \texttt{Vector3D::perpendicularTo(Vector3D): Boolean} que determine si dos 
+      vectores son perpendiculares.
+      Para esto considere que dos vectores son perpendiculares si y solo si su producto punto es 
+      cero.
+    \Question Defina un método \texttt{Vector3D::oppositeTo(Vector3D): Boolean} que determine si dos 
+      vectores son opuestos.
+      Para esto considere que dos vectores son opuestos si y solo si
+      \[
+        \mathbf{v_x} = -\mathbf{w_x} \wedge \mathbf{v_y} = -\mathbf{w_y} \wedge 
+          \mathbf{v_z} = -\mathbf{w_z}
+      \]
+    \Question El vector cero es aquel que tiene todas sus coordenadas en cero.
+      Defina un método \texttt{Vector3D::isZero(): Boolean} que determine si un vector es el vector 
+      cero.
+    \Question Defina un método \texttt{Vector3D::parallelTo(Vector3D): Boolean} que determine si dos 
+      vectores son paralelos.
+      Para esto considere que dos vectores son paralelos si y solo si su producto cruz es el vector 
+      cero.
+  \end{Exercise}

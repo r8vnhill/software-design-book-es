@@ -1,9 +1,9 @@
 \subsubsection{Windows Terminal}
   Para instalar lo que necesitaremos basta con tener \textit{Powershell}, la terminal integrada de
   \textit{Windows} (por favor, NUNCA usen \textit{cmd}), pero actualmente \textit{Windows} provee
-  una nueva terminal llamada \textit{Windows Terminal}
-  \autocite{cinnamon-msftOverviewWindowsTerminal}\footnote{Es increíble pensar que a alguien
-  le pagaron por idear ese nombre.} (WT).
+  una nueva terminal llamada \textit{Windows Terminal}\index{Windows Terminal}\footnote{
+    Es increíble pensar que a alguien le pagaron por idear ese nombre.
+  } (WT).
   \textit{WT} viene instalada en las 
   versiones más nuevas de \textit{Windows 10} y en todas las versiones de \textit{Windows 11}.
   Pueden usar el \textit{Buscador de Windows} para abrir la aplicación \enquote{\textit{Terminal}}
@@ -33,20 +33,20 @@
     podemos hacerlo a mano o usar alguna herramienta que lo haga por nosotrxs, aquí les voy a 
     mostrar una de esas herramientas.
 
-    \textit{Oh-My-Posh}\autocite{HomeOhMy} es una herramienta para personalizar \textit{Windows 
+    \textit{Oh-My-Posh}\index{Oh-My-Posh} es una herramienta para personalizar \textit{Windows 
     Terminal} de forma simple, como les voy a mostrar en un instante.
     Para instalar \textit{Oh-My-Posh} abran WT y ejecuten el siguiente comando:
     \begin{powershell}
       winget install JanDeDobbeleer.OhMyPosh -s winget
     \end{powershell}
 
-    Ahora que tenemos \textit{Oh-My-Posh} instalado, decirle a \textit{Powershell} que lo use,
-    aquí voy a usar \textit{Notepad} porque viene instalado con todas las versiones de 
+    Ahora que tenemos \textit{Oh-My-Posh} instalado, hay que decirle a \textit{Powershell} que lo 
+    use, aquí voy a usar \textit{Notepad} porque viene instalado con todas las versiones de 
     \textit{Windows}, cosa que espero no volver a hacer en la vida.
     En PS:
 
     \begin{powershell}
-      # Para poder ejecutar scripts
+      # Para poder ejecutar scripts (sdwheelerSetExecutionPolicyMicrosoftPowerShell)
       Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
       # Creamos el archivo sólo si no existe
       if (-not (Test-Path $PROFILE)) {

@@ -44,14 +44,17 @@
   En este caso, el código se ejecuta sin problemas c:
 
   \subsection{Tipos explícitos}
-    \textbf{Todas} las variables en \textit{Kotlin} deben tener un tipo definido, y una vez definido no puede
-    ser cambiado.\footnote{Este tipo de atrocidades sólo pueden suceder en lenguajes de tipado
-    dinámico como \textit{Python} o \textit{Ruby}.}
+    \index{Sistema de tipos}
+    \textbf{Todas} las variables en \textit{Kotlin} deben tener un tipo 
+    definido\index{Sistema de tipos}, y una vez definido no puede ser cambiado.\footnote{
+      Este tipo de atrocidades sólo pueden suceder en lenguajes de tipado dinámico como 
+      \textit{Python} o \textit{Ruby}.
+    }
     
     El tipo de una variable se define después del nombre de la variable y antes del valor que se le
     asigna, y se separa de éste con dos puntos (\texttt{:}).
     Podemos ver esto en el ejemplo anterior, donde definimos el tipo de \texttt{i} como 
-    \texttt{Int} (es decir, ).
+    \texttt{Int}.
 
     Existen muchos tipos en \textit{Kotlin}, pero por ahora nos limitaremos a los más básicos:
     
@@ -63,6 +66,8 @@
         En este caso, la definición formal es un poco más complicada, pero es cercana a:
         \(d: Double \iff d \in \mathbb{R} \land 4.9 \times 10^{-324} \leq |d| \leq 1.8 \times 10^{308}\).
       \item \texttt{String}: El conjunto de todas las cadenas de caracteres.
+        Formalmente: \(s: String \iff s \in \mathbb{L}^*\), donde \(\mathbb{L}\) es el conjunto de
+        todos los caracteres \textit{Unicode} que pueden ser representados en \textit{UCS-2}.
       \item \texttt{Boolean}: El conjunto de dos valores: \texttt{true} y \texttt{false}.
       \item \texttt{Unit}: El conjunto de un único valor: \texttt{Unit}.
         Esta noción es un poco más complicada, pero se puede entender como el tipo de variables que
@@ -71,14 +76,17 @@
         \textit{Kotlin} no tiene un tipo \textit{void}.
     \end{itemize}
 
-    Es importante notar que todos los tipos en \textit{Kotlin} empiezan con mayúscula, lo que 
-    debemos respetar a la hora de crear nuestros propios tipos.
+    \begin{important}
+      Noten que todos los tipos en \textit{Kotlin} empiezan con mayúscula, lo que debemos respetar a 
+      la hora de crear nuestros propios tipos.
+    \end{important}
 
   \subsection{Tipos inferidos}
+    \index{Sistema de tipos}
     Como mencionamos en la sección anterior: \enquote{\textbf{Todas} las variables en 
     \textit{Kotlin} deben tener un tipo definido}.
-    Sin embargo, \textit{Kotlin} tiene una inferencia de tipos bastante poderosa, por lo que no es
-    necesario definir explícitamente el tipo de una variable en la mayoría de los casos.
+    Sin embargo, \textit{Kotlin} tiene una inferencia de tipos bastante poderosa, por lo que en la 
+    mayoría de los casos no es necesario definir explícitamente el tipo de una variable.
     Esto es muy útil, ya que va a reducir muchísimo la cantidad de texto que tenemos que escribir
     para hacer nuestros programas; esto también va a hacer que nuestros programas sean más fáciles
     de leer y entender al reducir la cantidad de código \textit{boilerplate} que tenemos que 
@@ -106,11 +114,11 @@
       Indique qué tipo de dato es cada una de las siguientes variables:
 
       \begin{enumerate}
-        \item \texttt{var i = 8000}
-        \item \texttt{var i = 8000.0}
-        \item \texttt{var i = "8000"}
         \item \texttt{var i = true}
+        \item \texttt{var i = 8000}
+        \item \texttt{var i = "8000"}
         \item \texttt{var i = Unit}
+        \item \texttt{var i = 8000.0}
       \end{enumerate}
 
     \end{exercise}
@@ -118,6 +126,12 @@
   \subsection{Funciones}
     Un último tipo de dato que vamos a ver en este capítulo son las funciones.
     Las funciones son un tipo de dato que toma una cantidad de parámetros y devuelve un valor.
+    Formalmente, sea \(FT\) el tipo de las funciones, tenemos que:
+    \[
+      FT(A_1, \dots, A_n) \rightarrow R
+    \]
+    con \(A_i\) los tipos de los parámetros de la función, y \(R\) el tipo de retorno de la función.
+
     En \textit{Kotlin} tenemos dos formas de definir funciones: utilizando la palabra reservada
     \texttt{fun}\footnote{Trad. Diversión} o utilizando una expresión lambda.
     En esta sección veremos sólo la primera forma, y dejaremos la segunda para más adelante.
@@ -167,7 +181,7 @@
         jojoReference("Giorno Giovanna")
       \end{kotlin}
 
-    \paragraph{Lo otro más básico}
+    \subsubsection{Lo otro más básico}
       Pasemos a la parte que a nadie le gusta, documentar el código.
       Para documentar algo en \textit{Kotlin} escribiremos un comentario que comience con \texttt{/**}
       y termine con \texttt{*/}.
@@ -194,7 +208,7 @@
       extender innecesariamente el texto, pero esto lo haremos sólo porque el iremos explicando el
       código en cada ejemplo, pero en la vida real \textbf{siempre} debemos documentar el código.
 
-    \paragraph{Lo no tan básico}
+    \subsubsection{Lo no tan básico}
       Lo último que nos queda es simplificar el código que escribimos en el ejemplo anterior porque
       siempre podemos hacerlo mejor.
       
