@@ -1,4 +1,26 @@
 \section{Objetos}
+  Hasta ahora, gran parte de lo que hemos visto ha sido programación imperativa, es decir,
+  programación basada en el concepto de \textit{procedimientos} o \textit{funciones}.
+  Hemos implementado \textit{algoritmos} que nos permiten resolver problemas como series de
+  instrucciones que se ejecutan de acuerdo a una lógica.
+  Sin embargo, en la vida real, los problemas que debemos resolver no son tan simples como
+  una serie de instrucciones, sino que son más complejos y requieren de una mayor abstracción
+  para poder ser resueltos.
+
+  En este capítulo veremos la programación orientada a objetos, un paradigma de programación
+  que nos permite abstraer\footnote{
+    Abstraer es el proceso de eliminar detalles innecesarios de un objeto o sistema para 
+    enfocarnos en sus características esenciales (\cite{ObjectorientedProgramming2023}).
+    Este será un concepto clave en todo lo que resta del libro.
+  } problemas complejos en objetos que interactúan entre sí.
+
+  \begin{defaultbox}[Programación orientada a objetos]
+    La programación orientada a objetos es un paradigma de computación que se organiza en base a 
+    objetos en vez de acciones y datos en vez de lógica.
+    Aquí lo que realmente nos importa son los objetos que queremos manipular más que la lógica para
+    manipularlos.
+  \end{defaultbox}
+  
   Un objeto es una \textit{abstracción} que contiene información y maneras de manejar esta información
   La información contenida dentro de un objeto no es visible desde afuera (a esto se le conoce como transparencia)
   Un objeto se compone de su estado (campos) y su comportamiento (métodos).
@@ -85,3 +107,6 @@
     Los objetos son útiles cuando queremos crear una única instancia de un objeto que se comparte
     por toda la aplicación.
   \end{important}
+
+  Por último, hacemos \texttt{git add .} y \mintinline{text}{git commit -m "Adds Dice object"} para 
+  guardar los cambios.
