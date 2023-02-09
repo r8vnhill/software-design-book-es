@@ -30,8 +30,8 @@
   Para crear un objeto desde \textit{IntelliJ} primero crearemos un nuevo proyecto de la misma forma
   que lo hicimos en el capítulo anterior, nombrémoslo \enquote{oop-introduction}.
   Con el proyecto creado crearemos un nuevo paquete llamado \url{cl.ravenhill.oop.essential}, 
-  hacemos click derecho sobre el paquete y seleccionamos la opción \textit{New} \texttt{->} 
-  \textit{Object} y lo llamaremos \textit{Dice}.
+  hacemos click derecho sobre el paquete y seleccionamos la opción \textit{New} \(\rightarrow\) 
+  \textit{Kotlin Class/File} \(\rightarrow\) \textit{Object} y lo llamaremos \textit{Dice}.
   Esto nos creará un archivo llamado \textit{Dice.kt} dentro del paquete que acabamos de crear con
   el siguiente contenido:
 
@@ -108,5 +108,9 @@
     por toda la aplicación.
   \end{important}
 
-  Por último, hacemos \texttt{git add .} y \mintinline{text}{git commit -m "Adds Dice object"} para 
-  guardar los cambios.
+  Por último, hacemos:
+
+  \begin{powershell}
+    git add .
+    git commit -m "FEAT Adds Dice object"
+  \end{powershell}

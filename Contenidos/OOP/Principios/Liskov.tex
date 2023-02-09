@@ -14,6 +14,7 @@
   de Liskov}
 
   \begin{defaultbox}[Principio de sustitución de Liskov]
+    \index{Principio de sustitución de Liskov}
     Sea \(\phi(x)\) una propiedad verificable de los objetos \(x\) de tipo \(\mathcal{T}\).
     Entonces, \(\phi(y)\) debe ser verificable para objetos \(y\) de tipo \(\mathcal{S}\) donde
     \(\mathcal{S}\) es un subtipo de \(\mathcal{T}\).
@@ -41,17 +42,17 @@
   Así, la clase \texttt{Card} quedaría de la siguiente forma:
 
   \begin{kotlin}
-    open class Card(name: String, text: String, serializer: CardSerializer) {
-      val name: String = name
-      val text: String = text
+    open class Card(name: String, text: String, serializer: AbstractCardSerializer) {
+      val name = name
+      val text = text
       var serializer = serializer
 
       fun toFile(filename: String) {
-        serializer.toFile(filename)
+        serializer.toFile(this, filename)
       }
 
       fun serialize(): String {
-        return serializer.serialize()
+        return serializer.serialize(this)
       }
     }
   \end{kotlin}
@@ -59,12 +60,22 @@
   Y la clase \texttt{MonsterCard} quedaría de la siguiente forma:
 
   \begin{kotlin}
-    class MonsterCard(name: String, text: String, attack: Int, serializer: CardSerializer) :
-        Card(name, text, serializer) {
-      val attack: Int = attack
-
+    class MonsterCard(
+      name: String,
+      text: String,
+      attack: Int,
+      serializer: AbstractCardSerializer
+    ) : Card(name, text, serializer) {
+      val attack = attack
+      
       fun attack(player: Player) {
         player.takeDamage(this.attack)
       }
     }
   \end{kotlin}
+
+  El \textit{principio de Liskov} es uno de los principios más importantes de la programación 
+  orientada a objetos, y es muy importante que lo tengamos en cuenta a la hora de diseñar nuestras
+  aplicaciones.
+  En el siguiente capítulo veremos cómo podemos comenzar a diseñar aplicaciones pensando un poco en
+  el futuro y en cómo todo se puede caer a pedazos de un momento a otro.

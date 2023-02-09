@@ -1,4 +1,4 @@
-\section{Polimorfismo}
+\section{Polimorfismo de subtipos}
   \label{sec:oop:principios:clases_abstractas}
 
   La \textbf{serialización} es el proceso de convertir un objeto en un formato que pueda ser
@@ -116,16 +116,16 @@
   Esto podemos lograrlo con \textbf{clases abstractas}.
 
   \begin{defaultbox}[Clase abstracta]
-    Una clase abstracta es una clase incompleta que no puede ser instanciada.
+    Una clase abstracta\index{Clase abstracta} es una clase incompleta que no puede ser instanciada.
 
-    Una función abstracta es una función que no tiene implementación.
+    Una función abstracta\index{Función abstracta} es una función que no tiene implementación.
     Para que una clase abstracta tenga sentido, debe tener al menos una función abstracta.
   \end{defaultbox}
 
   En \textit{Kotlin} las clases abstractas se definen con la palabra clave \texttt{abstract} y deben
-  comenzar con la palabra clave \texttt{Abstract}:\footnote{
+  comenzar con la palabra clave \texttt{Abstract}.\footnote{
     Esto último es para hacer más fácil distinguir entre clases abstractas y clases concretas.
-  }.
+  }
   Comencemos por cambiar el nombre de la clase \texttt{Card} a \texttt{AbstractCard}, para esto 
   podemos darle click derecho al nombre de la clase y seleccionar la opción \texttt{Refactor ->
   Rename} como en la \cref{fig:oop:principios:clases_abstractas:rename}, esto cambiará el nombre de
@@ -175,6 +175,7 @@
   que modificarlas todas cada vez que se agregue un nuevo formato.
 
   \begin{defaultbox}[Open-closed principle]
+    \index{Open-closed principle}
     Las clases deben estar abiertas para extensión pero cerradas para modificación.
   \end{defaultbox}
 
@@ -182,6 +183,7 @@
   encargue de eso, aprovechando la propiedad de composición y polimmorfísmo.
 
   \begin{defaultbox}[Polimorfísmo de subtipos]
+    \index{Polimorfísmo de subtipos}
     El polimorfismo de subtipos es la propiedad de un objeto de tipo \(A\) de verse y ser usado como
     un objeto de tipo \(B\) siempre y cuando \(A\) sea un subtipo de \(B\).
   \end{defaultbox}
@@ -189,19 +191,12 @@
   En términos prácticos, esto significa que podemos crear una función \(f(B)\) y pasarle un objeto
   de tipo \(A\) siempre y cuando \(A\) sea un subtipo de \(B\).
 
-  Pero primero ordenemos nuestro programa.
+  Pero antes de continuar ordenemos nuestro programa.
   Como notarán, a medida que avanzamos en el desarrollo del programa, la cantidad de archivos que
   tenemos va creciendo de forma acelerada.
   Esto es un problema porque si queremos modificar una clase, tenemos que ir a buscarla en todos
   los archivos.
   Una solución es agrupar las clases con características similares en paquetes.
-
-  Hagamos un paquete \texttt{cards} haciendo click derecho en el paquete 
-  \url{cl.ravenhill.oop.essential} y arrastremos los archivos \texttt{Card.kt} y
-  \texttt{MonsterCard.kt} dentro de él, esto desplegará una ventana como la de la 
-  \cref{fig:oop:principios:clases_abstractas:move} donde deberemos comprobar los cambios que se
-  realizarán y luego darle click al botón \textit{Refactor}.
-  Luego hagamos un paquete \texttt{serialization} en el paquete \url{cl.ravenhill.oop.essential}.
 
   \begin{figure}[ht!]
     \centering
@@ -210,21 +205,30 @@
     \label{fig:oop:principios:clases_abstractas:move}
   \end{figure}
 
+  Hagamos un paquete \texttt{cards} haciendo click derecho en el paquete 
+  \url{cl.ravenhill.kygo} y arrastremos los archivos \texttt{Card.kt} y
+  \texttt{MonsterCard.kt} dentro de él, esto desplegará una ventana como la de la 
+  \cref{fig:oop:principios:clases_abstractas:move} donde deberemos comprobar los cambios que se
+  realizarán y luego darle click al botón \textit{Refactor}.
+  Luego hagamos un paquete \texttt{serialization} en el paquete \url{cl.ravenhill.kygo}.
+
   Luego, creemos la clase \texttt{AbstractCardSerializer} en el paquete \texttt{serialization}, 
   recordando agregar la palabra clave \texttt{abstract} antes de la palabra clave \texttt{class}:
 
   \begin{kotlin}
-    package cl.ravenhill.oop.essential.serializer
+    package cl.ravenhill.kygo.serializer
 
+    import cl.ravenhill.kygo.cards.Card
     import java.io.File
 
+
     abstract class AbstractCardSerializer {
-      fun toFile(filename: String) {
+      fun toFile(card: Card, filename: String) {
         val file = File(filename)
-        file.writeText(serialize())
+        file.writeText(serialize(card))
       }
 
-      abstract fun serialize(): String
+      abstract fun serialize(card: Card): String
     }
   \end{kotlin}
 
@@ -253,32 +257,55 @@
 
 
 
-  Y por último, podemos modificar la clase \texttt{AbstractCard} para que use la clase
+  Y por último, podemos modificar la clase \texttt{Card} para que use la clase
   \texttt{AbstractCardSerializer}:
 
   \begin{kotlin}
-    abstract class Card(
-      name: String, text: String, attack: Int,
-      serializer: AbstractCardSerializer
-    ) {
+    open class Card(
+      name: String, text: String, attack: Int, 
+      serializer: AbstractCardSerializer) {
       ...
       var serializer = serializer
 
       fun toFile(filename: String) {
-        serializer.toFile(filename)
+        serializer.toFile(this, filename)
       }
 
       fun serialize(): String {
-        return serializer.serialize()
+        return serializer.serialize(this)
       }
     }
   \end{kotlin}
 
-  Y nuestra clase \texttt{MonsterCard} quedaría así:
+  Aquí nos topamos nuevamente con nuestro amigo \texttt{this}.
+  En \textit{Kotlin} existen dos pseudo-variables que nos permiten referenciar a un objeto: 
+  \texttt{this} y \texttt{super}.
+  ¿Cuál es la diferencia entre ellas?
+  Fácil, \texttt{this} hace referencia al objeto que recibe el mensaje, mientras que \texttt{super}
+  hace referencia al objeto que recibe el mensaje.
+
+  \begin{center}
+    ¿Qué?
+  \end{center}
+
+  \begin{defaultbox}[\texttt{this} y \texttt{super}]
+    \index{\texttt{this}}\index{\texttt{super}}
+    Tanto \texttt{this} como \texttt{super} son pseudo-variables que hacen referencia al objeto que
+    recibe un mensaje.
+
+    Lo que hace distintos a \texttt{this} y \texttt{super} es el \textit{method-lookup}.
+    En el caso de \texttt{this}, el \textit{method-looup} comienza en la clase del objeto que 
+    recibe el mensaje, mientras que en el caso de \texttt{super}, el \textit{method-lookup} comienza 
+    en la superclase del objeto que recibe el mensaje.
+  \end{defaultbox}
+
+  Ahora, nuestra clase \texttt{MonsterCard} debiera quedar así:
 
   \begin{kotlin}
     class MonsterCard(
-      name: String, text: String, attack: Int,
+      name: String,
+      text: String,
+      attack: Int,
       serializer: AbstractCardSerializer
     ) : Card(name, text, attack, serializer) {
       override fun attack(player: Player) {
@@ -298,7 +325,7 @@
   \begin{defaultbox}[Interfaces]
     Una interfaz es un contrato entre un cliente y un proveedor.
     Un proveedor declara las propiedades que tienen todos los objetos que representa y un cliente
-    puede usar cualquier objeto que cumpla con ese contrato.
+    puede crear cualquier objeto que cumpla con el contrato de la interfaz.
   \end{defaultbox}
 
   \begin{important}
@@ -313,6 +340,7 @@
   
   En \textit{Kotlin} las interfaces se definen con la palabra clave \texttt{interface} en vez de
   \texttt{class}.
+
   Podemos crear una interfaz \texttt{CardSerializer} haciendo click derecho en el paquete
   \url{serializer} y seleccionando \textit{New} \texttt{->} \textit{Kotlin File/Class}.
   Luego, en la ventana que se despliega, seleccionamos \textit{Interface} y le damos un nombre a la
@@ -320,18 +348,18 @@
   Eso nos creará el siguiente archivo:
 
   \begin{kotlin}
-    package cl.ravenhill.oop.essential.serializer
+    package cl.ravenhill.kygo.serializer
 
     interface CardSerializer {
     }
   \end{kotlin}
 
-  Y ahora agregamos los métodos \texttt{serialize()} y \texttt{toFile()} a la interfaz:
+  Y ahora agregamos los métodos \texttt{serialize(Card): String} y \texttt{toFile(Card, String)} a la interfaz:
 
   \begin{kotlin}
     interface CardSerializer {
-      fun serialize(): String
-      fun toFile(filename: String)
+      fun serialize(card: Card): String
+      fun toFile(card: Card, filename: String)
     }
   \end{kotlin}
 
@@ -340,13 +368,13 @@
   diferencia de que (al no ser clases) las interfaces no tienen constructor:
 
   \begin{kotlin}
-    abstract class AbstractCardSerializer : CardSerializer {
-      override fun toFile(filename: String) {
+    abstract class AbstractCardSerializer: CardSerializer {
+      override fun toFile(card: Card, filename: String) {
         val file = File(filename)
-        file.writeText(serialize())
+        file.writeText(serialize(card))
       }
 
-      abstract override fun serialize(): String
+      abstract override fun serialize(card: Card): String
     }
   \end{kotlin}
 
@@ -358,3 +386,15 @@
       serializer: CardSerializer
     ) {...}
   \end{kotlin}
+
+  Como siempre, terminamos con:
+
+  \begin{powershell}
+    git add .
+    git commit -m "FEAT Adds card serializers"
+  \end{powershell}
+
+  \begin{exercise}
+    Implemente las clases \texttt{JsonSerializer} y \texttt{YamlSerializer} que extiendan de
+    \texttt{AbstractCardSerializer} y que implementen el método \texttt{serialize}.
+  \end{exercise}
