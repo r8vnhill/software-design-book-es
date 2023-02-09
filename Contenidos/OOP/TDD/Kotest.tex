@@ -1,4 +1,4 @@
-\section{Conociendo \textit{Kotest}}
+\section{Conociendo a \textit{Kotest}}
 \label{sec:conociendo-kotest}
 
   Ahora veremos cómo utilizar \idxit{Kotest} para testear nuestras aplicaciones siguiendo una
@@ -222,7 +222,11 @@
 
   \begin{kotlin}
     override fun equals(other: Any?): Boolean {
-      return other is Bakemon
+      return if (other === this) {
+        true
+      } else {
+        other is Bakemon
+      }
     }
   \end{kotlin}
 

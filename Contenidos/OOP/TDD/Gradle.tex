@@ -200,7 +200,6 @@
     dependencies {
         testImplementation("io.kotest:kotest-runner-junit5:5.5.5")
         testImplementation("io.kotest:kotest-assertions-core:5.5.5")
-        testImplementation("io.kotest:kotest-property:5.5.5")
     }
   \end{kotlin}
 
@@ -210,8 +209,6 @@
   Luego, agregamos la dependencia de \textit{Kotest} que nos permite utilizar las aserciones de 
   \textit{Kotest}, una aserción es una función que nos permite verificar que una condición se 
   cumpla.
-  Por último, agregamos la dependencia de \textit{Kotest} que nos permite utilizar testing basado
-  en propiedades, esto es algo que veremos más adelante.
 
   Ahora, hagamos \textit{build} nuevamente para que se descarguen las dependencias que acabamos
   de agregar.
