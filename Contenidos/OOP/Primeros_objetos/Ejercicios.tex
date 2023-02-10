@@ -1,0 +1,55 @@
+\section{Ejercicios}
+  \begin{Exercise}[title={Calculadora}]
+    \Question Cree un proyecto \texttt{calculator} en \textit{IntelliJ} de la forma que se vió en 
+      este capítulo.
+    \Question Inicie un repositorio \textit{Git} en el proyecto.
+    \Question Cree un archivo \textit{.gitignore} en el directorio raíz del proyecto y agregue
+      \texttt{.idea/} y \texttt{*.iml} a la lista de archivos ignorados.
+    \Question Agregue el archivo \texttt{.gitignore} al repositorio.
+    \Question Haga un \textit{commit} con el mensaje \texttt{REPO Adds .gitignore}.
+    \Question Cree un paquete \url{cl.ravenhill.calculator} en el proyecto.
+    \Question Cree un objeto \texttt{Calculator} en el paquete \url{cl.ravenhill.calculator}.
+    \Question Agregue un método \texttt{add} que reciba dos números enteros y retorne la suma de 
+      estos.
+    \Question Agregue un método \texttt{subtract} que reciba dos números enteros y retorne la
+      diferencia de estos.
+    \Question Agregue un método \texttt{multiply} que reciba dos números enteros y retorne el
+      producto de estos.
+    \Question Agregue un método \texttt{divide} que reciba dos números enteros y retorne el
+      cociente de estos.
+    \Question Agregue un método \texttt{modulo} que reciba dos números enteros y retorne el
+      resto de la división de estos.
+    \Question ¿Por qué utilizamos un objeto en lugar de una clase para modelar la calculadora?
+    \Question Agregue el archivo \texttt{Calculator.kt} al repositorio y haga un \textit{commit}
+      con el mensaje \texttt{FEAT Adds Calculator}.
+  \end{Exercise}
+
+  \begin{Exercise}
+    \Question Cree un proyecto \texttt{cars} en \textit{IntelliJ} de la forma que se vió en 
+      este capítulo.
+    \Question Inicie un repositorio \textit{Git} en el proyecto.
+    \Question Cree un archivo \textit{.gitignore} en el directorio raíz del proyecto y agregue
+      \texttt{.idea/} y \texttt{*.iml} a la lista de archivos ignorados.
+    \Question Agregue el archivo \texttt{.gitignore} al repositorio.
+    \Question Haga un \textit{commit} con el mensaje \texttt{REPO Adds .gitignore}.
+    \Question Cree un paquete \url{cl.ravenhill.cars} en el proyecto.
+    \Question Cree una clase \texttt{Car} en el paquete \url{cl.ravenhill.cars}.
+    \Question Agregue los siguientes campos a la clase \texttt{Car}:
+      \begin{itemize}
+        \item \texttt{brand} de tipo \texttt{String}.
+        \item \texttt{model} de tipo \texttt{String}.
+        \item \texttt{year} de tipo \texttt{Int}.
+        \item \texttt{color} de tipo \texttt{String}.
+        \item \texttt{price} de tipo \texttt{Double}.
+      \end{itemize}
+    \Question Cree un constructor primario para la clase \texttt{Car} que reciba los campos
+      \texttt{brand}, \texttt{model}, \texttt{year}, \texttt{color} y \texttt{price}.
+    \Question Agregue un método \textrm{print()} a la clase \texttt{Car} que imprima en la
+      consola los valores de los campos de la siguiente forma:
+      \begin{minted}{text}
+        Car(brand=Toyota, model=Corolla, year=2018, color=White, price=1000000.0)
+      \end{minted}
+    \Question Agregue el archivo \texttt{Car.kt} al repositorio y haga un \textit{commit}
+      con el mensaje \texttt{FEAT Adds Car}.
+    \Question ¿Por qué utilizamos una clase en lugar de un objeto para modelar un auto?
+  \end{Exercise}

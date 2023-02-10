@@ -1,0 +1,104 @@
+\section{Ejercicios}
+  \begin{Exercise}[title={Identificando tipos}]
+    \Question Para cada una de las siguientes expresiones, indique el tipo de la variable 
+    \texttt{x}:
+      \subQuestion \mintinline{kotlin}{var x = true}
+      \subQuestion \mintinline{kotlin}{var x = 1}
+      \subQuestion \mintinline{kotlin}{var x = "1.0"}
+      \subQuestion \mintinline{kotlin}{var x = 1.0}
+      \subQuestion \mintinline{kotlin}{var x = Unit}
+      \subQuestion \mintinline{kotlin}{var x = IntArray(10)[0]}
+      \subQuestion \mintinline{kotlin}{var x = "${IntArray(10)}}
+    \Question Investigue qué son los siguientes tipos y de un ejemplo de uso de cada uno:
+      \subQuestion \textit{Float}
+      \subQuestion \textit{Long}
+      \subQuestion \textit{Char}
+      \subQuestion \textit{Byte}
+      \subQuestion \textit{Short}
+      \subQuestion \textit{Long}
+    \ExeText Utilice la terminal interactiva de \textit{Kotlin} (\texttt{kotlinc}) para verificar 
+      sus respuestas.
+    \Question Utilizando la notación \(FT(A_1, \dots, A_n) \rightarrow R\) indique el tipo de las
+      siguientes funciones, reemplazando \texttt{\_} por el tipo correspondiente:
+      \subQuestion
+        \begin{minted}{kotlin}
+          fun f1(x: Int, y: Int): _ {
+            return x + y
+          }
+        \end{minted}
+      \subQuestion
+        \begin{minted}{kotlin}
+          fun f2(x: Double): _ {
+            println(x)
+          }
+        \end{minted}
+      \subQuestion 
+        \begin{minted}{kotlin}
+          fun f3(x: Double, y: Double): _ {
+            return println(x + y)
+          }
+        \end{minted}
+      \subQuestion
+        \begin{minted}{kotlin}
+          fun f4(x: Int, y: Int): _ {
+            return x + y
+            println(x + y)
+          }
+        \end{minted}
+    \Question Indique dos tipos inmutables y uno mutable.
+  \end{Exercise}
+
+  \begin{Exercise}[title={¿Qué imprime?}]
+    Indique si las siguientes instrucciones arrojan un error o no, y si no lo hacen, indique qué
+    imprime cada una al ser ejecutadas en la terminal interactiva.
+
+    \Question 
+      \begin{minted}{kotlin}
+        val x = 1
+        val y = 2
+        val z = 3
+        println(x + y + z)
+      \end{minted}
+    \Question 
+      \begin{minted}{kotlin}
+        val x = 0
+        while (x < 10) {
+          println(x)
+          x = x + 1
+        }
+      \end{minted}
+    \Question
+      \begin{minted}{kotlin}
+        val x = 0
+        for (i in x..10) {
+          println(i)
+        }
+      \end{minted}
+    \Question
+      \begin{minted}{kotlin}
+        fun jojoReference(name: String): Unit {
+          return Unit
+          println("My name is " + name + ", and I have a dream.")
+        }
+      \end{minted}
+    \Question \begin{minted}{kotlin}
+        fun f(x: Int): Double {
+          return x
+        }
+      \end{minted}
+    \Question \begin{minted}{kotlin}
+        val a = for (i in 0..10) {
+          i
+        }
+      \end{minted}
+  \end{Exercise}
+
+  \begin{Exercise}[title={Fibonacci}]
+    \Question Simplifique la implementación de la función recursiva de Fibonacci usando if-else como 
+      expresión. 
+      Hint: utilice una expresión de la forma \mintinline{kotlin}|return if (condicion) {expresion1} else {expresion2}|.
+
+    \Question ¿Qué sucede si se llama a la función de Fibonacci con un número negativo?
+      ¿Cómo se puede solucionar este problema?
+      Discuta, no debe implementar la solución.
+  \end{Exercise}

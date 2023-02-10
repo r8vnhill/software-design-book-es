@@ -1,5 +1,9 @@
 \section{Creando el proyecto}
-  Partamos por crear un paquete \texttt{cl.ravenhill.kygo} en el directorio \url{src/main/kotlin}.
+  Primero debemos crear un nuevo proyecto en \textit{IntelliJ}, esto lo podemos hacer de la misma
+  forma que hicimos en la sección anterior.
+
+  Con el proyecto creado, podemos partir creando un paquete \texttt{cl.ravenhill.kygo} en el 
+  directorio \url{src/main/kotlin}.
 
   Ahora debemos iniciar el repositorio de \textit{Git} en el directorio del proyecto.
   Para esto primero hagamos click derecho en el directorio del proyecto y seleccionemos la opción
@@ -47,17 +51,17 @@
   Veamos lo que está pasando en el comando anterior:
   \begin{itemize}
     \item Primero tomamos el contenido del portapapeles y lo usamos como argumento al comando 
-      \texttt{cd}\footnote{Change directory}\autocite{CdManPage}/\texttt{Set-Location}\autocite{sdwheelerSetLocationMicrosoftPowerShell} 
+      \texttt{cd}\footnote{Change directory (\cite{CdManPage})}/\texttt{Set-Location}\autocite{sdwheelerSetLocationMicrosoftPowerShell} 
       para cambiar el directorio actual a la ruta del proyecto.
-    \item Luego ejecutamos el comando \idx{\texttt{git init}}.
+    \item Luego ejecutamos el comando \texttt{git init}\index{git init}.
       El comando \texttt{git init} inicializa un repositorio de \textit{Git} en el directorio
       actual, esto significa que \textit{Git} comenzará a monitorear los cambios que se realicen
       en el directorio actual.
   \end{itemize}
 
   Nos queda verificar que el repositorio de \textit{Git} se haya creado correctamente.
-  Para esto ejecutemos el comando \idx{\texttt{git status}} (nuestro otro mejor amigx), esto nos entregará
-  un mensaje como el siguiente:
+  Para esto ejecutemos el comando \texttt{git status}\index{git status} (nuestrx otrx mejor amigx), 
+  esto nos entregará un mensaje como el siguiente:
 
   \begin{minted}{text}
     On branch master
@@ -83,8 +87,8 @@
     Existen formas de agregarlos de todos modos, pero por qué quieres hacer eso \texttt{D:}
   } se agreguen.
 
-  Para esto debemos crear un archivo llamado \idx{\texttt{.gitignore}} en el directorio raíz del 
-  proyecto.
+  Para esto debemos crear un archivo llamado \texttt{.gitignore}\index{.gitignore} en el directorio 
+  raíz del proyecto.
   Este archivo contiene una lista de patrones que \textit{Git} usará para ignorar archivos
   que coincidan con esos patrones.
   En nuestro caso, vamos a ignorar todos los archivos que estén en el directorio \texttt{.idea/} y

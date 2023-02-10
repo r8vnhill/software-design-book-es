@@ -1,0 +1,132 @@
+\section{Ejercicios}
+\label{sec:tdd:ejercicios}
+  \begin{Exercise}
+    Considere una clase \texttt{IntArrayList} que representa una lista enlazada e implementa la
+    interfaz \texttt{IntList}.
+    \begin{minted}{kotlin}
+      /**
+       * This interface represents a list of integers.
+       */
+      interface IntList {
+        /**
+         * Adds a new value to the list.
+         */
+        fun add(value: Int)
+        /**
+         * Gets the value at the given index.
+         */
+        fun get(index: Int): Int
+        /**
+         * Removes the value at the given index.
+         */
+        fun remove(index: Int): Int
+        /**
+         * Returns the size of the list.
+         */
+        fun size(): Int
+        /**
+         * Returns the capacity of the list.
+         */
+        fun capacity(): Int
+      }
+    \end{minted}
+
+    Para su implementación considere que una lista enlazada es una estructura de datos que consiste
+    en una secuencia de nodos, donde cada nodo contiene un valor y una referencia al siguiente nodo.
+    Puede revisar el siguiente enlace para obtener más información: 
+    \url{https://www.youtube.com/watch?v=pN2BHqWWGHU}
+
+    Considere que el constructor de la clase \texttt{IntArrayList} se puede utilizar de la siguiente
+    forma: 
+    \begin{minted}{kotlin}
+      val list = IntArrayList(intArrayOf(1, 2, 3))
+    \end{minted}
+
+    Recuerde hacer \textit{commit} de su trabajo después de cada pregunta.
+
+    \Question Cree un proyecto \textit{lists} en \textit{IntelliJ} de la forma que se vió en 
+      este capítulo utilizando \textit{Gradle} como sistema de construcción y agregue las 
+      dependencias de \textit{Kotest}.
+    \Question Cree una clase \texttt{IntArrayTest} que extienda de la clase \texttt{FunSpec}.
+    \Question Escriba un test que verifique que el tamaño de una lista vacía es cero.
+    \Question Escriba un test que verifique que el tamaño de una lista es el número de elementos
+      con los que se inicializó.
+    \Question Escriba un test que verifique que la capacidad de una lista vacía es 1.
+    \Question Escriba un test que verifique que la capacidad de una lista es el doble del tamaño del
+      arreglo con el que se inicializó.
+    \Question Escriba un test que verifique que se pueden obtener elementos de una lista.
+    \Question Escriba un test que verifique que el tamaño de listas creadas con 1 y 2 elementos
+      es 1 y 2 respectivamente.
+    \Question Escriba un test que verifique que se pueden agregar elementos a una lista.
+      Para esto, utilice un ciclo \mintinline{kotlin}{for} para agregar elementos a la lista.
+      Vea el código al final del ejercicio para obtener una idea de cómo hacerlo.
+    \Question Escriba un test que verifique que se pueden remover elementos de una lista.
+    \Question Implemente la clase \texttt{IntArrayList} de forma que pase todos los tests
+      escritos en el ejercicio anterior.
+      Puede utilizar el siguiente código como punto de partida:
+      \begin{minted}{kotlin}
+        class IntArrayList(elements: IntArray) : IntList {
+          private var capacity = if (elements.isEmpty()) 1 else elements.size * 2
+          var elements = IntArray(capacity)
+
+          init {
+            for (i in elements.indices) {
+              this.elements[i] = elements[i]
+            }
+          }
+        }
+      \end{minted}
+
+    \ExeText A continuación se presenta la estructura que debieran tener sus tests:
+      \begin{minted}{kotlin}
+        class IntArrayListTest : FunSpec({
+          lateinit var list: IntList
+          beforeTest {
+            list = IntArrayList(intArrayOf())
+          }
+          test("The size of an empty list should be 0") {...}
+          test("The capacity of an empty list should be 1") {...}
+          test("The capacity of a list starts at double the size of the array") {
+            list = IntArrayList(intArrayOf(1, 2, 3))
+            // Verificar que la capacidad es 6
+          }
+          test("The size of the list is the number of elements it contains") {
+            list = IntArrayList(intArrayOf(1, 2, 3))
+            // Verificar que el tamaño es 3
+          }
+          test("An element can be added to the list") {
+            for (i in 1..10) {
+              list.add(i)
+              // Verificar que el tamaño es i
+              // Verificar que el último elemento es i
+            }
+          }
+          test("The capacity of the list is doubled when it is full") {
+            list = IntArrayList(intArrayOf(1, 2))
+            // Verificar que la capacidad es 4
+            list.add(3)
+            list.add(4)
+            // Verificar que la capacidad es 8
+          }
+
+          test("An element can be removed from the list") {
+            list = IntArrayList(intArrayOf(1, 2, 3))
+            list.remove(1) shouldBe 2
+            // Verificar que el tamaño es 2
+            // Verificar que los elementos son 1 y 3
+          }
+          test("The capacity of the list is reduced by half when it is 1/4 full") {
+            list = IntArrayList(intArrayOf(1, 2, 3, 4))
+            for (i in 1..3) {
+              list.remove(0)
+            }
+            // Verificar que la capacidad es 2
+          }
+
+          test("Elements of the list can be obtained by index") {
+            list = IntArrayList(intArrayOf(1, 2, 3))
+            // Verificar que los elementos son 1, 2 y 3
+          }
+        })
+      \end{minted}
+  \end{Exercise}
