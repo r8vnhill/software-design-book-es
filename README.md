@@ -1,10 +1,9 @@
 # El tiempo pasa y el software muere
 
-La idea de este "apunte" nació como una _wiki_ de _Github_ (se pueden encontrar la wiki en este mismo 
-proyecto pero ya no será actualizada con los contenidos del libro) creada por 
-Juan-Pablo Silva como apoyo para el curso de _Metodologías de Diseño y Programación_ 
-dictado por el profesor Alexandre Bergel del Departamento de Ciencias de la Computación, Facultad
-de Ciencias Físicas y Matemáticas de la Universidad de Chile.
+La idea de este "apunte" nació como una *wiki* de *Github* creada por Juan-Pablo Silva como apoyo 
+para el curso de *Metodologías de Diseño y Programación* dictado por el profesor Alexandre Bergel 
+del Departamento de Ciencias de la Computación, Facultad de Ciencias Físicas y Matemáticas de la 
+Universidad de Chile.
 
 Lo que comenzó como unas notas para complementar las clases del profesor lentamente fue creciendo,
 motivado por esxs alumnxs que buscaban dónde encontrar soluciones para esas pequeñas dudas que no
@@ -19,9 +18,29 @@ Este libro no busca ser un reemplazo para las clases del curso, es y será siemp
 Esta obra va dirigida a los estudiantes de la facultad así como para cualquier persona que esté
 dando sus primeros pasos en programación.
 El libro presenta una introducción al diseño de software, la programación orientada a objetos y lo
-básico de los lenguajes de programación _Java_ y _Kotlin_.
-Se asume que los lectores tienen nociones básicas de programación, conocimiento básico de 
-_Python_ y, en menor medida, de _C_.
+básico del lenguaje de programación *Kotlin*.
 
 Antes de comenzar, debo agradecer a las personas que hicieron posible y motivaron la escritura de
-esto: [Beatríz Graboloza](https://github.com/BeaNyann), [Dimitri Svandich](https://github.com/vmkovacs) y, por supuesto, Alexandre Bergel y Juan-Pablo Silva.
+esto: [Beatríz Graboloza](https://github.com/BeaNyann), 
+[Dimitri Svandich](https://github.com/vmkovacs), Nancy Hitschfeld, Matías Todo y, por supuesto,
+Alexandre Bergel y Juan-Pablo Silva.
+
+## ¿Cómo contribuir?
+
+Si quieres contribuir a este proyecto, puedes hacerlo de varias formas siempre y cuando respetes
+el [código de conducta](CODE_OF_CONDUCT.md) del proyecto.
+
+- Si encuentras algún error ortográfico o de redacción, puedes abrir un *issue* en el repositorio
+  de *Github* o bien, si tienes conocimientos de *LaTeX*, puedes hacer un *pull request* con la
+  corrección.
+- Si encuentras algún error en el código, puedes abrir un *issue* en el repositorio de *Github* o
+  bien, si tienes conocimientos de *Kotlin*, puedes hacer un *pull request* con la corrección.
+- Cualquier sugerencia es bienvenida, basta con abrir un *issue* en el repositorio de *Github*.
+- Si quieres contribuir con el contenido del libro, puedes hacerlo de dos formas:
+  - Si tienes conocimientos de *LaTeX*, puedes hacer un *pull request* con la corrección.
+  - Si no tienes conocimientos de *LaTeX*, puedes abrir un *issue* en el repositorio de *Github*
+    con la sugerencia de contenido que quieres agregar.
+
+## Licencia
+
+Este libro está bajo una licencia [Creative Commons Atribución-CompartirIgual 4.0 Internacional](https://creativecommons.org/licenses/by-sa/4.0/).
