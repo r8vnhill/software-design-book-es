@@ -1,0 +1,18 @@
+\subsection{La función de Fibonacci}
+  \label{subsec:La_funcion_de_Fibonacci}
+
+  La función de Fibonacci es uno de los ejemplos más conocidos de una función recursiva (función 
+  que se llama a sí misma). 
+  Se define de la siguiente manera:
+
+  \begin{equation}
+    \label{eq:Funcion_de_Fibonacci}
+    f(n) = \begin{cases}
+      0 & \text{si } n = 0 \\
+      1 & \text{si } n = 1 \\
+      f(n - 1) + f(n - 2) & \text{si } n > 1
+    \end{cases}
+  \end{equation}
+
+  En las secciones siguientes vamos a ver cómo implementar esta función en Kotlin usando distintas
+  técnicas.

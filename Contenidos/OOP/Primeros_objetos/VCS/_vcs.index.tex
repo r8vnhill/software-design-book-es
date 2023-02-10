@@ -1,0 +1,36 @@
+\section{Sistemas de control de versiones}
+  Para las siguientes secciones utilizaremos como ejemplos un juego de cartas inspirado en
+  \textit{Yu-Gi-Oh!} desarrollando y publicado por \textit{Konami}.
+  Lo llamaremos \textit{Kygo}.
+
+  Comencemos por crear un nuevo proyecto siguiendo los mismos pasos del capítulo anterior (con la 
+  opción de \textit{Git} desmarcada) en \textit{IntelliJ} y llamémoslo \textit{kygo}.
+
+  Algo que me ha pasado muchas veces y que probablemente les pasará a ustedes es que tienen un
+  proyecto que está funcionando perfectamente, pero que necesitan agregarle una nueva funcionalidad.
+  Trabajamos muy duro en la nueva funcionalidad y la terminamos, pero al momento de probarla nos
+  damos cuenta de que la nueva funcionalidad rompió el código que ya teníamos.
+  Esto es un problema muy común y que puede ser muy frustrante, ya que nos obliga a volver a
+  escribir el código que ya teníamos funcionando.
+  Sería ideal poder volver a un punto anterior en el tiempo y recuperar el código que ya teníamos
+  funcionando\dots
+
+  Sistemas de control de versiones al rescate.
+
+  \begin{defaultbox}[Sistema de control de versiones]
+    Un \textit{sistema de control de versiones}\index{Sistema de control de versiones} (VCS) es un 
+    programa que nos permite guardar el estado de nuestro proyecto en diferentes puntos del tiempo.
+  \end{defaultbox}
+
+  Esto tiene varios beneficios, pero el principal\footnote{imho} es que podemos guardar el estado de 
+  nuestro proyecto en un punto del tiempo y luego volver a ese punto en el tiempo si es necesario.
+
+  Existen varios sistemas de control de versiones como \textit{Git}, \textit{Mercurial}, 
+  \textit{Subversion}, \textit{Perforce} y \textit{CVS}.
+  En este libro utilizaremos \textit{Git} ya que es el sistema de control de versiones más popular
+  y el que más se utiliza en la industria.
+
+  \subimport{.}{Git.tex}
+  \subimport{.}{Instalando_Git.tex}
+  \subimport{.}{Configurando_Git.tex}
+  

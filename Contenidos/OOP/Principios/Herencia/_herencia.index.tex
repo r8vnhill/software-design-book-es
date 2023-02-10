@@ -1,0 +1,95 @@
+\section{Herencia}
+  Consideremos ahora que el mazo puede tener cartas de diferentes tipos: cartas de monstruos, 
+  magias y trampas.
+  Por ahora, diremos que la única diferencia entre estas cartas es que las cartas de monstruos
+  tienen un ataque, mientras que las cartas de magia y trampa no.
+
+  Primero, simplifiquemos un poco nuestro constructor para ir reduciendo la cantidad de código que
+  tenemos que escribir:
+
+  \begin{kotlin}
+    class Card(name: String, text: String, attack: Int) {
+      val name: String = name
+      val text: String = text
+      val attack: Int = attack
+      
+      fun attack(player: Player) {
+        player.takeDamage(attack)
+      }
+    }
+  \end{kotlin}
+
+  Noten que ahora nos deschicimos del bloque \texttt{init} y definimos los campos de la clase
+  directamente en el cuerpo de la clase, esto es equivalente a lo que teníamos antes.
+
+  Ahora sí, veamos cómo podemos definir los tipos de cartas que queremos.
+  Una solución es agregar un campo \textit{type} a la clase \textit{Card}, esto podría ser un 
+  \textit{String}, además podríamos definir que si intentamos atacar con una carta mágica o trampa
+  el daño que se le hace al jugador es 0.
+
+  \begin{kotlin}
+    class Card(name: String, text: String, attack: Int, type: String) {
+      val name: String = name
+      val text: String = text
+      val attack: Int = attack
+      val type: String = type
+      
+      fun attack(player: Player) {
+        if (type == "Monster") {
+          player.takeDamage(attack)
+        } else {
+          println("You can't attack with a $type card")
+        }
+      }
+    }
+  \end{kotlin}
+
+  Esta implementación tiene varios problemas, pero enfoquémosnos en dos:
+
+  \begin{itemize}
+    \item Utilizamos un \textit{String} para representar el tipo de carta, esto es un problema 
+      porque no podemos asegurar que el valor que se le pase al constructor sea uno de los tipos
+      válidos y tendríamos que agregar una condición para verificar que el tipo sea válido.
+    \item Si queremos agregar un nuevo tipo de carta, tendríamos que modificar el código de la
+      clase \textit{Card} y agregar una nueva condición en el método \texttt{attack}.
+  \end{itemize}
+
+  Pero ambos problemas se reducen a lo mismo: no encapsulamos el cambio.
+  Si queremos agregar un nuevo tipo de carta, tenemos que modificar el código de todas las clases
+  que dependen de la clase \textit{Card}.
+  Esto claramente no escala bien.
+
+  Una forma de enfrentar este problema es utilizar \textbf{herencia}.
+
+  \begin{defaultbox}[Herencia]
+    La herencia es la propiedad de los objetos de heredar características de otros objetos.
+    
+    Diremos que un objeto \textit{A} hereda de otro objeto \textit{B} si \textit{A} es una
+    especialización de \textit{B}.
+    A \textit{A} se le conoce como \textbf{subclase} de \textit{B} y a \textit{B} como
+    \textbf{superclase} de \textit{A}.
+  \end{defaultbox}
+
+  Veamos un ejemplo de herencia en la vida real.
+  Consideremos la familia de animales \textit{Caninae}, todos los miembros de esta familia pueden
+  mover la cola (creo), pero puede que lo hagan por distintos motivos.
+  
+  Consideremos ahora a tres animales de esta familia: el perro, el lobo y el zorro.
+  Todos ellos pueden mover la cola, pero el perro lo hace para saludar, el lobo para intimidar y
+  el zorro para jugar.
+  Podemos decir entonces que la propiedad de mover la cola es una propiedad de la familia 
+  \textit{Caninae} que es heredada por todos los miembros de esta familia.
+
+  \textit{Github Copilot} me sugiere escribir \enquote{En programación, la herencia es una forma de 
+  reutilizar código}, pero esto es incorrecto.
+  La herencia tiene como efecto secundario la reutilización de código, pero no es su objetivo.
+  El objetivo de la herencia es especializar una clase, y para esto es necesario que la herencia 
+  tenga coherencia lógica.
+
+  Para ver un ejemplo de herencia sin coherencia lógica, pensemos que tanto el perro como el lobo
+  pueden aullar.
+  Si nuestro objetivo es sólo reutilizar código, podríamos decir que perro es una subclase de lobo,
+  pero esto no tiene sentido, ya que los perros y los lobos son especies distintas.
+
+  \subimport{.}{Herencia_en_kotlin.tex}
+  \subimport{.}{Method_lookup.tex}

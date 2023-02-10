@@ -1,0 +1,81 @@
+\section{Principio de Liskov}
+  \label{sec:principio-de-liskov}
+
+  Veamos otro problema en nuestra implementación.
+  Hasta ahora definimos 3 tipos de cartas: \textit{Monstruo}, \textit{Mágica} y \textit{Trampa}.
+  Además definimos un método \texttt{Card::attack(Player)} que es invocado cuando una carta ataca a 
+  un jugador.
+  ¿No es raro que las cartas \textit{Mágica} y \textit{Trampa} también tengan un método 
+  \texttt{attack}?
+
+  En efecto, no tiene sentido que una carta \textit{Mágica} ataque a un jugador, aunque definamos
+  un método \texttt{attack} que no haga nada.
+  Una de las razones por las que no tiene sentido es porque estamos rompiendo el \textit{principio
+  de Liskov}
+
+  \begin{defaultbox}[Principio de sustitución de Liskov]
+    \index{Principio de sustitución de Liskov}
+    Sea \(\phi(x)\) una propiedad verificable de los objetos \(x\) de tipo \(\mathcal{T}\).
+    Entonces, \(\phi(y)\) debe ser verificable para objetos \(y\) de tipo \(\mathcal{S}\) donde
+    \(\mathcal{S}\) es un subtipo de \(\mathcal{T}\).
+  \end{defaultbox}
+
+  \begin{center}
+    ¿Qué?
+  \end{center}
+
+  En nuestro caso, la propiedad \(\phi(x)\) es la propiedad de que las cartas pueden atacar a un
+  jugador, y \(\mathcal{T}\) es el tipo \texttt{Card}.
+  Pero la verdad es que no todas nuestras cartas pueden atacar a un jugador, por lo que no podemos
+  decir que \(\phi(y)\) es verificable para todos los objetos de tipo \texttt{Card}.
+  Por lo tanto, no podemos decir que el principio de Liskov se cumple.
+  Noten que hay casos en los que el \textit{principio de Liskov} se cumplirá por restricciones
+  impuestas por el lenguaje, pero hay otros casos (como en nuestro ejemplo) en los que el principio
+  de Liskov no se cumple por restricciones lógicas que nosotros mismos impusimos.
+
+  ¿Cómo podemos solucionar este problema?
+  La solución en este caso es simple: quitar el método \texttt{attack} de la clase \texttt{Card} y
+  definirlo solamente en la clase \texttt{MonsterCard}.
+  De la misma forma, el parámetro \texttt{attackPoints} de la clase \texttt{MonsterCard} no tiene
+  sentido para las cartas \textit{Mágica} y \textit{Trampa}, por lo que también lo podemos quitar.
+
+  Así, la clase \texttt{Card} quedaría de la siguiente forma:
+
+  \begin{kotlin}
+    open class Card(name: String, text: String, serializer: AbstractCardSerializer) {
+      val name = name
+      val text = text
+      var serializer = serializer
+
+      fun toFile(filename: String) {
+        serializer.toFile(this, filename)
+      }
+
+      fun serialize(): String {
+        return serializer.serialize(this)
+      }
+    }
+  \end{kotlin}
+
+  Y la clase \texttt{MonsterCard} quedaría de la siguiente forma:
+
+  \begin{kotlin}
+    class MonsterCard(
+      name: String,
+      text: String,
+      attack: Int,
+      serializer: AbstractCardSerializer
+    ) : Card(name, text, serializer) {
+      val attack = attack
+      
+      fun attack(player: Player) {
+        player.takeDamage(this.attack)
+      }
+    }
+  \end{kotlin}
+
+  El \textit{principio de Liskov} es uno de los principios más importantes de la programación 
+  orientada a objetos, y es muy importante que lo tengamos en cuenta a la hora de diseñar nuestras
+  aplicaciones.
+  En el siguiente capítulo veremos cómo podemos comenzar a diseñar aplicaciones pensando un poco en
+  el futuro y en cómo todo se puede caer a pedazos de un momento a otro.

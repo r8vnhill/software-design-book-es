@@ -1,0 +1,94 @@
+\chapter{Cuando todo no funciona}
+  \label{chap:cuando-todo-no-funciona}
+
+  Como ya vimos, cuando desarrollamos aplicaciones, la complejidad de las mismas va creciendo a 
+  medida que se van agregando nuevas funcionalidades. 
+  Esto hace que el código se vuelva más difícil de entender y de mantener. 
+  Además, cuando se agregan nuevas funcionalidades, es muy común que se rompan las funcionalidades 
+  ya existentes D: 
+  Esto es un problema, ya que no podemos estar seguros de que las funcionalidades que ya existen 
+  siguen funcionando correctamente.
+
+  En este capítulo vamos a ver cómo podemos pensar nuestras aplicaciones de una manera que nos
+  permita encontrar estos problemas lo antes posible, y cómo podemos arreglarlos.\footnote{
+    O al menos empezar a arreglarlos.
+  }
+
+  El \textit{Test-Driven Development}\index{Test-Driven Development} (TDD) es una técnica de 
+  desarrollo de software en la que vamos a tratar de probar nuestros programas antes de escribirlos.
+  
+  ¿Pero a qué me refiero con \textit{probar} un programa?
+
+  Cuando hablamos de probar un programa, nos referimos a que vamos a ejecutar el programa con
+  distintos valores de entrada, y vamos a verificar que el programa nos devuelva los valores
+  esperados.
+  Por ejemplo, si tenemos una función que suma dos números, podemos probarla con distintos pares
+  de números, y verificar que la suma de esos números sea la que esperamos.
+  Aquí diremos que cada par de números es un \textit{caso de prueba}.\index{Caso de prueba}
+  Más formalmente, un caso de prueba es una especificación de los valores de entrada, condiciones de
+  ejecución y valores de salida esperados de un programa.
+
+  En el caso de la función de suma, podríamos escribir los siguientes casos de prueba:
+
+  \begin{itemize}
+    \item Sumar 1 y 2, y verificar que el resultado sea 3.
+    \item Sumar 2 y 2, y verificar que el resultado sea 4.
+    \item Sumar 0 y 0, y verificar que el resultado sea 0.
+    \item Sumar 1 y 0, y verificar que el resultado sea 1.
+  \end{itemize}
+
+  En el caso de la función de suma, los casos de prueba son muy simples, pero en la práctica, los
+  casos de prueba pueden ser mucho más complejos.
+
+  Entonces, cuando hablamos de probar un programa, nos referimos a escribir los casos de prueba y
+  registrar el resultado de ejecutar estos casos.
+
+  \begin{defaultbox}[Test-Driven Development]
+    El \idxit{Test-Driven Development} (TDD) es una metodología de desarrollo de software en la que
+    los requisitos del software son traducidos a casos de prueba antes de escribir el código del
+    programa.
+  \end{defaultbox}
+
+  El TDD se separa en tres pasos:
+
+  \begin{enumerate}
+    \item Escribir unos pocos casos de prueba y verificar que todos fallen.\footnote{
+        Si escribimos tests que pasan antes de implementar la funcionalidad, hay algo 
+        \href{https://www.merriam-webster.com/words-at-play/what-does-sus-mean}{sus} en nuestros 
+        tests.
+      }
+    \item Escribir el código mínimo necesario para que el caso de prueba pase.
+    \item Refactorizar\footnote{
+      Refactorizar es una técnica de desarrollo de software que consiste en reescribir el código sin 
+      cambiar su comportamiento.
+    } el código para que sea más legible y fácil de mantener.
+  \end{enumerate}
+
+  El TDD es difícil de explicar, así que en lugar de aburrirles con una explicación teórica extensa,
+  vamos a ir desarrollando todas las soluciones de aquí en adelante usando TDD.
+  Así, vamos a ir viendo cómo funciona el TDD en la práctica.
+
+  ¿Pero por qué deberíamos usar TDD?
+  Existen muchas razones para usar TDD, pero mencionemos tres que considero importante:
+
+  \begin{itemize}
+    \item Fallar rápido: Si escribimos los casos de prueba antes de escribir el código, vamos a
+      encontrar los errores lo antes posible, y vamos a poder arreglarlos antes de que se vuelvan
+      más difíciles de arreglar.
+    \item Evitar imparcialidad en los tests: Si escribimos los tests después de escribir el código,
+      es muy probable que los tests estén sesgados a favor del código que acabamos de escribir.
+      Esto es un problema, ya que no podemos estar seguros de que los tests realmente estén
+      verificando que el código funciona correctamente.
+      Aquí nos importa el comportamiento esperado del código, no cómo está implementado.
+    \item Documentación: Los tests son una forma de documentar el código.
+      Si escribimos los tests antes de escribir el código, podemos usarlos como una forma de
+      especificar el comportamiento del código.
+  \end{itemize}
+
+  \subimport{.}{Testing_frameworks.tex}
+  \subimport{.}{Gradle.tex}
+  \subimport{.}{Kotest.tex}
+  \subimport{.}{Kotest_2.tex}
+  \subimport{.}{Refactor.tex}
+
+  \printbibliography[keyword=tdd]

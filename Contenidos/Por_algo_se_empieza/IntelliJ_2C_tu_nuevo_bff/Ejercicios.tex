@@ -1,0 +1,142 @@
+\newpage
+\section{Ejercicios}
+  \begin{Exercise}[title={Potencias}]
+    \Question Implemente una función \texttt{iterativePow(x: Int, n: Int): Int} que calcule la 
+      potencia de un número de forma iterativa.
+      \textit{Hint: Utilice un ciclo \texttt{for} que vaya desde 1 hasta la potencia.}
+    \Question Implemente una función \texttt{recursivePow(x: Int, n: Int): Int} que calcule la 
+      potencia de un número de forma recursiva.
+    \Question La \textit{n}-ésima potencia de un número \textit{x} se puede calcular utilizando la estrategia
+      divide y vencerás de la siguiente manera:
+      \[
+        x^n = \begin{cases}
+          1 & \text{si } n = 0 \\
+          x^{n / 2} \cdot x^{n / 2} & \text{si } n \text{ es par} \\
+          x^{(n - 1) / 2} \cdot x^{(n - 1) / 2} \cdot x & \text{si } n \text{ es impar}
+        \end{cases}
+      \]
+      Implemente una función recursiva \texttt{divideAndConquerPow(x: Int, n: Int): Int} que
+      calcule la \textit{n}-ésima potencia de un número \textit{x} utilizando esta estrategia.
+      \textit{Hint: Para saber si un número es par o impar podemos utilizar el operador módulo 
+      (\texttt{\%}) que nos da el resto de la división de dos números, entonces si \texttt{n \% 2} es
+      igual a 0 \texttt{n} es par.}
+    \Question Tenemos que:
+        \[  x^n = \begin{cases}
+              1 & \text{si } n = 0 \\
+              x^{n / 2} \cdot x^{n / 2} & \text{si } n \text{ es par} \\
+              x^{(n - 1) / 2} \cdot x^{(n - 1) / 2} \cdot x & \text{si } n \text{ es impar}
+            \end{cases} 
+          \]
+        Con esto, podemos implementar una función recursiva \texttt{fastPow(x: Int, n: Int): Int} 
+        que calcule la \textit{n}-ésima potencia de un número \textit{x} utilizando esta estrategia
+        con la siguiente especificación:
+        \[  
+          \mathit{fastPow}(x, n) = \begin{cases}
+            \mathit{fastPow}(\frac{1}{x}, -n) & \text{si } n < 0 \\
+            1 & \text{si } n = 0 \\
+            \mathit{fastPow}\left(x \cdot x, \frac{n}{2}\right) & \text{si } n \text{ es par} \\
+            x \cdot \mathit{fastPow}\left(x \cdot x, \frac{n - 1}{2}\right) & \text{si } n \text{ es impar}
+          \end{cases}
+        \]
+        Implemente esta función.
+    \Question Programe una interfaz interactiva que permita calcular la potencia de un número de 
+      forma iterativa, recursiva, utilizando la estrategia divide y vencerás y utilizando la 
+      estrategia de potencias rápidas.
+  \end{Exercise}
+
+  \begin{Exercise}[title={Números binarios}]
+    Un número binario es un número que está escrito en base 2.
+    Por ejemplo, el número binario \texttt{101} es igual a \(1 \cdot 2^2 + 0 \cdot 2^1 + 1 \cdot 2^0 
+    = 5\).
+    \Question Implemente una función \texttt{binaryToDecimalFor(binary: IntArray): Int} que reciba un 
+      arreglo de enteros que representan un número binario y calcule su equivalente en base 10 
+      utilizando un ciclo \texttt{for}.
+    \Question Implemente una función \texttt{binaryToDecimalWhile(binary: IntArray): Int} que reciba 
+      un arreglo de enteros que representan un número binario y calcule su equivalente en base 10
+      utilizando un ciclo \texttt{while}.
+    \Question Implemente una función \texttt{binaryToDecimalRecursive(binary: IntArray): Int} que 
+      reciba un arreglo de enteros que representan un número binario y calcule su equivalente en base 
+      10 utilizando recursión.
+      Para esto, considere lo siguiente:
+      \[
+        \mathit{binToDec(binary)} = \begin{cases}
+          0 & \text{si } \mathit{binary} \text{ es vacío} \\
+          \mathit{binary}[n - 1] \cdot 2^{n - 1} + \mathit{binToDec}(\mathit{binary[0..n - 2]}) 
+            & \text{sino}
+        \end{cases}
+      \]
+      \textit{Hint: Para obtener el subarreglo \texttt{binary[0..n - 2]} puede utilizar la función
+      \texttt{binary.sliceArray(0 until n - 1)}}\footnote{\texttt{until} es una función (infija) que 
+      recibe un número \texttt{n} y retorna un rango que va desde 0 hasta \texttt{n - 1}}.
+    \Question Implemente una función \texttt{decimalToBinary(decimal: Int): IntArray} que reciba un 
+      número entero y calcule su equivalente en base 2.
+      Esto se puede hacer de la siguiente forma:
+      \begin{enumerate}
+        \item Divida el número entre 2 y guarde el cociente y el resto.
+        \item Repita el paso anterior hasta que el cociente sea 0.
+        \item Guarde los restos en un arreglo de enteros.
+        \item Invierta el arreglo de enteros.
+      \end{enumerate}
+      \textit{Hints:}
+      \begin{itemize}
+        \item \textit{Utilice un ciclo \textit{while} para resolver el problema.}
+        \item \textit{Para invertir un arreglo puede utilizar la función 
+          \texttt{array.reversedArray()}.}
+      \end{itemize}
+    \Question Implemente una función \texttt{decimalToBinaryRecursive(decimal: Int): IntArray} que 
+      reciba un número entero y calcule su equivalente en base 2 utilizando recursión.
+      \textit{Hint: Utilice una función auxiliar que reciba el número y el arreglo de enteros.}
+    \Question El equivalente en base 2 de un número entero se puede calcular utilizando la estrategia
+      divide y vencerás de la siguiente manera:
+      \[
+        \mathit{decToBin}(x) = \begin{cases}
+          0 & \text{si } x = 0 \\
+          \mathit{decToBin}(x / 2) \cdot 10 + x \mod 2 & \text{si } x > 0
+        \end{cases}
+      \]
+      Implemente una función \texttt{decimalToBinaryDivideAndConquer(decimal: Int): IntArray} que 
+      reciba un número entero y calcule su equivalente en base 2 utilizando esta estrategia.
+    \Question El equivalente en base 2 de un número entero \textit{i} se puede calcular sin utilizar 
+      un arreglo de la siguiente forma:
+        \begin{enumerate}
+          \item Cree 2 variables \textit{power} y \textit{binary} que inicialmente valgan 0.
+          \item Mientras \textit{i} sea mayor que 0:
+            \begin{enumerate}
+              \item Guarde el resultado de \textit{i} módulo 2 en una variable \textit{rem}.
+              \item Calcule \(10^{\mathit{power}} \cdot \mathit{rem}\) y sume el resultado a 
+                \textit{binary}.
+              \item Incremente \textit{power} en 1.
+              \item Divida \textit{i} entre 2 y guarde el resultado en \textit{i}.
+            \end{enumerate}
+          \item Retorne \textit{binary}.
+        \end{enumerate}
+      Implemente una función \texttt{decimalToBinaryWithoutArray(decimal: Int): Int} que reciba un
+      número entero y calcule su equivalente en base 2 utilizando esta estrategia.
+  \end{Exercise}
+
+  Puede utilizar el siguiente código para probar sus funciones:
+  \begin{kotlin}
+    fun main() {
+      // Output: 1024
+      println(iterativePow(2, 10))
+      println(recursivePow(2, 10))
+      println(divideAndConquerPow(2, 10))
+      println(fastPow(2, 10))
+    }
+  \end{kotlin}
+
+  \begin{kotlin}
+    fun main() {
+      val binary = intArrayOf(1, 0, 1, 1, 0, 1, 1, 1)
+      // Output: 123
+      println(binaryToDecimalFor(binary))
+      println(binaryToDecimalWhile(binary))
+      println(binaryToDecimalRecursive(binary))
+      // Output: [1, 1, 1, 1, 0, 1, 0, 1]
+      println(decimalToBinary(123).contentToString())
+      println(decimalToBinaryRecursive(123).contentToString())
+      println(decimalToBinaryDivideAndConquer(123).contentToString())
+      // Output: 1110101
+      println(decimalToBinaryWithoutArray(123))
+    }
+  \end{kotlin}

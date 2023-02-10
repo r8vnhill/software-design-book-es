@@ -1,0 +1,244 @@
+\section{Tipos en \textit{Kotlin}}
+  Al igual que \textit{Java}, \textit{Kotlin} es un lenguaje de tipado estático y fuerte, pero con 
+  una inferencia de tipos mucho más poderosa que la de \textit{Java}.
+  El sistema de tipos de \textit{Kotlin} es un tema sumamente complejo que se escapa del alcance de 
+  este libro, así que nos limitaremos a dar una pequeña introducción a éste y lo iremos
+  desarrollando un poco más a lo largo del libro a medida que vaya siendo necesario.
+
+  Lo primero que debemos saber es que \textit{Kotlin} tiene dos tipos de variables: 
+  \texttt{val}ores y \texttt{var}iables.
+
+  Un \textbf{valor}\footnote{Término propio} (o \textit{read-only variable}) es una variable que no 
+  puede ser \textbf{reasignada} una vez que se le ha asignado un valor.
+  Esto es más fácil entenderlo con un ejemplo, lo primero es abrir la terminal interactiva de
+  \textit{Kotlin} con el comando \texttt{kotlinc} y escribir lo siguiente:
+
+  \begin{kotlin}
+    val i: Int = 8000
+    i = 9000
+  \end{kotlin}
+
+  Como podemos ver, al intentar reasignar el valor de \texttt{i} obtenemos un error, esto es porque
+  \texttt{i} es un valor y no una variable, por lo que no puede ser reasignada.
+  El error que obtenemos es el siguiente:
+  \begin{minted}{text}
+    error: val cannot be reassigned
+    i = 9000
+    ^
+  \end{minted}
+
+  \begin{important}
+    No debemos confundir un valor de solo lectura con una constante, ya que incluso si una variable
+    es declarada como \texttt{val} puede ser modificada si su tipo es mutable.
+    Volveremos a esto más adelante.
+  \end{important}
+
+  Por otro lado, una \textbf{variable} puede ser reasignada, para ver esto basta cambiar 
+  \texttt{val} por \texttt{var} en la declaración de \texttt{i}:
+
+  \begin{kotlin}
+    var i: Int = 8000
+    i = 9000
+  \end{kotlin}
+
+  En este caso, el código se ejecuta sin problemas c:
+
+  \subsection{Tipos explícitos}
+    \index{Sistema de tipos}
+    \textbf{Todas} las variables en \textit{Kotlin} deben tener un tipo 
+    definido\index{Sistema de tipos}, y una vez definido no puede ser cambiado.\footnote{
+      Este tipo de atrocidades sólo pueden suceder en lenguajes de tipado dinámico como 
+      \textit{Python} o \textit{Ruby}.
+    }
+    
+    El tipo de una variable se define después del nombre de la variable y antes del valor que se le
+    asigna, y se separa de éste con dos puntos (\texttt{:}).
+    Podemos ver esto en el ejemplo anterior, donde definimos el tipo de \texttt{i} como 
+    \texttt{Int}.
+
+    Existen muchos tipos en \textit{Kotlin}, pero por ahora nos limitaremos a los más básicos:
+    
+    \begin{itemize}
+      \item \texttt{Int}: El conjunto de todos los números enteros de 32 bits. 
+        Formalmente: \(i: Int \iff i \in \mathbb{Z} \land -2^{31} \leq i \leq 2^{31} - 1\).
+      \item \texttt{Double}: El conjunto de todos los números reales de \textit{doble 
+        precisión}.\footnote{\url{https://en.wikipedia.org/wiki/Double-precision_floating-point_format}}
+        En este caso, la definición formal es un poco más complicada, pero es cercana a:
+        \(d: Double \iff d \in \mathbb{R} \land 4.9 \times 10^{-324} \leq |d| \leq 1.8 \times 10^{308}\).
+      \item \texttt{String}: El conjunto de todas las cadenas de caracteres.
+        Formalmente: \(s: String \iff s \in \mathbb{L}^*\), donde \(\mathbb{L}\) es el conjunto de
+        todos los caracteres \textit{Unicode} que pueden ser representados en \textit{UCS-2}.
+      \item \texttt{Boolean}: El conjunto de dos valores: \texttt{true} y \texttt{false}.
+      \item \texttt{Unit}: El conjunto de un único valor: \texttt{Unit}.
+        Esta noción es un poco más complicada, pero se puede entender como el tipo de variables que
+        no almacenan información.
+        Otro nombre común para este tipo es \textit{void}, pero no utilicemos ese nombre porque
+        \textit{Kotlin} no tiene un tipo \textit{void}.
+    \end{itemize}
+
+    \begin{important}
+      Noten que todos los tipos en \textit{Kotlin} empiezan con mayúscula, lo que debemos respetar a 
+      la hora de crear nuestros propios tipos.
+    \end{important}
+
+  \subsection{Tipos inferidos}
+    \index{Sistema de tipos}
+    Como mencionamos en la sección anterior: \enquote{\textbf{Todas} las variables en 
+    \textit{Kotlin} deben tener un tipo definido}.
+    Sin embargo, \textit{Kotlin} tiene una inferencia de tipos bastante poderosa, por lo que en la 
+    mayoría de los casos no es necesario definir explícitamente el tipo de una variable.
+    Esto es muy útil, ya que va a reducir muchísimo la cantidad de texto que tenemos que escribir
+    para hacer nuestros programas; esto también va a hacer que nuestros programas sean más fáciles
+    de leer y entender al reducir la cantidad de código \textit{boilerplate} que tenemos que 
+    procesar.
+    Créanme cuando les digo que la mayor parte del tiempo que trabajen lo van a pasar leyendo 
+    código.
+
+    Pero ES MUY IMPORTANTE no abusar de la inferencia de tipos, ya que esto puede terminar teniendo
+    el efecto contrario al que queremos: hacer que nuestros programas sean más difíciles de leer y
+    entender, i.e. gastar más tiempo leyendo D:
+
+    Para ver cómo funciona la inferencia de tipos, podemos reescrbir el ejemplo anterior de la
+    siguiente manera:
+
+    \begin{kotlin}
+      var i = 8000
+      i = 9000
+    \end{kotlin}
+    
+    No vamos a ahondar más sobre este tema, ya que sería extender innecesariamente este capítulo (y
+    porque no soy experto en el tema), pero a lo largo del libro iremos viendo ejemplos de cómo
+    usar la inferencia de tipos correctamente, en que casos podemos usarla, y en cuales no.
+
+    \begin{exercise}
+      Indique qué tipo de dato es cada una de las siguientes variables:
+
+      \begin{enumerate}
+        \item \texttt{var i = true}
+        \item \texttt{var i = 8000}
+        \item \texttt{var i = "8000"}
+        \item \texttt{var i = Unit}
+        \item \texttt{var i = 8000.0}
+      \end{enumerate}
+
+    \end{exercise}
+
+  \subsection{Funciones}
+    Un último tipo de dato que vamos a ver en este capítulo son las funciones.
+    Las funciones son un tipo de dato que toma una cantidad de parámetros y devuelve un valor.
+    Formalmente, sea \(FT\) el tipo de las funciones, tenemos que:
+    \[
+      FT(A_1, \dots, A_n) \rightarrow R
+    \]
+    con \(A_i\) los tipos de los parámetros de la función, y \(R\) el tipo de retorno de la función.
+
+    En \textit{Kotlin} tenemos dos formas de definir funciones: utilizando la palabra reservada
+    \texttt{fun}\footnote{Trad. Diversión} o utilizando una expresión lambda.
+    En esta sección veremos sólo la primera forma, y dejaremos la segunda para más adelante.
+    
+    \subsubsection{Lo más básico}
+      Una función se define de la siguiente forma:
+
+      \begin{minted}{text}
+        fun <nombre>(<parámetros>): <tipo de retorno> {
+          <cuerpo de la función>
+        }
+      \end{minted}
+
+      Ahora, podemos definir una función simple que imprima un mensaje en pantalla:
+
+      \begin{kotlin}
+        fun jojoReference(name: String): Unit {
+          println("My name is " + name + ", and I have a dream.")
+          return Unit
+        }
+      \end{kotlin}
+      
+      Veamos qué está pasando en este ejemplo:
+
+      \begin{itemize}
+        \item La palabra reservada \texttt{fun} nos indica que estamos definiendo una función.
+        \item El nombre de la función es \texttt{jojoReference}.
+          Noten que el nombre de la función está escritoAsí, esto se llama \textit{camelCase} y es
+          una convención que se usa en \textit{Kotlin} para nombrar variables y funciones.
+        \item La función toma un parámetro, que se llama \texttt{name} y es de tipo \texttt{String}.
+        \item No vamos a utilizar el resultado de la función, así que podemos definir el tipo de 
+          retorno como \texttt{Unit}.
+        \item El cuerpo de la función es el bloque de código que se ejecuta cuando llamamos a la
+          función.
+          En este caso, la función imprime un mensaje en pantalla (utilizando la función 
+          \texttt{println(String): Unit}\footnote{El nombre viene de \textit{\textbf{print} 
+          \textbf{l}i\textbf{n}e}, ya que lo que hace es imprimir una línea de texto en la pantalla, 
+          i.e. texto seguido de un salto de línea.}).
+        \item La función termina con la palabra reservada \texttt{return}, que indica que la función
+          termina su ejecución y devuelve el valor que se encuentra después de la palabra reservada.
+          En este caso, la función devuelve el valor \texttt{Unit}.   
+      \end{itemize}
+
+      Ahora, podemos llamar a la función de la siguiente manera:
+
+      \begin{kotlin}
+        jojoReference("Giorno Giovanna")
+      \end{kotlin}
+
+    \subsubsection{Lo otro más básico}
+      Pasemos a la parte que a nadie le gusta, documentar el código.
+      Para documentar algo en \textit{Kotlin} escribiremos un comentario que comience con \texttt{/**}
+      y termine con \texttt{*/}.
+      Dentro de este comentario escribiremos qué hace la función, qué parámetros toma, y qué valor
+      devuelve.
+      En el ejemplo anterior podríamos escribir lo siguiente:
+
+      \begin{kotlin}
+        /**
+         * Prints a Jojo's Bizarre Adventure reference to the console with the given name.
+         */
+        fun jojoReference(name: String): Unit {
+          println("My name is " + name + ", and I have a dream.")
+          return Unit
+        }
+      \end{kotlin}
+      
+      Es de vital importancia documentar el código, ya que el código que escribimos hoy puede ser
+      utilizado por nosotros o por otras personas dentro de un año, y si no documentamos el código
+      no vamos a saber qué hace cada función, y esto puede hacer que tengamos que botar código a la
+      basura.
+
+      En el resto del libro omitiremos la documentación en la mayoría de los ejemplos para no
+      extender innecesariamente el texto, pero esto lo haremos sólo porque el iremos explicando el
+      código en cada ejemplo, pero en la vida real \textbf{siempre} debemos documentar el código.
+
+    \subsubsection{Lo no tan básico}
+      Lo último que nos queda es simplificar el código que escribimos en el ejemplo anterior porque
+      siempre podemos hacerlo mejor.
+      
+      Primero, como no utilizaremos el valor de retorno de la función, podemos omitir la última 
+      línea.
+      
+      Luego, podemos utilizar la característica llamada \textit{string interpolation} para
+      simplificar la concatenación de cadenas de texto.
+      La \textit{interpolación de cadenas} es una característica que nos permite insertar variables
+      dentro de una cadena de texto, y \textit{Kotlin} nos permite hacer esto con el símbolo \$.
+      Por ejemplo, si tenemos una variable \texttt{name} de tipo \texttt{String} y queremos
+      concatenarla con una cadena de texto, podemos hacerlo de las siguientes maneras:
+
+      \begin{kotlin}
+        val name = "Giorno Giovanna"
+        println("My name is " + name + ", and I have a dream.")
+        println("My name is $name, and I have a dream.")
+      \end{kotlin}
+
+      Como podemos ver, la segunda forma es mucho más simple y legible que la primera.
+
+      Por último, si el tipo de retorno de la función es \texttt{Unit}, podemos omitirlo.
+
+      Con esto, podemos escribir la función de la siguiente manera:
+
+      \begin{kotlin}
+        fun jojoReference(name: String) {
+          println("My name is $name, and I have a dream.")
+        }
+      \end{kotlin}
+
+      ¿Podemos simplificarlo más?
+      Sí, pero dejaremos eso para más adelante ;)

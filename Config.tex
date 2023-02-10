@@ -1,25 +1,20 @@
-\setminted{breaklines, autogobble, escapeinside=||, bgcolor=LightGray}
-\setmintedinline{breaklines, escapeinside=||, bgcolor=Transparent}
-\usemintedstyle{manni}
+\tcbuselibrary{documentation}
+
+% \setminted{breaklines, autogobble, escapeinside=||, bgcolor=LightGray}
+% \setmintedinline{breaklines, escapeinside=||, bgcolor=Transparent}
+% \usemintedstyle{manni}
 
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,
-    filecolor=magenta,      
+    filecolor=magenta,
     urlcolor=cyan,
 }
 
 \setmainfont{Minion Pro}
 \setmonofont{Fira Mono for Powerline}[Scale=MatchLowercase]
 
-\addbibresource{References.bib}
-
-\graphicspath{{img/}}
+\addbibresource{Memes.bib}
 
 \makeindex[columns=3, title=Índice]
-
-%region : Document's metadata references
-% \let\titulo\@title
-% \let\autor\@author
-% \let\fecha\@date
-%endregion
+\tcbset{listing engine=minted, colframe=Orchid!75!black}

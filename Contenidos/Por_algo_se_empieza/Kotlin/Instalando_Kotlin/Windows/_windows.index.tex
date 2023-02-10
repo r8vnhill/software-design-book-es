@@ -1,0 +1,50 @@
+\subsection{\textit{Windows}}
+  \subimport{.}{winget.tex}
+  \subimport{.}{windows_terminal.tex}
+  \subsubsection{Chocolatey}
+    Lo primero que necesitaremos para instalar las herramientas que usaremos será un gestor de 
+    paquetes, utilizaremos \textit{Chocolatey}.\index{Chocolatey}
+  
+    Para partir abran una ventana de \textit{Powershell} como administrador.
+    Una vez abierta, deben ejecutar las instrucciones:\footnote{
+      \url{https://github.com/islaterm/software-design-book-es/blob/master/install/windows/chocolatey.ps1}
+    }
+    \begin{powershell}
+      [Net.ServicePointManager]::SecurityProtocol = `
+        [Net.SecurityProtocolType]::Tls12
+      Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
+      Invoke-WebRequest "https://chocolatey.org/install.ps1" `
+        -UseBasicParsing | Invoke-Expression
+    \end{powershell}
+  
+    Esto otorgará los permisos necesarios y descargará e instalará el gestor de paquetes.
+  
+    Para comprobar que el programa se haya instalado correctamente corran el comando:
+    \begin{powershell}
+      choco -?
+    \end{powershell}
+    %%endregion  
+    Ahora toca instalar el \textit{JDK}, con chocolatey esto es simple, solamente deben ejecutar:
+    \begin{powershell}
+      choco install openjdk -y
+    \end{powershell}
+    
+    Luego, para ver que se haya instalado correctamente pueden hacer \texttt{java -version}, aquí es
+    muy importante que la versión que aparezca \textbf{no sea} la versión 1.8 o anteriores, en caso 
+    de que esa sea la versión instalada entonces lo recomendado es desinstalar todas las versiones
+    de \textit{Java} instaladas y repetir la instalación.
+  
+    ¡Perfecto!
+    Ahora sólo nos falta instalar el compilador de \textit{Kotlin}.
+    Nuevamente, para instalar el compilador confiaremos en nuestro amigo 
+    \textit{Chocolatey}\index{Chocolatey}.
+    Podemos instalar el compilador desde \textit{Powershell} con el comando:
+
+    \begin{powershell}
+      choco install kotlinc
+    \end{powershell}
+
+    Luego, podemos comprobar la instalación con:
+    \begin{powershell}
+      kotlinc -version
+    \end{powershell}

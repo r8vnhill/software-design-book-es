@@ -1,0 +1,120 @@
+\section{¿Repositorios?}
+  Uno de los conceptos claves de \textit{Git} son los repositorios\index{Repositorio}.
+  En la práctica, un repositorio no es más que una carpeta en su computador, lo que lo hace especial
+  es cómo usamos esa carpeta.
+
+  En el caso de \textit{Git}, un repositorio va a ser una carpeta que contiene un directorio con una
+  carpeta llamada \texttt{.git} con ciertos archivos de configuración especiales.
+  Podemos crear un repositorio de forma simple usando el comando \idx{\texttt{git init}}.
+  El siguiente ejemplo crea una carpeta y luego la configura como un repositorio de \textit{Git}.
+
+  \begin{powershell}
+    mkdir git_example
+    cd git_example
+    git init
+  \end{powershell}
+
+  Ahora, podremos ver que se creó una carpeta \texttt{.git} dentro de \texttt{git\_example}, sin 
+  embargo, esta carpeta en general está oculta.
+  Para ver la carpeta desde la terminal podemos hacer:
+  
+  \begin{tcolorbox}[enhanced, breakable, title=Powershell]
+    \begin{powershell}
+      # Desde `git_example`
+      Get-ChildItem . -Hidden
+    \end{powershell}
+  \end{tcolorbox}
+
+  \begin{tcolorbox}[enhanced, breakable, title=Bash]
+    \begin{bash}
+      # Desde `git_example`
+      ls -a .
+    \end{bash}
+  \end{tcolorbox}
+
+  Ya tenemos nuestro repositorio, ahora hay que sacarle provecho.
+  Lo primero que haremos será conocer a su nuevo comando favorito: 
+  \idx{\texttt{git status}}.
+  Este comando nos servirá para ver el estado del repositorio en cualquier momento, si ahora lo 
+  ejecutamos en nuestro repositorio debiera decir:
+  \begin{minted}{text}
+    On branch master
+
+    No commits yet
+
+    nothing to commit (create/copy files and use "git add" to track)
+  \end{minted}
+
+  Aca vemos muchos conceptos nuevos: \textit{branch}, \textit{master}, \textit{commit}, etc.
+  Vamos a comenzar con lo más básico y haremos nuestro primer \textit{commit}.
+
+  \subsection{\textit{Commits}}
+    Tomemos un pequeño desvío de la computación y pensemos en un libro de historia.
+    Los libros de historia registran sucesos históricos para que luego puedan ser estudiados por 
+    otrxs que estén interesados en conocer y analizar estos sucesos.
+    ¿Pero qué es un suceso historico?
+    Podríamos argumentar que todo lo que sucede en nuestro día a día es un suceso histórico, pero no
+    todo lo que sucede en el mundo será relatado en los libros de historia, alguien (historiadores 
+    principalmente) tiene que decidir qué sucesos serán registrados.
+
+    Podemos pensar nuestro repositorio como un libro de historia, cada cambio que hagamos dentro del
+    repositorio puede ser un suceso histórico, pero no todos esos cambios debieran ser registrados.
+    A la acción de registrar un \enquote{suceso} en nuestro repositorio le llamaremos \idxit{Commit}.
+
+    Veamos cómo poner esto en práctica.
+    Primero, crearemos un archivo dentro del repositorio que se llame \texttt{README.md} con el 
+    siguiente contenido:
+
+    \begin{md}
+      # Mi pequeño gran repositorio
+
+      **SIEMPRE** deben incluir un _readme_ en sus repositorios.
+    \end{md}
+
+    Este archivo es bastante particular, pero también estándar.
+    Una buena práctica es siempre agregar un archivo \texttt{README.md} en nuestros repositorios,
+    esto le servirá a todxs lxs que tengan que trabajar después con nuestros repositorios.
+    El formato \texttt{.md} indica que el archivo utiliza el lenguaje \idxit{Markdown}.
+    No entraremos en detalles en la sintáxis de \textit{Markdown}, para esto pueden referirse a las
+    bibliografías.\autocite{gh-markdown}
+
+    Ahora estamos listos para hacer un \textit{Commit}, pero primero veamos el estado del
+    repositorio con \texttt{git status}, esto debiera resultar en:
+
+    \begin{minted}{text}
+      On branch master
+
+      No commits yet
+
+      Untracked files:
+        (use "git add <file>..." to include in what will be committed)
+              README.md
+
+      nothing added to commit but untracked files present (use "git add" to track)
+    \end{minted}
+
+    Como es esperable, el mensaje sigue diciendo que no hay \textit{commits}, pero ahora aparece
+    una nueva sección \textit{Untracked files} con el archivo que creamos.
+    Los \textit{untracked files} son los archivos que no hemos registrado en nuestro libro de
+    historia y, como veremos un poquito más adelante veremos, no siempre vamos a querer registrar
+    todos nuestros cambios, pero es sumamente importante nunca dejar \textit{untracked files} 
+    \enquote{sin resolver}.
+
+    Ahora, pongámosle énfasis a la última línea del mensaje: \enquote{\textit{nothing added to 
+    commit}}; esto significa que no le hemos dicho a \textit{Git} qué cambios son los que debe 
+    registrar.
+    Podemos agregar estos cambios con el comando \idx{\texttt{git add}} de la siguiente forma:
+
+    \begin{bash}
+      git add README.md
+    \end{bash}
+
+    De nuevo, podemos hacer \texttt{git status} para ver los cambios.
+
+    Por último, nos queda hacer \textit{Commit} (omg!).
+    Para esto usamos el comando \idx{\texttt{git commit}} pasándole un mensaje descriptivo para 
+    identificar el \textit{commit}:
+
+    \begin{bash}
+      git commit -m "doc(repo): Created README"
+    \end{bash}
