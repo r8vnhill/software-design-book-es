@@ -1,8 +1,8 @@
 \section{Ejercicios}
 \label{sec:tdd:ejercicios}
-  \begin{Exercise}
-    Considere una clase \texttt{IntArrayList} que representa una lista enlazada e implementa la
-    interfaz \texttt{IntList}.
+  \begin{Exercise}[title={Listas}]
+    Considere una clase \texttt{IntArrayList} que representa una lista basada \texttt{B)} en 
+    arreglos que implementa la interfaz \texttt{IntList}.
     \begin{minted}{kotlin}
       /**
        * This interface represents a list of integers.
@@ -31,9 +31,10 @@
       }
     \end{minted}
 
-    Para su implementación considere que una lista enlazada es una estructura de datos que consiste
-    en una secuencia de nodos, donde cada nodo contiene un valor y una referencia al siguiente nodo.
-    Puede revisar el siguiente enlace para obtener más información: 
+    Para su implementación considere que una lista basada en arreglos es una estructura de datos
+    que tiene un arreglo de enteros y dos variables: una que representa el tamaño de la lista
+    y otra que representa la capacidad del arreglo.
+    Puede encontrar más información sobre listas basadas en arreglos en el siguiente video:
     \url{https://www.youtube.com/watch?v=pN2BHqWWGHU}
 
     Considere que el constructor de la clase \texttt{IntArrayList} se puede utilizar de la siguiente
@@ -129,4 +130,105 @@
           }
         })
       \end{minted}
+  \end{Exercise}
+
+  \begin{Exercise}[title={Bases de datos}]
+    Para este ejercicio implementaremos una base de datos de videojuegos.
+
+    \ExePart
+      Partiremos modelando la clase \texttt{Game} que representa un videojuego.
+      Considere que un videojuego tiene un nombre, un género, un año de lanzamiento y una
+      calificación.
+
+      \Question Cree un proyecto \textit{gamedb} en \textit{IntelliJ} de la forma que se vió en 
+        este capítulo utilizando \textit{Gradle} como sistema de construcción y agregue las 
+        dependencias de \textit{Kotest}.
+      \Question Cree una clase \texttt{GameTest} que extienda de la clase \texttt{FunSpec}.
+      \Question Escriba un test que verifique que se puede crear un videojuego con el nombre
+        \texttt{"Super Mario Bros."}, el género \texttt{"Plataformas"}, el año de lanzamiento
+        \texttt{1985} y la calificación \texttt{10.0}, para esto utilice el método 
+        \texttt{beforeTest} y compruebe que dos objetos creados con los mismos parámetros son
+        iguales.
+        Recuerde definir los parámetros pasados a los tests como \mintinline{kotlin}{val} dentro 
+        del cuerpo de la expresión lambda.
+      \Question Escriba un test que verifique que dos videojuegos con los mismos atributos tienen
+        el mismo hashcode.
+      \Question Implemente los métodos \texttt{hashCode} y \texttt{equals} de la clase \texttt{Game}
+        de forma que pase los tests escritos en el ejercicio anterior.
+        Para esto considere que dos videojuegos son iguales si tienen el mismo nombre y año de
+        lanzamiento.
+      \Question Escriba un test que verifique que dos videojuegos con distinto nombre no son 
+        iguales y que tienen distinto hashcode.
+      \Question Escriba un test que verifique que dos videojuegos con distinto género no son
+        iguales y que tienen distinto hashcode.
+      \Question Escriba un test que verifique que dos videojuegos con distinto año de lanzamiento
+        no son iguales y que tienen distinto hashcode.
+      \Question Escriba un test que verifique que dos videojuegos con distinta calificación no son
+        iguales y que tienen distinto hashcode.
+    \ExePart
+      Ahora implementaremos la base de datos de videojuegos, para esto crearemos un objeto 
+      \texttt{GameDatabase} que tendrá un diccionario de videojuegos cuya clave será el código
+        hash del videojuego y el valor será el videojuego en sí.
+      \Question Cree un una clase \texttt{GameDatabaseTest} que extienda de la clase 
+        \texttt{FunSpec}.
+        A continuación se presenta un código que puede utilizar como punto de partida:
+        \begin{minted}{kotlin}
+          class GameDatabaseTest : FunSpec({
+            val games = listOf(
+              Game("The Legend of Zelda: Breath of the Wild", "Aventura", 2017, 10.0),
+              Game("Dark Souls III", "RPG", 2016, 9.2),
+              Game("Doki Doki Literature Club!", "Visual Novel", 2017, 9.1),
+              Game("Final Fantasy X", "RPG", 2001, 8.0)
+            )
+
+            beforeTest {
+              GameDatabase.init(games)
+            }
+          })
+        \end{minted}
+        
+        \Question Considere los siguientes tests:
+          \begin{minted}{kotlin}
+            test("The database is empty when it is created with an empty list") {
+              GameDatabase.init(listOf())
+              GameDatabase.entries.size shouldBe 0
+            }
+
+            test("The database is initialized with the games in the list") {
+              GameDatabase.entries.size shouldBe 4
+              for (game in games) {
+                GameDatabase.entries shouldContainKey game.hashCode()
+              }
+            }
+          \end{minted}
+          Implemente la funcionalidad mínima para que los tests pasen.
+          Para esto puede utilizar el siguiente código como punto de partida:
+          \begin{minted}{kotlin}
+            object GameDatabase {
+              val entries = mutableMapOf<Int, Game>()
+            }
+          \end{minted}
+          \textit{Hint: Utilice los métodos \mintinline{kotlin}|MutableMap::clear()| y la expresión
+          \mintinline{kotlin}|entries[game.hashCode()] = game| para implementar la inicialización de 
+          la base de datos.}
+        \Question Escriba un test que verifique que se puede agregar un videojuego a la base de 
+          datos.
+        \Question Implemente el método \texttt{add} del objeto \texttt{GameDatabase} de forma que
+          pase el test.
+        \Question Escriba un test que verifique que se puede eliminar un videojuego de la base de
+          datos.
+          Para esto puede utilizar el método \mintinline{kotlin}|shouldNotContainKey| para verificar
+          que un elemento no está en la base de datos.
+        \Question Implemente el método \texttt{remove} del objeto \texttt{GameDatabase} de forma
+          que pase el test.
+          \textit{Hint: Utilice el método \mintinline{kotlin}|MutableMap::remove(K)| para implementar
+          el método.}
+        \Question Considere la siguiente implementación del método \texttt{search}:
+          \begin{minted}{kotlin}
+            fun search(name: String, year: Int): Game? {
+              return entries[Game(name, "", year, 0.0).hashCode()]
+            }
+          \end{minted}
+          Escriba un test que verifique que se puede buscar un videojuego por nombre y año de
+          lanzamiento.
   \end{Exercise}
