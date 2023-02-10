@@ -140,7 +140,7 @@
   Esto es lo primero que solucionaremos.
   Puede que ya se hayan dado cuenta de que el nombre que utiliza \textit{Kotest} para nuestros 
   objetos es muy parecido al que vimos en el \cref{sec:method-lookup}, y la causa es la misma: no
-  hemos definido un método \idx{\texttt{toString}} para nuestras clases.
+  hemos sobreescrito el método \idx{\texttt{Any::toString(): String}} para nuestras clases.
   Hagamos eso:
 
   \begin{kotlin}

@@ -1,0 +1,179 @@
+\section{Mejorando nuestro código}
+\label{sec:refactor}
+
+  Hasta ahora hicimos los pasos 1 y 2 del TDD, nos falta el paso 3: \textbf{refactorizar}.
+  \index{Refactor}
+  Aquí nos centraremos en mejorar la calidad de nuestro código sin cambiar su comportamiento, esto
+  significa que nuestros tests deben seguir pasando.
+
+  Primero comenzaremos por cambiar nuestros tests porque, aunque no lo crean, tienen algunos 
+  problemas.
+  El primero es que estamos repitiendo las llamadas al constructor en cada test, sería ideal si
+  hacer este llamado en un sólo lugar y luego usar el objeto que se crea en cada test (recordemos
+  que queremos encapsular el cambio).
+  Una primera idea sería definir una variable común para todos los tests e inicializarla una sola 
+  vez en el cuerpo de la función lambda.
+
+  \begin{kotlin}
+    class BakemonTest : FunSpec({
+      val bakemon = Bakemon("Kokodile", 25, 5, 4)
+
+      test("Two objects created from the same class should be equal") {
+        val b = Bakemon("Kokodile", 25, 5, 4)
+        bakemon shouldBe b
+      }
+      test("Two objects created from the same class should have the same hashCode") {
+        val b = Bakemon("Kokodile", 25, 5, 4)
+        bakemon shouldHaveSameHashCodeAs b
+      }
+    })
+  \end{kotlin}
+
+  Pero esto tiene un gran problema, como la variable \texttt{bakemon} es común a todos los tests,
+  si un test modifica el estado de \texttt{bakemon}, los otros tests pueden fallar.
+  Una forma de solucionar eso sería resetear el estado de \texttt{bakemon} en cada test, pero
+  con eso volvemos a nuestro problema inicial ya que no estamos encapsulando el cambio.
+
+  Para solucionar esto, \textit{Kotest} provee una función llamada \idx{\texttt{beforeTest}}, esta 
+  función se ejecuta antes de cada test y en general se usa para inicializar el estado de los 
+  objetos que vamos a usar en todos los tests.
+  Es importante notar que \texttt{beforeTest} se ejecuta antes de cada test, por lo que si tenemos
+  10 tests, \texttt{beforeTest} se ejecutará 10 veces.
+  Con esto, podemos reescribir nuestros tests de la siguiente forma:
+
+  \begin{kotlin}
+    class BakemonTest : FunSpec({
+      lateinit var bakemon: Bakemon
+
+      beforeTest {
+        bakemon = Bakemon("Kokodile", 25, 5, 4)
+      }
+
+      test("Two objects created from the same class should be equal") {
+        val b = Bakemon("Kokodile", 25, 5, 4)
+        bakemon shouldBe b
+      }
+      test("Two objects created from the same class should have the same hashCode") {
+        val b = Bakemon("Kokodile", 25, 5, 4)
+        bakemon shouldHaveSameHashCodeAs b
+      }
+    })
+  \end{kotlin}
+
+  Pero notarán algo nuevo aquí, la palabra reservada \idx{\texttt{lateinit}}.
+  Esta palabra reservada es una promesa que hacemos a Kotlin de que la variable \texttt{bakemon}
+  va a ser inicializada más adelante, por lo que podemos definirla sin pasarle un valor inicial.
+
+  Ahora, nos queda un último problema, estamos repitiendo mucha información entre los tests.
+  En particular estamos repitiendo el nombre del Bakemon, su nivel, su ataque y su defensa.
+  Esto podría no parecer un problema al principio, pero si tenemos 20 tests es fácil que nos 
+  equivoquemos escribiendo alguno de los parámetros, basta que uno de sus dedos se mueva un poquito
+  y estaremos comprobando si \textit{Kokodile} es igual \textit{Kolodile}.
+  La forma más fácil de arreglar esto es definir los parámetros como valores en el cuerpo de la
+  función lambda y luego usarlos en los tests.
+  De esta forma, si queremos cambiar algún parámetro, lo hacemos en un sólo lugar y no tenemos
+  que preocuparnos por cambiarlo en todos los tests, es decir, estamos encapsulando el cambio.
+
+  \begin{kotlin}
+    class BakemonTest : FunSpec({
+      lateinit var bakemon: Bakemon
+
+      val bakemonName = "Kokodile"
+      val bakemonHealth = 25
+      val bakemonLevel = 5
+      val bakemonAttack = 4
+
+      beforeTest {
+        bakemon = Bakemon(bakemonName, bakemonHealth, bakemonLevel, bakemonAttack)
+      }
+
+      test("Two objects created from the same class should be equal") {
+        val b = Bakemon(bakemonName, bakemonHealth, bakemonLevel, bakemonAttack)
+        bakemon shouldBe b
+      }
+      test("Two objects created from the same class should have the same hashCode") {
+        val b = Bakemon(bakemonName, bakemonHealth, bakemonLevel, bakemonAttack)
+        bakemon shouldHaveSameHashCodeAs b
+      }
+    })
+  \end{kotlin}
+
+  Si corremos los tests, debieran seguir pasando.
+
+  Ahora que tenemos nuestros tests más limpios, podemos pasar a refactorizar nuestro código.
+
+  Lo primero que vamos a hacer es simplificar el constructor de \texttt{Bakemon}.
+  Notemos que el constructor de \texttt{Bakemon} en realidad hace muy poco, solo inicializa las
+  variables de instancia.
+  Cuando lo único que hace el constructor primario\index{Constructor primario} de una clase es 
+  inicializar las variables de instancia, \textit{Kotlin} provee una sintáxis especial para 
+  simplificar el código.
+  En lugar de definir un constructor primario, podemos definir en la lista de parámetros del
+  constructor cuáles de los parámetros inicializarán variables de instancia anteponiendo 
+  \texttt{var} o \texttt{val} a cada parámetro según corresponda, esto creará automáticamente
+  un constructor primario que inicializará las variables de instancia con los valores de los
+  parámetros.
+  De esta forma, podemos reescribir el constructor de \texttt{Bakemon} de la siguiente forma:
+
+  \begin{kotlin}
+    class Bakemon(val name: String, val health: Int, val level: Int, val attack: Int) {...}
+  \end{kotlin}
+
+  Podemos ejecutar los tests y ver que siguen pasando.
+
+  Para lo siguiente, vamos a aprovechar que las funciones en \textit{Kotlin} son valores\footnote{
+    Esto significa que \textit{Kotlin} es un lenguaje de primera clase, esto es algo que veremos
+    más adelante.
+  }.
+  Cuando una función en \textit{Kotlin} solo tiene una expresión, podemos utilizar una sintáxis más
+  compacta para definirla y es que podemos omitir el cuerpo de la función y escribir la expresión
+  directamente después de los paréntesis de los parámetros como si estuvieramos asignando una 
+  variable.
+  Tomando como ejemplo la función \texttt{toString} de \texttt{Bakemon}, podemos reescribirla de la
+  siguiente forma:
+
+  \begin{kotlin}
+    override fun toString(): String =
+      "Bakemon(name='$name', health=$health, level=$level, attack=$attack)"
+  \end{kotlin}
+
+  Pero leyendo el código se puede inferir que la función \texttt{toString} devuelve un 
+  \texttt{String}, por lo que podemos omitir el tipo de retorno de la función.
+  Es importante que esto lo hagamos solo cuando el tipo de retorno de la función es obvio, ya que si
+  no lo es, puede ser muy confuso para quien lea el código.
+
+  Sabiendo esto, podemos reescribir la clase \texttt{Bakemon} de la siguiente forma:
+
+  \begin{kotlin}
+    class Bakemon(val name: String, val health: Int, val level: Int, val attack: Int) {
+
+      override fun toString() =
+        "Bakemon(name='$name', health=$health, level=$level, attack=$attack)"
+
+      override fun equals(other: Any?) = when {
+          this === other -> true
+          other !is Bakemon -> false
+          else -> name == other.name &&
+              health == other.health &&
+              level == other.level &&
+              attack == other.attack
+        }
+
+      override fun hashCode() = Objects.hash(Bakemon::class, name, health, level, attack)
+    }
+  \end{kotlin}
+
+  Nuevamente, podemos ejecutar los tests y ver que siguen pasando, y hacer \textit{commit} de 
+  nuestros cambios.
+
+  \begin{powershell}
+    git add .
+    git commit -m "REFACTOR Simplifies Bakemon class"
+  \end{powershell}
+
+  Y con esto ya completamos nuestra primera iteración de \textit{Test-Driven Development}. En este
+  capítulo rompimos y reparamos nuestro código múltiples veces, en los capítulos siguientes 
+  seguiremos utilizando esta metodología e iremos profundizando más en el tema a medida que nuestros 
+  programas se vayan volviendo más complejos, siempre manteniendo la idea de que el código debe ser
+  fácil de entender y de modificar, además de asegurarnos de ir encapsulando el cambio siempre que
+  sea posible.
