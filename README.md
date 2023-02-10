@@ -44,3 +44,7 @@ el [código de conducta](CODE_OF_CONDUCT.md) del proyecto.
 ## Licencia
 
 Este libro está bajo una licencia [Creative Commons Atribución-CompartirIgual 4.0 Internacional](https://creativecommons.org/licenses/by-sa/4.0/).
+
+## Libro
+
+El libro está disponible en formato *PDF* en el siguiente enlace: https://drive.google.com/file/d/1nRqmRuQGdimYzfh-m0IyjkD7XoM06RoL/view?usp=sharing
