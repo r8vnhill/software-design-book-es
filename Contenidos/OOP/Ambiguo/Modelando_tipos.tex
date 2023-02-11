@@ -1,0 +1,130 @@
+\section{Modelando tipos}
+  Consideremos que en el juego existen tres tipos de \textit{Bakémon}: \textit{Fuego},
+  \textit{Agua} y \textit{Planta}.
+  Por ahora pensemos que cada \textit{Bakémon} tiene un solo ataque de su mismo tipos.
+  Esto significa que un \textit{Bakémon} de tipo \textit{Fuego} tiene un ataque de tipo
+  \textit{Fuego}, un \textit{Bakémon} de tipo \textit{Agua} tiene un ataque de tipo
+  \textit{Agua} y un \textit{Bakémon} de tipo \textit{Planta} tiene un ataque de tipo
+  \textit{Planta}.
+
+  Además de esto, cada tipo tiene una ventaja sobre otro tipo.
+  Cuando un \textit{Bakémon} ataca a otro \textit{Bakémon} de un tipo que tiene ventaja
+  sobre el tipo del \textit{Bakémon} atacante, el ataque hace 
+  \(\frac{3}{2} \cdot \mathtt{attack}\) de daño.
+  Cuando un \textit{Bakémon} ataca a otro \textit{Bakémon} de un tipo resistente, el ataque
+  hace \(\frac{1}{2} \cdot \mathtt{attack}\) de daño.
+  Si no es ninguno de los casos anteriores, el ataque hace \(\mathtt{attack}\) de daño.
+  Las fortalezas y debilidades de los tipos se muestran en la \cref{tab:tipos}.
+
+  \begin{table}[h]
+    \centering
+    \begin{tabular}{ |p{2cm}|p{2cm}|p{2cm}|p{2cm}|  }
+      \hline
+                & \multicolumn{3}{|c|}{Atacado} \\
+      \hline
+      Atacante  & \textit{Fuego}              & \textit{Agua}           & \textit{Planta} \\
+      \hline
+      \textit{Fuego}  & \(\times 1\)           & \(\times 1/2\)         & \(\times 3/2\) \\
+      \hline
+      \textit{Agua}   & \(\times 3/2\)         & \(\times 1\)           & \(\times 1/2\) \\
+      \hline
+      \textit{Planta} & \(\times 1/2\)         & \(\times 3/2\)         & \(\times 1\) \\
+      \hline
+      \end{tabular}
+    \caption{Tipos de Bakémon y sus ventajas y resistencias}
+    \label{tab:tipos}
+  \end{table}
+
+  Comencemos pensando en cómo modelar los tipos de \textit{Bakémon}.
+  Una idea es hacer que nuestra clase \texttt{Bakemon} sea abierta para extensión y así poder
+  crear subclases de \texttt{Bakemon} para cada tipo de \textit{Bakémon}.
+  Esta parece una buena idea, así que comencemos por ahí.
+
+  Pero antes de implementar, debemos escribir tests para seguir el proceso TDD.
+
+  Crearemos tres clases: \texttt{FireBakemonTest}, \texttt{WaterBakemonTest} y
+  \texttt{GrassBakemonTest}.
+
+  \begin{kotlin}
+    class FireBakemonTest : FunSpec({
+      lateinit var bakemon: FireBakemon
+      val bakemonName = "Karmander"
+      val bakemonHealth = 25
+      val bakemonLevel = 5
+      val bakemonAttack = 4
+      beforeTest {
+        bakemon = FireBakemon(bakemonName, bakemonHealth, bakemonLevel, bakemonAttack)
+      }
+      test("Two objects created from the same class should be equal") {
+        val b = FireBakemon(bakemonName, bakemonHealth, bakemonLevel, bakemonAttack)
+        bakemon shouldBe b
+      }
+      test("Two objects created from the same class should have the same hashCode") {
+        val b = FireBakemon(bakemonName, bakemonHealth, bakemonLevel, bakemonAttack)
+        bakemon shouldHaveSameHashCodeAs b
+      }
+    })
+  \end{kotlin}
+
+  \begin{kotlin}
+    class WaterBakemonTest : FunSpec({
+      lateinit var bakemon: WaterBakemon
+      val bakemonName = "Kokodile"
+      val bakemonHealth = 25
+      val bakemonLevel = 5
+      val bakemonAttack = 4
+      beforeTest {
+        bakemon = WaterBakemon(bakemonName, bakemonHealth, bakemonLevel, bakemonAttack)
+      }
+      test("Two objects created from the same class should be equal") {
+        val b = WaterBakemon(bakemonName, bakemonHealth, bakemonLevel, bakemonAttack)
+        bakemon shouldBe b
+      }
+      test("Two objects created from the same class should have the same hashCode") {
+        val b = WaterBakemon(bakemonName, bakemonHealth, bakemonLevel, bakemonAttack)
+        bakemon shouldHaveSameHashCodeAs b
+      }
+  })
+  \end{kotlin}
+
+  \begin{note}
+    Omitiremos la implementación de algunas clases y métodos de la clase \texttt{GrassBakemon}
+    para no extender demasiado el código.
+  \end{note}
+
+  Ahora que tenemos los tests, podemos implementar las clases de \textit{Bakémon}:
+
+  \begin{kotlin}
+    class FireBakemon(name: String, health: Int, level: Int, attack: Int) :
+        Bakemon(name, health, level, attack) {
+      
+      override fun equals(other: Any?) = when {
+        this === other -> true
+        other !is FireBakemon -> false
+        else -> name == other.name &&
+          health == other.health &&
+          level == other.level &&
+          attack == other.attack
+      }
+      
+      override fun hashCode() = Objects.hash(FireBakemon::class, name, health, level, attack)
+      
+      override fun toString() =
+        "FireBakemon(name='$name', health=$health, level=$level, attack=$attack)"
+    }
+  \end{kotlin}
+
+  \begin{kotlin}
+    class WaterBakemon(name: String, health: Int, level: Int, attack: Int) :
+        Bakemon(name, health, level, attack) {
+      override fun toString() =
+        "WaterBakemon(name='$name', health=$health, level=$level, attack=$attack)"
+    }
+  \end{kotlin}
+
+  Ahora podemos comprobar que los tests pasan, y hacer \textit{commit} de los cambios.
+
+  \begin{powershell}
+    git add .
+    git commit -m "FEAT Adds FireBakemon and WaterBakemon classes"
+  \end{powershell}

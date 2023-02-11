@@ -1,0 +1,36 @@
+\section{Abstract Factory Pattern}
+\label{sec:abstract_factory_pattern}
+  Ya hicimos tests e implementamos los tipos de \textit{Bakémon} que queríamos, nos falta el último
+  paso del TDD: refactorizar.
+
+  Comencemos con la siguiente pregunta: ¿Existen los Bakémon sin tipo?
+  Podría ser, pero en la manera que estamos modelando el juego no tiene mucho sentido.
+  ¿De qué nos sirve entonces la clase \textit{Bakémon}?
+  
+
+  No hay mucho que hacer para nuestros tipos de \textit{Bakémon}, pero notarán que los tests que
+  escribimos para las clases de \textit{Bakémon} son muy similares.
+  ¿Hay alguna forma de reusar ese código?
+  La respuesta es que sí, pero primero debemos solucionar un problema importante.
+
+  Veamos qué es lo que cambia entre los tests de las clases de \textit{Bakémon}.
+  En todos los tests, creamos un objeto de la clase que estamos probando, y luego comparamos
+  el objeto creado con otro objeto creado con los mismos parámetros.
+  Noten que lo único que cambia entre los tests es el tipo de \textit{Bakémon} que estamos
+  probando.
+  En otras palabras, estamos concretizando la clase \texttt{Bakemon} en cada test.
+  
+  \textit{Kotest} provee una funcionalidad llamada \textit{test factories} que nos permite
+  reusar tests de una manera muy sencilla.
+  Para usarlas, crearemos una función que va a utilizar un método de \textit{Kotest} llamado
+  \texttt{funSpec}.
+  Se entenderá mejor poniéndolo en práctica.
+
+  Primero, creemos un archivo en el paquete \url{cl.ravevnhill.bakemon} del directorio de tests 
+  haciendo click derecho en el paquete y seleccionando \textit{New} \(\rightarrow\) 
+  \textit{Kotlin File/Class}, y en la ventana que se abre, seleccionaremos \textit{File} y
+  lo llamaremos \textit{TestFactories}.
+
+  \begin{kotlin}
+    
+  \end{kotlin}

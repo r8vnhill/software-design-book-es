@@ -1,0 +1,41 @@
+\section{Lo bueno y lo malo}
+  Todos los patrones de diseño tienen sus pros y sus contras, y el patrón de diseño \textit{Factory
+  Method} no es la excepción.
+
+  \subsection{Lo bueno}
+    \begin{itemize}
+      \item \textbf{Abstracción}: Podemos abstraer la creación de objetos, permitiendonos encapsular
+        lo que cambia (!).
+      \item \textbf{Desacoplamiento}: Podemos desacoplar la creación de objetos de su uso.
+      \item \textbf{Single Responsibility}: Podemos encapsular la creación de objetos en una clase
+        separada, lo que nos permite tener una única responsabilidad por clase.
+      \item \textbf{Open/Closed}: Podemos agregar nuevas familias de objetos sin necesidad de
+        modificar el código que los usa.
+    \end{itemize}
+  
+  \subsection{Lo malo}
+    \begin{itemize}
+      \item \textbf{Overengineering}: Podemos estar agregando complejidad innecesaria a nuestro
+        código.
+    \end{itemize}
+
+    Si bien menciono un único contra, es uno extremadamente importante y tiene que ver con la
+    parte más difícil de diseñar software: poner en la balanza los pros y los contras de cada
+    solución.
+    En el diseño de software, todas las soluciones son correctas si se puede argumentar el porqué
+    de cada decisión.
+
+    Aquí elegimos complicar la implementación de nuestro código para simplificar su uso.
+    La pregunta que siempre debemos hacernos es: ¿qué tanto trabajo significa implementar una 
+    solución ahora y qué tanto trabajo nos ahorrará en el futuro?
+    Si la respuesta es que nos ahorrará mucho trabajo en el futuro, entonces vale la pena
+    implementar la solución.
+    Si la respuesta es que no nos ahorrará mucho trabajo en el futuro, entonces podemos posponer
+    la decisión de diseño para más adelante.
+
+    En este caso, elegimos esta solución pensando que crear nuevas instancias de \texttt{Bakemon}
+    es algo que tendremos que hacer mucho en nuestro programa, y que es probable que en el futuro
+    tengamos que agregar nuevos tipos de \texttt{Bakemon}.
+
+    En el próximo capítulo seguiremos extendiendo nuestro juego para poder implementar el combate
+    con una nueva técnica de programación.

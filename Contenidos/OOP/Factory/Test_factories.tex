@@ -1,0 +1,68 @@
+\section{Test factories}
+\label{sec:test-factories}
+  Ahora veamos cómo podemos utilizar el patrón de diseño \textit{Abstract Factory} para reducir la
+  repetición de código en los tests.
+
+  \textit{Kotest} provee una funcionalidad llamada \textit{test factories} que nos permite
+  reusar tests de una manera muy sencilla.
+  Para usarlas, crearemos una función que va a utilizar un método de \textit{Kotest} llamado
+  \texttt{funSpec}.
+  Se entenderá mejor poniéndolo en práctica.
+
+  Primero, creemos un archivo en el paquete \url{cl.ravevnhill.bakemon} del directorio de tests 
+  haciendo click derecho en el paquete y seleccionando \textit{New} \(\rightarrow\) 
+  \textit{Kotlin File/Class}, y en la ventana que se abre, seleccionaremos \textit{File} y
+  lo llamaremos \textit{TestFactories}.
+  Luego, agregaremos el siguiente código:
+
+  \begin{kotlin}
+    fun `Bakemon equality and hashcode test`(
+      factory: BakemonFactory,
+      name: String,
+      health: Int,
+      level: Int,
+      attack: Int
+    ) = funSpec {
+      lateinit var bakemon: Bakemon
+
+      beforeTest {
+        bakemon = factory.createBakemon(name, health, level, attack)
+      }
+
+      test("Two objects created from the same class should be equal") {
+        val b = factory.createBakemon(name, health, level, attack)
+        bakemon shouldBe b
+      }
+      test("Two objects created from the same class should have the same hashCode") {
+        val b = factory.createBakemon(name, health, level, attack)
+        bakemon shouldHaveSameHashCodeAs b
+      }
+    }
+  \end{kotlin}
+
+  Probablemente les llame la atención un detalle: el nombre de la función tiene espacios.
+  Esto es porque \textit{Kotlin} permite definir nombres de variables y funciones 
+  \enquote{literales}, esto se hace encerrando el nombre entre \textit{backticks} (\texttt{\`{}}).
+  Estos nombres sólo deben usarse en los tests\autocite{CodingConventionsKotlin} ya que abusar de
+  ellos puede hacer que el código sea difícil de leer.
+
+  Ahora, veamos cómo podemos utilizar esta función para reducir la repetición de código en los 
+  tests.
+  Para esto, utilizaremos la función \texttt{include} de \textit{Kotest} que nos permite incluir
+  tests definidos en otras funciones.
+
+  \begin{kotlin}
+    class FireBakemonTest : FunSpec({
+      include(
+        `Bakemon equality and hashcode test`(FireBakemonFactory(), "Karmander", 25, 5, 4))
+    })
+  \end{kotlin}
+
+  \begin{kotlin}
+    class WaterBakemonTest : FunSpec({
+      include(
+        `Bakemon equality and hashcode test`(WaterBakemonFactory(), "Kokodile", 25, 5, 4))
+    })
+  \end{kotlin}
+
+  
