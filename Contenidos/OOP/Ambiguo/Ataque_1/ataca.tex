@@ -1,24 +1,112 @@
- 
-  Con esto, ya tenemos los tests para los ataques entre \textit{Bakémon} de distintos tipos.
-  Noten que reusamos la función \mintinline{kotlin}|`Bakemon can fight`| para definir peleas entre
-  \textit{Bakémon} de distintos tipos.
-  Aquí es donde entra en juego el parámetro \mintinline{kotlin}|message| que le pasamos a la 
-  función, ya que así evitamos tener varios tests con el mismo nombre.\footnote{Si bien no es
-  necesario, es una buena práctica que los nombres no se repitan dentro de un mismo test.}
+ \subsection{Atacando}
 
-  Corramos los tests para ver cómo fallan.
-
-  Ahora, pasemos a implementar el método \mintinline{kotlin}|FireBakemon::attackBakemon(Bakemon)|.
+  Ahora que tenemos implementado el método \\\mintinline{kotlin}|Bakemon::takeDamage(Int)|, podemos
+  implementar el método \mintinline{kotlin}|Bakemon::attackBakemon(Bakemon)|.
+  Como siempre, comencemos por los tests.
 
   \begin{kotlin}
-    override fun attackBakemon(bakemon: Bakemon) {
-      bakemon.health -= attack
+    fun `Bakemon can attack Bakemon`(
+      factory: BakemonFactory,
+      name: String,
+      health: Int,
+      level: Int,
+      attack: Int,
+      enemyFactory: BakemonFactory,
+      enemyName: String,
+      enemyHealth: Int,
+      enemyLevel: Int,
+      enemyAttack: Int,
+      expectedDamage: Int
+    ) = funSpec {
+      lateinit var bakemon: Bakemon
+      lateinit var enemy: Bakemon
+
+      beforeTest {
+        bakemon = factory.createBakemon(name, health, level, attack)
+        enemy = enemyFactory.createBakemon(enemyName, enemyHealth, enemyLevel, enemyAttack)
+      }
+
+      test("An attack should reduce the enemy's health") {
+        bakemon.attackBakemon(enemy)
+        enemy.health shouldBe enemyHealth - expectedDamage
+      }
+
+      test("An attack should not set the enemy's health below 0") {
+        enemy.takeDamage(enemyHealth)
+        bakemon.attackBakemon(enemy)
+        enemy.health shouldBe 0
+      }
     }
   \end{kotlin}
 
-  Si intentamos correr los tests veremos que siguen fallando.
-  Este error debiera sernos conocido, ya que lo vimos al momento de hablar sobre valores y 
-  variables.
-  Esto podemos solucionarlo simplemente cambiando la propiedad \mintinline{kotlin}|health| de
-  \mintinline{kotlin}{Bakemon}, \mintinline{kotlin}{WaterBakemon} y \mintinline{kotlin}{FireBakemon}
-  a \mintinline{kotlin}{var}.
+  Este método debería recibir un \textit{Bakémon} y realizar el cálculo de daño correspondiente.
+  Con esto, ya tenemos los tests para los ataques entre \textit{Bakémon} de distintos tipos.
+  Noten que reusamos la función \mintinline{kotlin}|`Bakemon can fight`| para definir peleas entre
+  \textit{Bakémon} de distintos tipos.
+  
+  Ahora incluyamos el \textit{test factory} en los tests de cada tipo de \textit{Bakémon}:
+
+  \begin{kotlin}
+    class FireBakemonTest : FunSpec({
+      ...
+      include(
+        "Fire Bakemon -> Fire Bakemon:",
+        `Bakemon can attack Bakemon`(
+          FireBakemonFactory(), "Karmander", 25, 5, 4,
+          FireBakemonFactory(), "Karmander", 25, 5, 4, 4
+        )
+      )
+      include(
+        "Fire Bakemon -> Water Bakemon:",
+        `Bakemon can attack Bakemon`(
+          FireBakemonFactory(), "Karmander", 25, 5, 4,
+          WaterBakemonFactory(), "Kokodile", 25, 5, 4, 2
+        )
+      )
+    })
+  \end{kotlin}
+
+  \begin{kotlin}
+    class WaterBakemonTest : FunSpec({
+      ...
+      include(
+        "Water Bakemon -> Fire Bakemon:",
+        `Bakemon can attack Bakemon`(
+          WaterBakemonFactory(), "Kokodile", 25, 5, 4,
+          FireBakemonFactory(), "Karmander", 25, 5, 4, 8
+        )
+      )
+      include(
+        "Water Bakemon -> Water Bakemon:",
+        `Bakemon can attack Bakemon`(
+          WaterBakemonFactory(), "Kokodile", 25, 5, 4,
+          WaterBakemonFactory(), "Kokodile", 25, 5, 4, 4
+        )
+      )
+    })
+  \end{kotlin}
+
+  Corramos los tests para ver cómo fallan.
+
+  Ahora, pasemos a implementar el método \mintinline{kotlin}|Bakemon::attackBakemon(Bakemon)|.
+
+  Como los ataques no consideran fortalezas o debilidades, debieramos notar que el método
+  va a ser idéntico para todos los tipos de \textit{Bakémon}, así que podemos definirlo en la
+  clase abstracta.
+
+  \begin{kotlin}
+    abstract class AbstractBakemon(...) : Bakemon {
+      ...
+      override fun attackBakemon(bakemon: Bakemon) {
+        bakemon.takeDamage(attack)
+      }
+    }
+  \end{kotlin}
+
+  Corramos los tests y veamos que ahora pasan.
+  Por útlimo, podemos hacer \textit{commit} de los cambios.
+
+  \begin{kotlin}
+    git add .
+    git commit -m "FEAT Adds attackBakemon method"
+  \end{kotlin}

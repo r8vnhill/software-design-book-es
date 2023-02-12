@@ -102,8 +102,9 @@
       override val level: Int,
       override val attack: Int
     ) : Bakemon {
-      override fun takeDamage(damage: Int) {
-        health -= damage
+      health -= damage
+      if (health < 0) {
+        health = 0
       }
     }
   \end{kotlin}
@@ -128,3 +129,10 @@
       override fun toString() = ...
     }
   \end{kotlin}
+
+  Corramos los tests para ver que todo sigue funcionando y hagamos un commit:
+
+  \begin{powershell}
+    git add .
+    git commit -m "FEAT Bakemon can take damage"
+  \end{powershell}
