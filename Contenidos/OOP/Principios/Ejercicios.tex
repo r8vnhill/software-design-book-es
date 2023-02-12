@@ -1,6 +1,139 @@
 \newpage
 \section{Ejercicios}
   \label{sec:oop:principios:ejercicios}
+  \begin{important}
+    Recuerde hacer \textit{commit} después de cada pregunta.
+  \end{important}
+
+  \begin{Exercise}[title={Orden de ejecución}]
+    Para los siguientes fragmentos de código, indique si compila y, en caso afirmativo, indique el
+    orden de ejecución de de las líneas de código.
+    
+    \Question 
+      \begin{minted}{kotlin}
+        class Animal(name: String) {
+          private val name = name
+          fun pairTo(animal: Animal) {
+            println("A $name with a ${animal.name}")
+          }
+        }
+        fun main() {
+          Animal("Dog").pairTo(Animal("Cat"))
+        }
+      \end{minted}
+    \Question 
+      \begin{minted}{kotlin}
+        open class A {
+          init {
+            println("A")
+          }
+        }
+        class B : A() {
+          init {
+            println("B")
+          }
+        }
+        fun main() {
+          B()
+        }
+      \end{minted}
+    \Question 
+      \begin{minted}{kotlin}
+        open class A {
+          init {
+            println("A")
+          }
+        }
+        class B : A() {
+          init {
+            println("B")
+          }
+        }
+        class C : B() {
+          init {
+            println("C")
+          }
+        }
+        fun main() {
+          C()
+        }
+      \end{minted}
+    \Question 
+      \begin{minted}{kotlin}
+        open class A {
+          fun m1
+        }
+        class B : A() {
+          override fun foo() {
+            println("B.foo")
+          }
+        }
+        fun main() {
+          B().foo()
+        }
+      \end{minted}
+    \Question
+      \begin{minted}{kotlin}
+        open class A {
+          open fun m1(): String {
+            return "A.m1"
+          }
+          open fun m2(): String {
+            return "A.m2 > ${this.m1()}"
+          }
+          open fun m5(): String {
+            return "A.m5 > ${this.m2()}"
+          }
+        }
+        open class B : A() {
+          override fun m1(): String {
+            return "B.m1"
+          }
+          fun m3(): String {
+            return "B.m3 > ${super.m1()}"
+          }
+          fun m4(): String {
+            return "B.m4 > ${super.m2()}"
+          }
+          override fun m5(): String {
+            return "B.m5 > ${super.m5()}"
+          }
+        }
+        class C : B() {
+          override fun m2(): String {
+            return "C.m2 > ${this.m1()}"
+          }
+        }
+        fun main() {
+          println("1. ${C().m1()}")
+          println("2. ${B().m1()}")
+          println("3. ${A().m1()}")
+          println("4. ${C().m2()}")
+          println("5. ${B().m2()}")
+          println("6. ${A().m2()}")
+          println("7. ${B().m3()}")
+          println("8. ${C().m4()}")
+          println("9. ${C().m5()}")
+        }
+      \end{minted}
+    \Question
+      \begin{minted}{kotlin}
+        open class A {
+          fun m(o1: A, o2: B) : String {
+            return "A.m(A, B)"
+          }
+        }
+        class B : A() {
+          fun m(o1: A, o2: A) : String {
+            return "B.m(A, A)"
+          }
+        }
+        fun main() {
+          println("1. ${B().m(A(), A())}")
+          println("2. ${B().m(A(), B())}")
+        }
+      \end{minted}
+  \end{Exercise}
 
   \begin{Exercise}[title={Puntos en el espacio}, label={oop:principios:ejercicios:puntos}]
     \Question Defina una clase \texttt{Point2D} que represente un punto en el plano.
@@ -15,13 +148,13 @@
     \Question Defina la función \texttt{Point2D::distanceToOrigin(): Double} que calcule la 
       distancia entre un punto y el origen del sistema de coordenadas.
     \Question Considere la siguiente implementación de la interfaz \texttt{Point}:
-      \begin{kotlin}
+      \begin{minted}{kotlin}
         interface Point {
           val coordinates: DoubleArray
           fun distanceTo(other: Point): Double
           fun distanceToOrigin(): Double
         }
-      \end{kotlin}
+      \end{minted}
       Modifique la clase \texttt{Point2D} para que implemente la interfaz \texttt{Point}.
     \Question Defina una clase \texttt{Point3D} que implemente la interfaz \texttt{Point}.
       Para esto considere que la distancia entre dos puntos en el espacio se define como:

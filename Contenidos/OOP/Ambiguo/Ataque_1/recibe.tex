@@ -1,0 +1,130 @@
+\subsection{Recibiendo daño}
+  Comencemos por lo más simple y digamos que los \textit{Bakémon} pueden atacarse entre sí ignorando
+  las fortalezas y debilidades de los tipos.
+  Para esto, vamos a crear primero un método \texttt{Bakemon::takeDamage(Int)} que nos permitirá
+  reducir la vida de un \textit{Bakémon} en una cantidad determinada asegurándonos de que la vida no
+  sea negativa.
+
+  \begin{kotlin}
+    interface Bakemon {
+      ...
+      fun takeDamage(damage: Int)
+    }
+  \end{kotlin}
+
+  Luego, podemos implementar los tests para este método, para esto podemos crear un \textit{test 
+  factory} que nos permita crear los tests para cada tipo de \textit{Bakémon} de forma sencilla:
+
+  \begin{kotlin}
+    fun `Bakemon can take damage`(
+      factory: BakemonFactory,
+      name: String,
+      health: Int,
+      level: Int,
+      attack: Int
+    ) = funSpec {
+      lateinit var bakemon: Bakemon
+
+      beforeTest {
+        bakemon = factory.createBakemon(name, health, level, attack)
+      }
+      test("Taking damage should reduce the Bakemon's health") {
+        bakemon.takeDamage(5)
+        bakemon.health shouldBe 20
+      }
+      test(
+        "Taking damage should reduce the Bakemon's health to 0 if the damage is " +
+            "greater than its health"
+      ) {
+        bakemon.takeDamage(30)
+        bakemon.health shouldBe 0
+      }
+    }
+  \end{kotlin}
+
+  Ahora podemos crear los tests para cada tipo de \textit{Bakémon} de forma sencilla:
+
+  \begin{kotlin}
+    class FireBakemonTest : FunSpec({
+      ...
+      include(`Bakemon can take damage`(FireBakemonFactory(), "Karmander", 25, 5, 4))
+    })
+  \end{kotlin}
+
+  \begin{kotlin}
+    class FireBakemonTest : FunSpec({
+      ...
+      include(`Bakemon can take damage`(WaterBakemonFactory(), "Kokodile", 25, 5, 4))
+    })
+  \end{kotlin}
+
+  Ahora podemos implementar el método \texttt{Bakemon::takeDamage(Int)} en cada tipo concreto, pero
+  antes, 
+
+  \begin{kotlin}
+    class FireBakemon(...) : Bakemon {
+      ...
+      override fun takeDamage(damage: Int) {
+        health -= damage
+        if (health < 0) {
+          health = 0
+        }
+      }
+    }
+  \end{kotlin}
+
+  \begin{kotlin}
+    class WaterBakemon(...) : Bakemon {
+      ...
+      override fun takeDamage(damage: Int) {
+        health -= damage
+        if (health < 0) {
+          health = 0
+        }
+      }
+    }
+  \end{kotlin}
+  
+  Ahora podemos correr los tests y ver que todos pasan \texttt{:)}
+
+  Nos quedaría mejorar nuestro diseño, y aquí debieran notar que el método \texttt{takeDamage}
+  es idéntico para todos los tipos de \textit{Bakémon}, por lo que podríamos usar una clase
+  abstracta para implementarlo.
+  Para esto primero creemos un nuevo paquete \url{cl.ravenhill.bakemon.types} tanto en la aplicación
+  como en los tests, y movamos todas las clases de tipos de \textit{Bakémon} a este nuevo paquete.
+  Ahora, creemos una clase abstracta \texttt{AbstractBakemon} que implemente la interfaz
+  \texttt{Bakemon} y que contenga el método \texttt{takeDamage}:
+
+  \begin{kotlin}
+    abstract class AbstractBakemon(
+      override val name: String,
+      override var health: Int,
+      override val level: Int,
+      override val attack: Int
+    ) : Bakemon {
+      override fun takeDamage(damage: Int) {
+        health -= damage
+      }
+    }
+  \end{kotlin}
+
+  Ahora, podemos hacer que las clases de tipos de \textit{Bakémon} hereden de esta clase abstracta
+  y eliminar el método \texttt{takeDamage} de cada una de ellas:
+
+  \begin{kotlin}
+    class FireBakemon(name: String, health: Int, level: Int, attack: Int) :
+        AbstractBakemon(name, health, level, attack) {
+      override fun equals(other: Any?) = when {...}
+      override fun hashCode() = ...
+      override fun toString() = ...
+    }
+  \end{kotlin}
+
+  \begin{kotlin}
+    class WaterBakemon(name: String, health: Int, level: Int, attack: Int) :
+        AbstractBakemon(name, health, level, attack) {
+      override fun equals(other: Any?) = when {...}
+      override fun hashCode() = ...
+      override fun toString() = ...
+    }
+  \end{kotlin}

@@ -65,4 +65,11 @@
     })
   \end{kotlin}
 
-  
+  \begin{important}
+    Cada \textit{test factory} tiene su propio contexto, por lo que no puede acceder a las variables
+    definidas fuera de ella, y no se puede acceder a las variables definidas dentro de ella desde
+    fuera.
+
+    Esto implica que el método \texttt{beforeTest} es propio de cada \textit{test factory}, por lo
+    que no podemos \enquote{reusarlo} entre distintas \textit{test factories}.
+  \end{important}

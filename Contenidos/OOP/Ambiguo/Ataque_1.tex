@@ -1,0 +1,116 @@
+\section{Ataques: primer intento}
+  Comencemos por lo más simple y digamos que los \textit{Bakémon} pueden atacarse entre sí ignorando
+  las fortalezas y debilidades de los tipos.
+  Para esto, vamos a crear primero un método \texttt{Bakemon::takeDamage(Int)} que nos permitirá
+  reducir la vida de un \textit{Bakémon} en una cantidad determinada asegurándonos que la vida no
+  sea negativa.
+
+  \begin{kotlin}
+    interface Bakemon {
+      ...
+      fun takeDamage(damage: Int)
+    }
+  \end{kotlin}
+
+  Luego, podemos implementar los tests para este método, para esto podemos crear un \textit{test 
+  factory} que nos permita crear los tests para cada tipo de \textit{Bakémon} de forma sencilla:
+
+  \begin{kotlin}
+    class FireBakemonTest : FunSpec({
+      lateinit var bakemon: FireBakemon
+      beforeTest {
+        bakemon = FireBakemon("Karmander", 25, 5, 4)
+      }
+      context("When a Fire Bakemon takes damage") {
+        test(
+          "its health should be reduced by the damage if its health is greater than the " +
+              "damage"
+        ) {
+          bakemon.takeDamage(5)
+          bakemon.health shouldBe 20
+        }
+        test(
+          "its health should be reduced to 0 if the damage is greater than its health"
+        ) {
+          bakemon.takeDamage(30)
+          bakemon.health shouldBe 0
+        }
+      }
+      ...
+    })
+  \end{kotlin}
+
+  Noten que este \textit{test factory} recibe un mensaje como parámetro, esto lo hacemos para poder
+  indicar qué tipo de \textit{Bakémon} ataca a qué tipo de \textit{Bakémon}, se entenderá mejor
+  cuando veamos los tests.
+
+  Ahora podemos crear los tests para cada tipo de \textit{Bakémon} de forma sencilla:
+
+  \begin{kotlin}
+    class FireBakemonTest : FunSpec({
+      include(
+        `Bakemon equality and hashcode test`(FireBakemonFactory(), "Karmander", 25, 5, 4)
+      )
+      context("Attacking another Bakemon should") {
+        test(
+          "reduce the Bakemon's health by the attack if its health is greater than " +
+              "the attack"
+        ) {
+          val bakemon = FireBakemon("Karmander", 25, 5, 4)
+          val otherBakemon = FireBakemon("Korchic", 25, 5, 4)
+          bakemon.attackBakemon(otherBakemon)
+          otherBakemon.health shouldBe 21
+        }
+        test("reduce the Bakemon's health to 0 if the attack its greater than its health") {
+          val bakemon = FireBakemon("Karmander", 25, 5, 4)
+          val otherBakemon = FireBakemon("Korchic", 3, 5, 4)
+          bakemon.attackBakemon(otherBakemon)
+          otherBakemon.health shouldBe 0
+        }
+      }
+    })
+  \end{kotlin}
+
+  \begin{kotlin}
+    class WaterBakemonTest : FunSpec({
+      include(
+        `Bakemon equality and hashcode test`(WaterBakemonFactory(), "Kokodile", 25, 5, 4)
+      )
+      include(
+        `Bakemon can fight`(
+          "A WaterBakemon should be able to attack a WaterBakemon",
+          WaterBakemonFactory(), WaterBakemonFactory(), "Kokodile", 25, 5, 4
+        )
+      )
+      include(
+        `Bakemon can fight`(
+          "A WaterBakemon should be able to attack a FireBakemon",
+          WaterBakemonFactory(), FireBakemonFactory(), "Karmander", 25, 5, 4
+        )
+      )
+    })
+  \end{kotlin}
+
+  Con esto, ya tenemos los tests para los ataques entre \textit{Bakémon} de distintos tipos.
+  Noten que reusamos la función \mintinline{kotlin}|`Bakemon can fight`| para definir peleas entre
+  \textit{Bakémon} de distintos tipos.
+  Aquí es donde entra en juego el parámetro \mintinline{kotlin}|message| que le pasamos a la 
+  función, ya que así evitamos tener varios tests con el mismo nombre.\footnote{Si bien no es
+  necesario, es una buena práctica que los nombres no se repitan dentro de un mismo test.}
+
+  Corramos los tests para ver cómo fallan.
+
+  Ahora, pasemos a implementar el método \mintinline{kotlin}|FireBakemon::attackBakemon(Bakemon)|.
+
+  \begin{kotlin}
+    override fun attackBakemon(bakemon: Bakemon) {
+      bakemon.health -= attack
+    }
+  \end{kotlin}
+
+  Si intentamos correr los tests veremos que siguen fallando.
+  Este error debiera sernos conocido, ya que lo vimos al momento de hablar sobre valores y 
+  variables.
+  Esto podemos solucionarlo simplemente cambiando la propiedad \mintinline{kotlin}|health| de
+  \mintinline{kotlin}{Bakemon}, \mintinline{kotlin}{WaterBakemon} y \mintinline{kotlin}{FireBakemon}
+  a \mintinline{kotlin}{var}.

@@ -6,20 +6,20 @@
   \begin{kotlin}
     class Player(
       name: String,
-      healthPoints: Int,
+      health: Int,
       deck: MutableList<String>,
       cardsText: MutableMap<String, String>,
       cardsAttacks: MutableMap<String, Int>
     ) {
       val name: String
-      var healthPoints: Int
+      var health: Int
       val deck: MutableList<String>
       val cardsText: MutableMap<String, String>
       val cardsAttacks: MutableMap<String, Int>
 
       init {
         this.name = name
-        this.healthPoints = healthPoints
+        this.health = health
         this.deck = deck
         this.cardsText = cardsText
         this.cardsAttacks = cardsAttacks
@@ -52,9 +52,9 @@
       "White-eyes Blue Dragon" to 3000,
       "Light Magician" to 2500
     )
-    val player = Player("Yulian", 8000, deck, cardsText, cardsAttacks)
+    val player = Player("Mugi", 8000, deck, cardsText, cardsAttacks)
     println(player.name)
-    println(player.healthPoints)
+    println(player.health)
     println(player.deck)
     println(player.cardsText)
   \end{kotlin}
@@ -68,8 +68,8 @@
     La \textbf{composición}\index{Composición} es la propiedad de todos los objetos de contener a 
     cualquier otro objeto.
     Podemos pensar la composición de objetos como la composición de funciones matemáticas.
-    Por ejemplo, la función \(f(x) = x + 1\) es una composición de las funciones \(g(x) = x + 1\) y
-    \(h(x) = x\).
+    Por ejemplo, la función \(f(x) = (x + 1)^2\) es una composición de las funciones
+    \(g(x) = x + 1\) y \(h(x) = x^2\).
   \end{defaultbox}
 
   Para solucionar este problema podemos crear una clase que represente a una carta y tenga campos
@@ -98,16 +98,16 @@
   \begin{kotlin}
     class Player(
       name: String,
-      healthPoints: Int,
+      health: Int,
       deck: MutableList<Card>
     ) {
       val name: String
-      var healthPoints: Int
+      var health: Int
       val deck: MutableList<Card>
 
       init {
         this.name = name
-        this.healthPoints = healthPoints
+        this.health = health
         this.deck = deck
       }
     }

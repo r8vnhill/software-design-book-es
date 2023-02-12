@@ -7,7 +7,7 @@
 
   \begin{kotlin}
     fun attack(player: Player) {
-      player.health -= this.attack
+      player.health -= attack
     }
   \end{kotlin}
 
@@ -118,8 +118,9 @@
 
   Hicimos que el campo \textit{health} sólo pueda ser asignado desde la clase 
   \textit{Player}, pero además hicimos que sólo pueda ser \enquote{visto} desde la misma clase.
-  Esto significa que no podemos hacer cosas como \texttt{println(player.health)}.
-  Podemos solucionar esto creando un método \textit{gethealth} en la clase \textit{Player},
+  Esto significa que no podemos hacer cosas como \texttt{println(player.health)} desde la función
+  \texttt{main}.
+  Podemos solucionar esto creando un método \texttt{getHealth} en la clase \textit{Player},
   pero \textit{Kotlin} nos ofrece una forma más simple de hacer esto.
   La idea es decir que una variable es pública, pero que su valor sólo puede ser asignado 
   (\textit{set}) desde la misma clase.
@@ -134,3 +135,9 @@
   negativos, solo tendríamos que modificar el método \texttt{takeDamage} y no tendríamos que
   modificar los múltiples métodos que podrían querer modificar los puntos de vida del jugador.
   
+  Ahora podemos hacer \textit{commit} de los cambios:
+  
+  \begin{kotlin}
+    git add .
+    git commit -m "FEAT Adds attack method to Card class"
+  \end{kotlin}

@@ -1,31 +1,38 @@
 \chapter{El capítulo ambiguo}
-\label{chap:ambiguo}
-  
-Además de esto, cada tipo tiene una ventaja sobre otro tipo.
-Cuando un \textit{Bakémon} ataca a otro \textit{Bakémon} de un tipo que tiene ventaja
-sobre el tipo del \textit{Bakémon} atacante, el ataque hace 
-\(\frac{3}{2} \cdot \mathtt{attack}\) de daño.
-Cuando un \textit{Bakémon} ataca a otro \textit{Bakémon} de un tipo resistente, el ataque
-hace \(\frac{1}{2} \cdot \mathtt{attack}\) de daño.
-Si no es ninguno de los casos anteriores, el ataque hace \(\mathtt{attack}\) de daño.
-Las fortalezas y debilidades de los tipos se muestran en la \cref{tab:tipos}.
+  \label{chap:ambiguo}
+    
+  En este capítulo seguiremos implementando nuestro juego de Bakémon.
+  En el capítulo anterior, implementamos la clase \texttt{Bakemon} y sus subclases.
+  En este capítulo implementaremos ataques y un sistema de combates simple.
 
-\begin{table}[ht!]
-  \centering
-  \begin{tabular}{ |p{2cm}|p{2cm}|p{2cm}|p{2cm}|  }
-    \hline
-              & \multicolumn{3}{|c|}{Atacado} \\
-    \hline
-    Atacante  & \textit{Fuego}              & \textit{Agua}           & \textit{Planta} \\
-    \hline
-    \textit{Fuego}  & \(\times 1\)           & \(\times 1/2\)         & \(\times 3/2\) \\
-    \hline
-    \textit{Agua}   & \(\times 3/2\)         & \(\times 1\)           & \(\times 1/2\) \\
-    \hline
-    \textit{Planta} & \(\times 1/2\)         & \(\times 3/2\)         & \(\times 1\) \\
-    \hline
-    \end{tabular}
-  \caption{Tipos de Bakémon y sus ventajas y resistencias}
-  \label{tab:tipos}
-\end{table}
-  \printbibliography[keyword=ambiguo]
+  Cada tipo de Bakémon tiene ventajas y debilidades contra otros tipos de Bakémon.
+  Cuando un \textit{Bakémon} ataca a otro \textit{Bakémon} de un tipo que tiene ventaja
+  sobre el tipo del \textit{Bakémon} atacante, el ataque hace 
+  \(\frac{3}{2} \cdot \mathtt{attack}\) de daño.
+  Cuando un \textit{Bakémon} ataca a otro \textit{Bakémon} de un tipo resistente, el ataque
+  hace \(\frac{1}{2} \cdot \mathtt{attack}\) de daño.
+  Si no es ninguno de los casos anteriores, el ataque hace \(\mathtt{attack}\) de daño.
+  Las fortalezas y debilidades de los tipos se muestran en la \cref{tab:tipos}.
+
+  \begin{table}[ht!]
+    \centering
+    \begin{tabular}{ |p{2cm}|p{2cm}|p{2cm}|p{2cm}|  }
+      \hline
+                & \multicolumn{3}{|c|}{Atacado} \\
+      \hline
+      Atacante  & \textit{Fuego}              & \textit{Agua}           & \textit{Planta} \\
+      \hline
+      \textit{Fuego}  & \(\times 1\)           & \(\times 1/2\)         & \(\times 3/2\) \\
+      \hline
+      \textit{Agua}   & \(\times 3/2\)         & \(\times 1\)           & \(\times 1/2\) \\
+      \hline
+      \textit{Planta} & \(\times 1/2\)         & \(\times 3/2\)         & \(\times 1\) \\
+      \hline
+      \end{tabular}
+    \caption{Tipos de Bakémon y sus ventajas y resistencias}
+    \label{tab:tipos}
+  \end{table}
+
+  \subimport{Ataque_1/}{ataque_1.index.tex}
+  
+  \printbibliography[keyword=double-dispatch]

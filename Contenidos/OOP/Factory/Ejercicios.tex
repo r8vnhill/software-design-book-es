@@ -1,0 +1,113 @@
+\newpage
+\section{Ejercicios}
+\label{sec:factory_ejercicios}
+  \begin{important}
+    Recuerde hacer \textit{commit} después de cada pregunta.
+  \end{important}
+
+  \begin{Exercise}[title={Lo que faltó}]
+    \Question Implemente la clase \texttt{GrassBakemonFactoryTest} que pruebe la clase 
+      \texttt{GrassBakemonFactory}.
+    \Question Implemente la clase \texttt{GrassBakemonFactory} para que pase las pruebas.
+    \Question Implememte la clase \texttt{GrassBakemonTest} que pruebe la clase 
+      \texttt{GrassBakemon} y utilice la fábrica \\\texttt{GrassBakemonFactory}.
+    \Question Implemente la clase \texttt{GrassBakemon} para que pase las pruebas.
+  \end{Exercise}
+
+  \begin{Exercise}[title={La Pizzería}]
+    La pizzería \textit{Imma Cooka} necesita un sistema para manejar sus pedidos.
+    Cada pedido tiene un nombre, una dirección y una lista de pizzas.
+    Cada pizza tiene una lista de ingredientes y tipo de masa.
+    Cada ingrediente tiene un nombre y un precio base.
+    
+    El precio de una pizza se calcula como el precio base de la masa más la suma de los precios de
+    los ingredientes.
+    El precio de un pedido se calcula como la suma de los precios de cada pizza.
+    El sistema debe permitir agregar pizzas a un pedido, agregar ingredientes a una pizza y
+    calcular el precio de un pedido.
+
+    \Question Cree una clase \texttt{IngredientTest} que verifique que un ingrediente se pueda crear 
+      con un nombre y un precio base.
+      Para esto utilice correctamente el método \texttt{beforeTest}.
+
+      Asuma que tiene acceso a los métodos 
+      \mintinline{kotlin}|Ingredient::equals(Any?): Boolean| e 
+      \mintinline{kotlin}|Ingredient::hashCode(): Int|.
+    \Question Implemente la clase \texttt{Ingredient} para que pase las pruebas.
+    \Question Cree una clase \texttt{PizzaTest} que verifique que una pizza se pueda crear con un 
+      nombre, una lista de ingredientes y un precio base.
+      Para esto utilice correctamente el método \texttt{beforeTest}.
+
+      Asuma que tiene acceso a los métodos 
+      \mintinline{kotlin}|Pizza::equals(Any?): Boolean| e 
+      \mintinline{kotlin}|Pizza::hashCode(): Int|.
+    \Question Implemente la clase \texttt{Pizza} para que pase las pruebas.
+    \Question Cree un test que verifique que el precio de una pizza se calcula correctamente.
+    \Question Implemente el método \texttt{Pizza::price()} para que pase las pruebas.
+    \Question Cree una clase \texttt{OrderTest} que verifique que un pedido se pueda crear con un 
+      nombre, una dirección y una lista de pizzas.
+      Para esto utilice correctamente el método \texttt{beforeTest}.
+
+      Asuma que tiene acceso a los métodos 
+      \mintinline{kotlin}|Order::equals(Any?): Boolean| y
+      \mintinline{kotlin}|Order::hashCode(): Int|.
+    \Question Implemente la clase \texttt{Order} para que pase las pruebas.
+    \Question Cree un test que verifique que el precio de un pedido se calcula correctamente.
+    \Question Implemente el método \texttt{Order::price()} para que pase las pruebas.
+
+    \ExeText Además de permitirle a sus clientes elegir los ingredientes que quieren en sus pizzas,
+      la pizzería quiere ofrecerles una variedad de pizzas predefinidas, donde cada una tiene un
+      porcentaje de descuento sobre el precio final de la pizza.
+      Existen dos tipos de pizzas predefinidas: \textit{Margarita} y \textit{Napolitana}
+      Los descuentos son los siguientes:
+
+      \begin{itemize}
+        \item \textit{Margarita}: 10\%.
+        \item \textit{Napolitana}: 15\%.
+      \end{itemize}
+
+      Los ingredientes de cada una de estas pizzas son los siguientes:
+
+      \begin{itemize}
+        \item \textit{Margarita}: \textit{Tomate}, \textit{Queso} y \textit{Albahaca}.
+        \item \textit{Napolitana}: \textit{Tomate}, \textit{Queso} y \textit{Aceitunas}.
+      \end{itemize}
+
+      Los precios de cada ingrediente son los siguientes:
+
+      \begin{itemize}
+        \item \textit{Tomate}: \$400.
+        \item \textit{Queso}: \$500.
+        \item \textit{Albahaca}: \$100.
+        \item \textit{Aceitunas}: \$200.
+      \end{itemize}
+    
+    \Question Cree la clase \texttt{MargaritaPizzaTest} que verifique que una pizza \textit{Margarita}
+      se pueda crear correctamente.
+    \Question Considere la siguiente implementación de la clase \texttt{MargaritaPizza}:
+      \begin{minted}{kotlin}
+        class MargaritaPizza(basePrice: Int): Pizza(basePrice, listOf(
+          Ingredient("Tomato", 100),
+          Ingredient("Cheese", 200),
+          Ingredient("Basil", 300)
+        )) {
+          override fun price() = (super.price() * 0.9).toInt()
+        }
+      \end{minted}
+      ¿Qué significa la llamada a \texttt{super} en el método \texttt{price()}?
+      ¿A qué objeto se está referenciando?
+    \Question Considere la interafaz \texttt{PizzaFactory}:
+      \begin{minted}{kotlin}
+        interface PizzaFactory {
+          fun create(basePrice: Int): Pizza
+        }
+      \end{minted}
+      Escriba una clase \texttt{MargaritaPizzaFactoryTest} que verifique que la fábrica de pizzas
+      \textit{Margarita} crean pizzas \textit{Margarita} correctamente.
+    \Question Utilice \textit{test factories} para reescribir la clase \texttt{MargaritaPizzaTest}
+      utilizando la fábrica \texttt{MargaritaPizzaFactory}.
+    \Question Cree la clase \texttt{NapolitanaPizzaFactoryTest} que verifique que la fábrica de
+      pizzas \textit{Napolitana} crean pizzas \textit{Napolitana} correctamente.
+    \Question Cree la clase \texttt{NapolitanaPizzaTest} que verifique que una pizza
+      \textit{Napolitana} se pueda crear correctamente utilizando \textit{test factories}.
+  \end{Exercise}

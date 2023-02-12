@@ -20,7 +20,6 @@
                         
   \begin{kotlin}
     class MonsterCard(name: String, text: String, attack: Int) : Card(name, text, attack) {
-      ...
     }
   \end{kotlin}
 
@@ -29,36 +28,36 @@
     \item Definimos la clase \textit{MonsterCard} como haríamos normalmente.
     \item Luego de los parámetros del constructor, escribimos dos puntos (\texttt{:}) y el nombre
       de la clase de la que queremos heredar.
-    \item Luego de los dos puntos, escribimos el nombre de la clase de la que queremos heredar
     \item Finalmente, entre paréntesis escribimos los parámetros del constructor de la clase
       de la que queremos heredar.
   \end{enumerate}
 
   \begin{important}
-    Una clase puede tener una única superclase, pero una clase padre puede tener múltiples
+    Una clase puede tener una única superclase, pero una superclase puede tener múltiples
     subclases.
   \end{important}
 
   Antes de seguir volvamos a la clase \textit{Card}.
-  En la clase \textit{Card} no se declara explícitamente una clase padre, la keyword siendo 
+  En la clase \textit{Card} no se declara explícitamente una superclase, la keyword siendo 
   \textit{explícitamente}.
   Esto es porque en \textit{Kotlin} todas las clases heredan de la clase 
-  \textit{Any}\autocite*{BuiltinTypesTheira}, que es la clase padre de todas las clases, y por lo 
-  tanto, la clase padre de \textit{Card}.
+  \textit{Any}\autocite*{BuiltinTypesTheira}, que es la superclase de todas las clases, y por lo 
+  tanto, la superclase de \textit{Card}.
   Esto significa que lo que hicimos antes es equivalente a:
 
   \begin{kotlin}
     open class Card(name: String, text: String, attack: Int) : Any() {...}
   \end{kotlin}
 
-  Noten que agregamos paréntesis después del nombre de la clase padre, esto es porque \textit{Any}
+  Noten que agregamos paréntesis después del nombre de la superclase, esto es porque \textit{Any}
   tiene un constructor vacío, y por lo tanto, debemos llamarlo explícitamente.
-  Lo primero que se ejecuta en el constructor de una clase es el constructor de la clase padre,
+  Lo primero que se ejecuta en el constructor de una clase es el constructor de la superclase,
   antes de ejecutar cualquier otra línea de código.
 
   \begin{important}
-    Al no ser un método los constructores no se heredan, por lo que debemos llamar explícitamente
-    al constructor de la clase padre.
+    Como al crear una clase lo primero que hacemos es llamar explícitamente al constructor de la
+    superclase, esto quiere decir que no estamos heredando el constructor de la superclase.
+    Esto se debe a que, al no ser un método, los constructores no se heredan.
   \end{important}
 
   Como vimos, cuando una clase hereda de otra, hereda todas las propiedades y métodos de la clase
@@ -100,13 +99,13 @@
     }
   \end{kotlin}
 
-  Aquí tenemos una cosa nueva, la keyword \textit{is}.
+  Aquí tenemos una cosa nueva, la keyword \mintinline{kotlin}{is}.
   Esta keyword nos permite verificar si una variable es de un tipo determinado.
 
   Quizás ya vienen venir esto, pero tenemos un problema.
   ¿Qué sucede si queremos agregar nuevos tipos de cartas?
   Pues tendríamos que agregar nuevas condiciones al método \texttt{attack} de la clase 
-  \textit{Card}.
+  \texttt{Card}.
   Es decir, seguimos sin encapsular el cambio.
 
   \begin{defaultbox}[Single-Responsibility Principle]
