@@ -1,0 +1,114 @@
+\section{Ataques: Terccer intento}
+  \label{sec:ataques-tercer-intento}
+
+  Volvamos a nuestro proyecto y veamos cómo podemos implementar los ataques utilizando 
+  \textit{double dispatch}.
+  Para esto, primero agreguemos los métodos necesarios a la interfaz \mintinline{kotlin}|Bakemon|:
+  \begin{kotlin}
+    interface Bakemon {
+      ...
+      fun attackBakemon(bakemon: Bakemon)
+      fun attackedByFireBakemon(bakemon: FireBakemon)
+      fun attackedByWaterBakemon(bakemon: WaterBakemon)
+      fun attackedByGrassBakemon(bakemon: GrassBakemon)
+    }
+  \end{kotlin}
+
+  Ahora, implementemos estos métodos en cada una de las clases que implementan 
+  \mintinline{kotlin}|Bakemon|:
+
+  \begin{kotlin}
+    class FireBakemon(name: String, health: Int, level: Int, attack: Int) :
+        AbstractBakemon(name, health, level, attack) {
+      override fun attackBakemon(bakemon: Bakemon) = bakemon.attackedByFireBakemon(this)
+
+      override fun attackedByFireBakemon(bakemon: FireBakemon) =
+        takeDamage(bakemon.attack)
+      override fun attackedByWaterBakemon(bakemon: WaterBakemon) =
+        takeDamage((bakemon.attack * 1.5).toInt())
+      override fun attackedByGrassBakemon(bakemon: GrassBakemon) =
+        takeDamage(bakemon.attack / 2)
+      ...
+    }
+  \end{kotlin}
+
+  \begin{kotlin}
+    class WaterBakemon(name: String, health: Int, level: Int, attack: Int) :
+        AbstractBakemon(name, health, level, attack) {
+      override fun attackBakemon(bakemon: Bakemon) = bakemon.attackedByWaterBakemon(this)
+
+      override fun attackedByFireBakemon(bakemon: FireBakemon) =
+        takeDamage(bakemon.attack / 2)
+    
+      override fun attackedByWaterBakemon(bakemon: WaterBakemon) =
+        takeDamage(bakemon.attack)
+    
+      override fun attackedByGrassBakemon(bakemon: GrassBakemon) =
+        takeDamage((bakemon.attack * 1.5).toInt())
+      ...
+    }
+  \end{kotlin}
+
+  Pero
+
+  \begin{center}
+    Ya empezó \texttt{¬¬}
+  \end{center}
+
+  tenemos un problema.
+
+  Estamos repitiendo los mismos cálculos de daño en cada una de las clases que implementan, esto
+  podría no parecer tanto problema, pero si tenemos 10 tipos de Bakemon, entonces tendremos que
+  implementar 10 veces el mismo código, pero más importante aún, si queremos cambiar el cálculo
+  de daño, tendremos que hacerlo en 10 lugares distintos.
+  Es decir que no encapsulamos el cambio.
+
+  Podemos resolver esto de manera simple creando métodos auxiliares en la clase abstracta.
+  Crearemos dos métodos adicionales, uno para calcular el daño de una debilidad y otro para
+  calcular el daño de una resistencia.
+  Pero preguntémonos primero.
+  ¿Desde dónde quiero usar estos métodos?
+  
+  \begin{center}
+    Desde los métodos \mintinline{kotlin}|attackedBy|? uwu
+  \end{center}
+
+  Asies, entonces, si pesa lo mismo que un pato...
+
+  \begin{center}
+    \textit{¡Es bruja!}
+  \end{center}
+
+  Estos métodos los vamos a implementar en la clase abstracta y lo vamos a utilizar solo desde sus 
+  subclases, entonces, como por la propiedad de encapsulamiento queremos restringir el acceso a
+  las componentes internas de un objeto lo más posible, nos gustaría que los métodos 
+  \mintinline{kotlin}{takeDamage} fueran privadas dentro de jerarquía de clases.
+  Por suerte, \textit{Kotlin} tiene una pequeña palabra secreta que pareciera que nos leyó la mente:
+  \mintinline{kotlin}{protected}.
+  
+  \begin{defaultbox}[Modificador de privilegios \mintinline{kotlin}{protected}]
+    \index{Modificador de privilegios \mintinline{kotlin}{protected}}
+    Un miembro \mintinline{kotlin}{protected} es accesible desde la clase que lo define y desde las
+    que heredan directa o indirectamente de ella.    
+  \end{defaultbox}
+  
+  Entonces, los métodos \texttt{takeDamage} podrían ser protected.
+  Pero los miembros de una interfaz deben ser públicas, entonces eliminaremos al método 
+  \mintinline{kotlin}{Bakemon::takeDamage(Int)} de la interfaz y lo implementaremos sólo en la clase
+  abstracta.
+
+  \begin{kotlin}
+    abstract class AbstractBakemon(...) : Bakemon {
+      protected fun takeDamage(damage: Int) {
+        health -= damage
+        if (health < 0) {
+          health = 0
+        }
+      }
+
+      protected fun takeWeaknessDamage(damage: Int) = takeDamage((damage * 1.5).toInt())
+
+      protected fun takeResistanceDamage(damage: Int) = takeDamage(damage / 2)
+    }
+  \end{kotlin}
+

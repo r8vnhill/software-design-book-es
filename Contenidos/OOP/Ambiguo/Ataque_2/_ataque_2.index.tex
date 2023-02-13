@@ -1,0 +1,257 @@
+\section{Ataques: segundo intento}
+  Ahora intentemos agregar las fortalezas y debilidades de los tipos.
+  Para esto comencemos por crear dos \textit{test factories}, una para los ataques muy efectivos y
+  otra para los ataques poco efectivos:
+
+  \begin{kotlin}
+    fun `effective attack test`(
+      factory: BakemonFactory,
+      name: String,
+      health: Int,
+      level: Int,
+      attack: Int,
+      enemyFactory: BakemonFactory,
+      enemyName: String,
+      enemyHealth: Int,
+      enemyLevel: Int,
+      enemyAttack: Int,
+    ) = funSpec {
+      lateinit var bakemon: Bakemon
+      lateinit var enemy: Bakemon
+
+      beforeTest {
+        bakemon = factory.createBakemon(name, health, level, attack)
+        enemy = enemyFactory.createBakemon(enemyName, enemyHealth, enemyLevel, enemyAttack)
+      }
+
+      test("An effective attack should deal 1.5 times the damage") {
+        bakemon.attackBakemon(enemy)
+        enemy.health shouldBe enemyHealth - (attack * 1.5).toInt()
+      }
+    }
+  \end{kotlin}
+
+  \begin{kotlin}
+    fun `ineffective attack test`(
+      factory: BakemonFactory,
+      name: String,
+      health: Int,
+      level: Int,
+      attack: Int,
+      enemyFactory: BakemonFactory,
+      enemyName: String,
+      enemyHealth: Int,
+      enemyLevel: Int,
+      enemyAttack: Int,
+    ) = funSpec {
+      lateinit var bakemon: Bakemon
+      lateinit var enemy: Bakemon
+
+      beforeTest {
+        bakemon = factory.createBakemon(name, health, level, attack)
+        enemy = enemyFactory.createBakemon(enemyName, enemyHealth, enemyLevel, enemyAttack)
+      }
+
+      test("An ineffective attack should deal 0.5 times the damage") {
+        bakemon.attackBakemon(enemy)
+        enemy.health shouldBe enemyHealth - attack / 2
+      }
+    }
+  \end{kotlin}
+
+  Ahora podemos usar estas funciones para definir los tests de los ataques entre \textit{Bakémon}
+  de distintos tipos:
+
+  \begin{kotlin}
+    class FireBakemonTest : FunSpec({
+      ...
+      include(
+        "Fire Bakemon -> Fire Bakemon:",
+        `Bakemon can attack Bakemon`(
+          FireBakemonFactory(), "Karmander", 25, 5, 4,
+          FireBakemonFactory(), "Karmander", 25, 5, 4, 4
+        )
+      )
+      include(
+        "Fire Bakemon -> Water Bakemon:",
+        `ineffective attack test`(
+          FireBakemonFactory(), "Karmander", 25, 5, 4,
+          WaterBakemonFactory(), "Kokodile", 25, 5, 4
+        )
+      )
+      include(
+        "Fire Bakemon -> Grass Bakemon:",
+        `effective attack test`(
+          FireBakemonFactory(), "Karmander", 25, 5, 4,
+          GrassBakemonFactory(), "Kriko", 25, 5, 4
+        )
+      )
+    })
+  \end{kotlin}
+
+  \begin{kotlin}
+    class WaterBakemonTest : FunSpec({
+      ...
+      include(
+        "Water Bakemon -> Water Bakemon:",
+        `Bakemon can attack Bakemon`(
+          WaterBakemonFactory(), "Kokodile", 25, 5, 4,
+          WaterBakemonFactory(), "Kokodile", 25, 5, 4, 4
+        )
+      )
+      include(
+        "Water Bakemon -> Fire Bakemon:",
+        `effective attack test`(
+          WaterBakemonFactory(), "Kokodile", 25, 5, 4,
+          FireBakemonFactory(), "Karmander", 25, 5, 4
+        )
+      )
+      include("Water Bakemon -> Grass Bakemon:",
+        `ineffective attack test`(
+          WaterBakemonFactory(), "Kokodile", 25, 5, 4,
+          GrassBakemonFactory(), "Kriko", 25, 5, 4
+        )
+      )
+    })
+  \end{kotlin}
+
+  Corramos los tests para ver que fallan como esperamos.
+
+  Ahora pasemos a implementar las fortalezas y debilidades de los \textit{Bakémon}.
+
+  La implementación más simple que podríamos pensar es simplemente preguntar por el tipo del
+  \textit{Bakémon} enemigo y actuar en consecuencia.
+  Veamos cómo implementaríamos esto:
+
+  \begin{kotlin}
+    class FireBakemon(name: String, health: Int, level: Int, attack: Int) :
+        AbstractBakemon(name, health, level, attack) {
+
+      override fun attackBakemon(bakemon: Bakemon) = when(bakemon) {
+        is WaterBakemon -> bakemon.takeDamage(attack / 2)
+        is GrassBakemon -> bakemon.takeDamage((attack * 1.5).toInt())
+        else -> bakemon.takeDamage(attack)
+      }
+      ...
+    }
+  \end{kotlin}
+
+  \begin{kotlin}
+    class WaterBakemon(name: String, health: Int, level: Int, attack: Int) :
+        AbstractBakemon(name, health, level, attack) {
+
+        override fun attackBakemon(bakemon: Bakemon) = when(bakemon) {
+          is GrassBakemon -> bakemon.takeDamage(attack / 2)
+          is FireBakemon -> bakemon.takeDamage((attack * 1.5).toInt())
+          else -> bakemon.takeDamage(attack)
+        }
+      ...
+    }
+  \end{kotlin}
+
+  Ahora corramos los tests y veamos que pasa.
+  
+  Lo último que nos queda es mejorar nuestro diseño.
+  Partamos por revisar nuestras \textit{test factories}, debieran notar que hay mucho código
+  repetido.
+  El problema es que en realidad todas las \textit{test factories} de los ataques hacen las mismas
+  comprobaciones y solo cambia la cantidad de daño que se hace.
+
+  Para esto, primero agreguemos un nuevo parámetro a la función \mintinline{kotlin}|`Bakemon can attack 
+  Bakemon`| para que reciba los nombres de los tests:
+
+  \begin{kotlin}
+    fun `Bakemon can attack Bakemon`(
+      ...
+      testNames: Pair<String, String> = "An attack should reduce the enemy's health" to
+          "An attack should not set the enemy's health below 0"
+    ) = funSpec {
+      lateinit var bakemon: Bakemon
+      lateinit var enemy: Bakemon
+
+      beforeTest {
+        bakemon = factory.createBakemon(name, health, level, attack)
+        enemy = enemyFactory.createBakemon(enemyName, enemyHealth, enemyLevel, enemyAttack)
+      }
+
+      test(testNames.first) {
+        bakemon.attackBakemon(enemy)
+        enemy.health shouldBe enemyHealth - expectedDamage
+      }
+
+      test(testNames.second) {
+        enemy.takeDamage(enemyHealth)
+        bakemon.attackBakemon(enemy)
+        enemy.health shouldBe 0
+      }
+    }
+  \end{kotlin}
+
+  Aquí tenemos un par (jaja) de cosas nuevas.
+
+  Primero, el tipo \mintinline{kotlin}|Pair| es un tipo de dato que representa un par de elementos,
+  en este caso, dos \mintinline{kotlin}|String|s.
+  Luego tenemos la función \mintinline{kotlin}|to| que nos permite crear un par de elementos
+  de cualquier tipo.
+  Por último, notemos que le pasamos un valor directamente a un parámetro de la función, esto se 
+  llama \textit{parámetro por defecto}\index{Parámetro por defecto}, y nos permite omitir el 
+  parámetro si no queremos cambiar su valor.
+  Para entender mejor esto veamos un ejemplo:
+
+  \begin{kotlin}
+    fun jojoReference(name: String = "Giorno Giovanna") =
+      println("My name is $name and I have a dream")
+    
+    fun main() {
+      jojoReference()
+      jojoReference("Jotaro Kujo")
+    }
+  \end{kotlin}
+
+  En este caso, el programa imprimiría:
+
+  \begin{minted}{text}
+    My name is Giorno Giovanna and I have a dream
+    My name is Jotaro Kujo and I have a dream
+  \end{minted}
+
+  Volviendo a nuestro código, ahora podemos usar esta función para simplificar nuestras
+  \textit{test factories}:
+
+  \begin{kotlin}
+    fun `effective attack test`(...) = `Bakemon can attack Bakemon`(
+      factory, name, health, level, attack,
+      enemyFactory, enemyName, enemyHealth, enemyLevel, enemyAttack,
+      (attack * 1.5).toInt(),
+      "An effective attack should deal the damage" to
+          "An effective attack should not set the enemy's health below 0"
+    )
+  \end{kotlin}
+
+  \begin{kotlin}
+    fun `ineffective attack test`(...) = `Bakemon can attack Bakemon`(
+      factory, name, health, level, attack,
+      enemyFactory, enemyName, enemyHealth, enemyLevel, enemyAttack,
+      attack / 2,
+      "An ineffective attack should deal the damage" to
+          "An ineffective attack should not set the enemy's health below 0"
+    )
+  \end{kotlin}
+
+  Nos queda una última cosa que hacer, y es mejorar la forma en que decidimos si un ataque es
+  efectivo o no.
+  Aquí nos topamos con un problema que ya habíamos visto antes, estamos haciendo que cada 
+  \textit{Bakémon} tenga que manejar el tipo de cada uno de sus enemigos.
+  Esto es un problema porque si queremos agregar un nuevo tipo de \textit{Bakémon} tenemos que
+  modificar el método \mintinline{kotlin}|attackBakemon| de todos los \textit{Bakémon} existentes.
+  Volvemos a tener el problema de encapsular el cambio.
+
+  Este problema es difícil de resolver, pero vamos a ver una solución que nos permitirá
+  implementar nuestro sistema de tipos de una forma más flexible.
+
+  Pero antes, hagamos \textit{commit} de nuestro código.
+
+  \begin{minted}{text}
+    git add .
+    git commit -m "FEAT Adds effective and ineffective attacks"
+  \end{minted}

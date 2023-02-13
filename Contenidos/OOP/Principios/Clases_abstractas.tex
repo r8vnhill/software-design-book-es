@@ -180,7 +180,7 @@
   \end{defaultbox}
 
   Una solución es delegar la responsabilidad de guardar las cartas en archivos a una clase que se 
-  encargue de eso, aprovechando la propiedad de composición y polimmorfísmo.
+  encargue de eso, aprovechando la propiedad de composición y polimorfísmo.
 
   \begin{defaultbox}[Polimorfísmo de subtipos]
     \index{Polimorfísmo de subtipos}
@@ -201,12 +201,12 @@
   \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.5\textwidth]{img/oop/principios/clases_abstractas/idea64_move.png}
-    \caption{Moviendo las clases \texttt{Card} y \texttt{MonsterCard} al paquete \texttt{cards}.}
+    \caption{Moviendo las clases \texttt{AbstractCard} y \texttt{MonsterCard} al paquete \texttt{cards}.}
     \label{fig:oop:principios:clases_abstractas:move}
   \end{figure}
 
   Hagamos un paquete \texttt{cards} haciendo click derecho en el paquete 
-  \url{cl.ravenhill.kygo} y arrastremos los archivos \texttt{Card.kt} y
+  \url{cl.ravenhill.kygo} y arrastremos los archivos \texttt{AbstractCard.kt} y
   \texttt{MonsterCard.kt} dentro de él, esto desplegará una ventana como la de la 
   \cref{fig:oop:principios:clases_abstractas:move} donde deberemos comprobar los cambios que se
   realizarán y luego darle click al botón \textit{Refactor}.
@@ -218,17 +218,17 @@
   \begin{kotlin}
     package cl.ravenhill.kygo.serializer
 
-    import cl.ravenhill.kygo.cards.Card
+    import cl.ravenhill.kygo.cards.AbstractCard
     import java.io.File
 
 
     abstract class AbstractCardSerializer {
-      fun toFile(card: Card, filename: String) {
+      fun toFile(card: AbstractCard, filename: String) {
         val file = File(filename)
         file.writeText(serialize(card))
       }
 
-      abstract fun serialize(card: Card): String
+      abstract fun serialize(card: AbstractCard): String
     }
   \end{kotlin}
 
@@ -240,7 +240,7 @@
   Ahora podemos definir clases que hereden de \texttt{AbstractCardSerializer} para cada formato:
 
   \begin{kotlin}
-    class XmlCardSerializer(card: Card) : AbstractCardSerializer() {
+    class XmlCardSerializer(card: AbstractCard) : AbstractCardSerializer() {
       private val card = card
 
       override fun serialize(): String {
@@ -257,11 +257,11 @@
 
 
 
-  Y por último, podemos modificar la clase \texttt{Card} para que use la clase
+  Y por último, podemos modificar la clase \texttt{AbstractCard} para que use la clase
   \texttt{AbstractCardSerializer}:
 
   \begin{kotlin}
-    open class Card(
+    class AbstractCard(
       name: String, text: String, attack: Int, 
       serializer: AbstractCardSerializer) {
       ...
@@ -307,7 +307,7 @@
       text: String,
       attack: Int,
       serializer: AbstractCardSerializer
-    ) : Card(name, text, attack, serializer) {
+    ) : AbstractCard(name, text, attack, serializer) {
       override fun attack(player: Player) {
         player.takeDamage(this.attack)
       }
@@ -354,12 +354,13 @@
     }
   \end{kotlin}
 
-  Y ahora agregamos los métodos \texttt{serialize(Card): String} y \texttt{toFile(Card, String)} a la interfaz:
+  Y ahora agregamos los métodos \texttt{serialize(AbstractCard): String} y 
+  \texttt{toFile(AbstractCard, String)} a la interfaz:
 
   \begin{kotlin}
     interface CardSerializer {
-      fun serialize(card: Card): String
-      fun toFile(card: Card, filename: String)
+      fun serialize(card: AbstractCard): String
+      fun toFile(card: AbstractCard, filename: String)
     }
   \end{kotlin}
 
@@ -369,19 +370,19 @@
 
   \begin{kotlin}
     abstract class AbstractCardSerializer: CardSerializer {
-      override fun toFile(card: Card, filename: String) {
+      override fun toFile(card: AbstractCard, filename: String) {
         val file = File(filename)
         file.writeText(serialize(card))
       }
 
-      abstract override fun serialize(card: Card): String
+      abstract override fun serialize(card: AbstractCard): String
     }
   \end{kotlin}
 
-  Y ahora podemos modificar la clase \texttt{Card} para que use la interfaz \texttt{CardSerializer}:
+  Y ahora podemos modificar la clase \texttt{AbstractCard} para que use la interfaz \texttt{CardSerializer}:
 
   \begin{kotlin}
-    class Card(
+    abstract class AbstractCard(
       name: String, text: String, attack: Int,
       serializer: CardSerializer
     ) {...}
@@ -394,6 +395,10 @@
     git commit -m "FEAT Adds card serializers"
   \end{powershell}
 
+  \begin{exercise}
+    Cree una interfaz \texttt{Card} para no usar la clase \texttt{AbstractCard} como tipo.
+  \end{exercise}
+    
   \begin{exercise}
     Implemente las clases \texttt{JsonSerializer} y \texttt{YamlSerializer} que extiendan de
     \texttt{AbstractCardSerializer} y que implementen el método \texttt{serialize}.
