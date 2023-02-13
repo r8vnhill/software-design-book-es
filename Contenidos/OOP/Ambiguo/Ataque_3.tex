@@ -112,3 +112,258 @@
     }
   \end{kotlin}
 
+  Este cambio va a romper nuestros tests, ya que ahora los métodos \mintinline{kotlin}{takeDamage}
+  no son visibles desde ellos.
+  Esto es esperado, lo primero que haremos será borrar la función 
+  \mintinline{kotlin}{`Bakemon can take damage`} del archivo \texttt{TestFactories.kt} y todos sus
+  usos en los tests.
+
+  Para lo siguiente vamos a necesitar hacer un cambio un poco más grande.
+  Vamos a modificar nuestros factories para hacerlos más flexibles.
+
+  Otra de las ventajas de utilizar \textit{factory method}\index{Factory method pattern} es que
+  podemos crear objetos de manera dinámica, es decir, podemos reutilizar una misma factory para
+  crear objetos que varían poco entre sí.
+  La idea es permitir asignar valores a las factories después de que estas ya hayan sido creadas.
+  Para esto partamos por modificar la interfaz \mintinline{kotlin}{BakemonFactory} para que tenga
+  variables de instancia que puedan ser modificadas y simplifiquemos el método 
+  \mintinline{kotlin}|createBakemon| para que no reciba ningún parámetro.
+
+  Pero utilicemos los tests para tener una idea de cómo debería quedar la interfaz.
+
+  \begin{kotlin}
+    class FireBakemonFactoryTest : FunSpec({
+      ...
+      beforeTest {
+        factory = FireBakemonFactory()
+        factory.name = name
+        factory.health = health
+        factory.level = level
+        factory.attack = attack
+      }
+
+      test("A FireBakemon should be created") {
+        val bakemon = factory.createBakemon()
+        bakemon.name shouldBe name
+        bakemon.health shouldBe health
+        bakemon.level shouldBe level
+        bakemon.attack shouldBe attack
+      }
+    })
+  \end{kotlin}
+
+  \begin{kotlin}
+    class WaterBakemonFactoryTest : FunSpec({
+      ...
+      beforeTest {
+          factory = WaterBakemonFactory()
+          factory.name = name
+          factory.health = health
+          factory.level = level
+          factory.attack = attack
+      }
+
+      test("A WaterBakemon should be created") {
+          val bakemon = factory.createBakemon()
+          bakemon.name shouldBe name
+          bakemon.health shouldBe health
+          bakemon.level shouldBe level
+          bakemon.attack shouldBe attack
+      }
+    })
+  \end{kotlin}
+
+  Aquí notemos que en ambos tests tenemos el mismo código, entonces podemos pensar en una 
+  \textit{test factory} que nos permita reusar el código común:
+
+  \begin{kotlin}
+    fun `a Bakemon factory can create Bakemon`(
+      factory: BakemonFactory, name: String, health: Int, level: Int, attack: Int
+    ) = funSpec {
+      beforeTest {
+        factory.name = name
+        factory.health = health
+        factory.level = level
+        factory.attack = attack
+      }
+
+      test("A Bakemon should be created") {
+        val bakemon = factory.createBakemon()
+        bakemon.name shouldBe name
+        bakemon.health shouldBe health
+        bakemon.level shouldBe level
+        bakemon.attack shouldBe attack
+      }
+    }
+  \end{kotlin}
+
+  Ahora podemos reescribir nuestros tests de la siguiente manera:
+
+  \begin{kotlin}
+    class FireBakemonFactoryTest : FunSpec({
+      val name = "Karmander"
+      val health = 25
+      val level = 5
+      val attack = 4
+      
+      include(
+        `a Bakemon factory can create Bakemon`(
+          FireBakemonFactory(), name, health, level, attack
+        )
+      )
+    })
+  \end{kotlin}
+
+  \begin{kotlin}
+    class WaterBakemonFactoryTest : FunSpec({
+      val name = "Kokodile"
+      val health = 25
+      val level = 5
+      val attack = 4
+
+      include(
+        `a Bakemon factory can create Bakemon`(
+          WaterBakemonFactory(), name, health, level, attack
+        )
+      )
+    })
+  \end{kotlin}
+    
+  Ahora nos quedaría modificar las funciones \mintinline{kotlin}|`Bakemon can attack Bakemon`| y
+  \mintinline{kotlin}|`Bakemon equality and hashcode test`|
+  para que
+  utilice la nueva interfaz de las factories.
+
+  \begin{kotlin}
+    fun `Bakemon equality and hashcode test`(...) = funSpec {
+      ...
+      beforeTest {
+        factory.name = name
+        factory.health = health
+        factory.level = level
+        factory.attack = attack
+        bakemon = factory.createBakemon()
+      }
+      ...
+    }
+
+    fun `Bakemon can attack Bakemon`(...) = funSpec {
+      ...
+      beforeTest {
+        factory.name = name
+        factory.health = health
+        factory.level = level
+        factory.attack = attack
+        bakemon = factory.createBakemon()
+        enemyFactory.name = enemyName
+        enemyFactory.health = enemyHealth
+        enemyFactory.level = enemyLevel
+        enemyFactory.attack = enemyAttack
+        enemy = enemyFactory.createBakemon()
+      }
+      ...
+      test(testNames.second) {
+        factory.attack = enemyHealth * 2
+        bakemon = factory.createBakemon()
+        bakemon.attackBakemon(enemy)
+        enemy.health shouldBe 0
+      }
+    }
+  \end{kotlin}
+
+  Noten que en el test ahora podemos modificar el ataque del \textit{Bakémon} enemigo antes de
+  crearlo.
+
+  Naturalmente, si corremos los tests ahora, estos van a fallar.
+  
+  Procedamos a modificar la interfaz \mintinline{kotlin}{BakemonFactory} para que tenga variables
+  de instancia que puedan ser modificadas.
+
+  \begin{kotlin}
+    interface BakemonFactory {
+      var name: String
+      var health: Int
+      var level: Int
+      var attack: Int
+      fun createBakemon(): Bakemon
+    }
+  \end{kotlin}
+
+  Y la implementación de las factories:
+
+  \begin{kotlin}
+    class FireBakemonFactory : BakemonFactory {
+      override lateinit var name: String
+      override var health: Int = 0
+      override var level: Int = 0
+      override var attack: Int = 0
+
+      override fun createBakemon() = FireBakemon(name, health, level, attack)
+    }
+  \end{kotlin}
+
+  \begin{kotlin}
+    class WaterBakemonFactory : BakemonFactory {
+      override lateinit var name: String
+      override var health: Int = 0
+      override var level: Int = 0
+      override var attack: Int = 0
+
+      override fun createBakemon() = WaterBakemon(name, health, level, attack)
+    }
+  \end{kotlin}
+
+  \begin{note}
+    La palabra reservada \mintinline{kotlin}{lateinit} no puede ser usada en variables de tipos
+    numéricos, por lo que en este caso tenemos que inicializarlas con un valor por defecto.
+  \end{note}
+
+  Nos quedaría modificar los métodos \mintinline{kotlin}|attackedBy| de las clases
+  \mintinline{kotlin}{FireBakemon} y \mintinline{kotlin}{WaterBakemon} para que utilicen nuestras
+  nuevas implementaciones de \mintinline{kotlin}{takeDamage} de la siguiente manera:
+
+  \begin{kotlin}
+    class FireBakemon(name: String, health: Int, level: Int, attack: Int) :
+        AbstractBakemon(name, health, level, attack) {
+      override fun attackBakemon(bakemon: Bakemon) = bakemon.attackedByFireBakemon(this)
+
+      override fun attackedByFireBakemon(bakemon: FireBakemon) =
+        takeDamage(bakemon.attack)
+
+      override fun attackedByWaterBakemon(bakemon: WaterBakemon) =
+        takeWeaknessDamage(bakemon.attack)
+
+      override fun attackedByGrassBakemon(bakemon: GrassBakemon) =
+        takeResistanceDamage(bakemon.attack)
+      ...
+    }
+  \end{kotlin}
+
+  \begin{kotlin}
+    class WaterBakemon(
+      name: String,
+      health: Int,
+      level: Int,
+      attack: Int
+    ) : AbstractBakemon(name, health, level, attack) {
+      override fun attackBakemon(bakemon: Bakemon) = bakemon.attackedByWaterBakemon(this)
+
+      override fun attackedByFireBakemon(bakemon: FireBakemon) =
+        takeResistanceDamage(bakemon.attack)
+
+      override fun attackedByWaterBakemon(bakemon: WaterBakemon) =
+        takeDamage(bakemon.attack)
+
+      override fun attackedByGrassBakemon(bakemon: GrassBakemon) =
+        takeWeaknessDamage(bakemon.attack)
+      ...
+    }
+  \end{kotlin}
+
+  Con esto deberíamos poder correr los tests y ver que todos pasan.
+  Nos queda hacer \textit{commit} de los cambios.
+
+  \begin{kotlin}
+    git add .
+    git commit -m "REFACTOR Adapts code to use Double Dispatch on Bakemon attacks"
+  \end{kotlin}
