@@ -1,0 +1,49 @@
+\subsection{Atrapando excepciones}
+  \label{sec:atrapando-excepciones}
+
+  En \textit{Kotlin} podemos atrapar excepciones con la expresión 
+  \mintinline{kotlin}|try ... catch ... finally|, esto se divide en tres partes:
+
+  \begin{itemize}
+    \item \textbf{try}: Contiene el código que puede lanzar una excepción.
+    \item \textbf{catch}: Contiene el código que se ejecuta si se lanza una excepción.
+    \item \textbf{finally}: Contiene el código que se ejecuta \textbf{siempre}\footnote{SIEMPRE}, ya 
+      sea que se lance una excepción o no.
+  \end{itemize}
+
+  Por ejemplo, si queremos abrir un archivo y mostrar su contenido en pantalla, podemos hacerlo de 
+  la siguiente forma:
+
+  \begin{kotlin}
+    fun main() {
+      try {
+        val file = openFile("file.txt")
+        println(file)
+      } catch (e: FileNotFoundException) {
+        println(e.message)
+      } finally {
+        println("Finally")
+      }
+    }
+  \end{kotlin}
+
+  Esto entregará un resultado como el siguiente:
+
+  \begin{minted}{text}
+    File file.txt not found
+    Finally
+  \end{minted}
+
+  Siempre que usemos una expresión \mintinline{kotlin}{try} debemos tener una o más expresiones
+  \mintinline{kotlin}{catch} que capturan las excepciones que pueden ser lanzadas por el código
+  dentro de la expresión \mintinline{kotlin}{try} y/o una expresión \mintinline{kotlin}{finally}
+  que se ejecuta siempre, ya sea que se lance una excepción o no.
+
+  \begin{note}
+    Como \mintinline{kotlin}|try ... catch ... finally| es una expresión, podemos usarla en
+    cualquier lugar donde se pueda usar una expresión.
+    Esto significa que podemos usarla para asignar una variable de la misma forma que lo haríamos
+    con una expresión \mintinline{kotlin}{if} o \mintinline{kotlin}{when}.
+  \end{note}
+
+  

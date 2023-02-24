@@ -1,0 +1,112 @@
+\section{Getters}
+  Comencemos a implementar a los jugadores del juego.
+  Llamaremos a estos jugadores \textit{Bakemon trainers} (entrenadores de Bakemon).
+
+  Un entrenador tiene un nombre, un equipo de Bakemon, y un inventario de ítems.
+
+  Comencemos por crear una clase \texttt{TrainerTest} en el paquete \url{cl.ravenhill.bakemon}:
+
+  \begin{kotlin}
+    class TrainerTest : FunSpec({
+      val team = mutableListOf<Bakemon>(
+        FireBakemon("Karmander", 130, 5, 20),
+        WaterBakemon("Kokodile", 130, 5, 20)
+      )
+      val items = mutableListOf(Potion(), RaiseAttack())
+      lateinit var trainer: Trainer
+      
+      beforeTest {
+        trainer = Trainer("Ack", team, items)
+      }
+      
+      test("A Trainer can be created with a name, a team and items") {
+        trainer.name shouldBe "Ack"
+        trainer.team shouldBe team
+        trainer.items shouldBe items
+      }
+    })
+  \end{kotlin}
+
+  Como siempre, podemos correr los tests para ver que fallan.
+
+  Ahora veamos como implementar a los entrenadores.
+  Para esto crearemos una clase \texttt{Trainer} como sigue:
+
+  \begin{kotlin}
+    class Trainer(
+      val name: String,
+      val team: MutableList<Bakemon>,
+      val items: MutableList<Item>
+    )
+  \end{kotlin}
+
+  Ahora corramos los tests para ver que pasan.
+
+  Pero
+
+  \begin{center}
+    ¿Tenemos un problema?
+  \end{center}
+
+  Sip.
+
+  Tanto \texttt{team} como \texttt{items} son \mintinline{kotlin}|val|ores, pero como ya vimos, eso
+  no significa que no podamos modificarlos.
+  Ya hemos dicho muchas veces que nos interesa \textit{encapsular el cambio}, y algo escencial para
+  lograrlo es que un objeto maneje su propio estado.
+  Pero si podemos modificar \texttt{team} y \texttt{items} desde afuera, entonces el objeto no
+  tiene control de lo que pasa con su estado.
+  Pero nos gustaría poder agregar y quitar Bakemon e ítems de los entrenadores, por lo que 
+  necesitamos que las propiedades sean mutables\dots
+
+  ¿Qué podemos hacer?
+
+  \begin{defaultbox}[Getter]
+    Un \textit{getter} es un método que se ejecuta cada vez que se intenta acceder a una propiedad.
+  \end{defaultbox}
+
+  En \textit{Kotlin}, podemos definir un \textit{getter} utilizando la palabra reservada 
+  \mintinline{kotlin}|get|.
+  La sintaxis es muy similar a la de un \textit{setter} con la diferencia de que un \textit{getter}
+  retorna un valor y no tiene parámetros.
+
+  Para nuestro ejemplo, usaremos una técnica llamada \textit{backing field} (campo de respaldo), que
+  consiste en crear una propiedad privada que almacena el valor de la propiedad pública.
+  Luego, el \textit{getter} de la propiedad pública retorna una copia del valor de la propiedad
+  privada.
+  De esta forma, el objeto tiene control sobre el estado de la propiedad, y no podemos modificarlo
+  desde fuera sin que el objeto se entere.
+  Veamos cómo hacemos esto:
+
+  \begin{kotlin}
+    class Trainer(
+      val name: String,
+      team: MutableList<Bakemon>,
+      items: MutableList<Item>
+    ) {
+      private val _team = team
+      private val _items = items
+      val team: List<Bakemon>
+        get() {
+          return _team.toList()
+        }
+      val items: List<Item>
+        get() {
+          return _items.toList()
+        }
+    }
+  \end{kotlin}
+
+  Veamos lo que estamos haciendo.
+  Primero, creamos dos propiedades privadas llamadas \texttt{\_team} y \texttt{\_items} que almacenan
+  los valores de las propiedades públicas \texttt{team} y \texttt{items}.
+  Luego, creamos dos propiedades públicas llamadas \texttt{team} y \texttt{items} que tienen un
+  \textit{getter} que retorna una copia inmutable (con \mintinline{kotlin}|toList()|) de los
+  valores de las propiedades privadas.
+
+  Corramos los tests para ver que no hayamos roto nada y luego hagamos un commit.
+
+  \begin{powershell}
+    git add .
+    git commit -m "FEAT Adds Trainer class"
+  \end{powershell}

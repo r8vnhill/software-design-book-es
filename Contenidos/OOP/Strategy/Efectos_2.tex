@@ -1,0 +1,98 @@
+\section{Efectos: segundo intento}
+  Veamos como podemos utilizar el patrón \textit{Strategy} para implementar los efectos de las 
+  cartas.
+
+  Primero, creemos un paquete \texttt{cl.ravenhill.kygo.effects} dentro de la carpeta \texttt{src}
+  y dentro de este paquete creemos una interfaz \texttt{Effect} con el método 
+  \mintinline{kotlin}|Effect::useOn(Player)|.
+
+  \begin{kotlin}
+    interface Effect {
+      fun useOn(player: Player)
+    }
+  \end{kotlin}
+
+  Ahora, podemos crear un test para probar que un efecto que modifique la vida de un jugador
+  funcione correctamente.
+
+  \begin{kotlin}
+    class ModifyHealthEffectTest : FunSpec({
+      lateinit var modifyHealthEffect: ModifyHealthEffect
+      
+      beforeTest {
+        modifyHealthEffect = ModifyHealthEffect(500)
+      }
+      
+      test("ModifyHealthEffect should modify health by the given amount") {
+        val player = Player("Jaiva", 8000, mutableListOf())
+        player.health shouldBe 8000
+        modifyHealthEffect.useOn(player)
+        player.health shouldBe 8500
+      }
+    })
+  \end{kotlin}
+
+  Comprobemos que el test falla.
+
+  Ahora podemos implementar la clase \texttt{ModifyHealthEffect} de la siguiente manera:
+
+  \begin{kotlin}
+    class ModifyHealthEffect(private val amount: Int) : Effect {
+      override fun useOn(player: Player) {
+        player.health += amount
+      }
+    }
+  \end{kotlin}
+
+  Si corremos el test ahora, veremos que pasa.
+  Nos queda implementar el efecto de robar cartas.
+
+  Partimos de un test que nos asegure que el efecto de robar cartas funciona correctamente.
+
+  \begin{kotlin}
+    class DrawCardsEffectTest : FunSpec({
+      lateinit var drawCardsEffect: DrawCardsEffect
+
+      beforeTest {
+        drawCardsEffect = DrawCardsEffect(2)
+      }
+
+      test("DrawCardsEffect should draw the given amount of cards") {
+        val player = Player(
+          "Jaiva", 8000, mutableListOf(
+            MagicCard(
+              "Saucepan of Avidity",
+              "Draw 2 cards",
+              DrawCardsEffect(2),
+              XmlCardSerializer()
+            ),
+            MagicCard(
+              "Crimson Beverage",
+              "Heal 500 HP",
+              ModifyHealthEffect(500),
+              XmlCardSerializer()
+            )
+          )
+        )
+        player.hand.size shouldBe 0
+        drawCardsEffect.useOn(player)
+        player.hand.size shouldBe 2
+      }
+    })
+  \end{kotlin}
+    
+  Ahora corremos el test para ver que falla y pasamos a implementar el efecto.
+
+  \begin{kotlin}
+    class DrawCardsEffect(private val amount: Int) : Effect {
+      override fun useOn(player: Player) = player.draw(amount)
+    }
+  \end{kotlin}
+
+  Si corremos los tests ahora veremos que todo funciona como esperábamos.
+  Aprovechemos de hacer \textit{commit} de nuestro trabajo.
+
+  \begin{powershell}
+    git add .
+    git commit -m "FEAT Adds effects"
+  \end{powershell}

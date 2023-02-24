@@ -1,0 +1,222 @@
+\section{Efectos: Primer intento}
+  \label{sec:oop:strategy:effect:1}
+
+  Para estos ejemplos consideremos que queremos implementar tres cartas mágicas:
+
+  \begin{itemize}
+    \item \textit{Crimson Beverage}: Aumenta en 500 la vida de un jugador.
+    \item \textit{Indigo Potion}: Aumenta en 400 la vida de un jugador.
+    \item \textit{Saucepan of Avidity}: Roba 2 cartas del mazo del jugador.
+  \end{itemize}
+
+  Comencemos por crear tests para estas cartas.
+  En el paquete \url{cl.ravenhill.kygo.cards} comencemos creando las clases 
+  \texttt{CrimsonBeverageTest} y \texttt{IndigoPotionTest}:
+
+  \begin{kotlin}
+    class CrimsonBeverageTest : FunSpec({
+      val initHealth = 8000
+      lateinit var player: Player
+      lateinit var crimsonBeverage: CrimsonBeverage
+
+      beforeTest {
+        player = Player("Jaiva", initHealth, mutableListOf())
+        crimsonBeverage = CrimsonBeverage()
+      }
+
+      test("Crimson Beverage should increase 500 HP") {
+        player.health shouldBe initHealth
+        crimsonBeverage.useOn(player)
+        player.health shouldBe initHealth + 500
+      }
+    })
+  \end{kotlin}
+
+  \begin{kotlin}
+    class IndigoPotionTest : FunSpec({
+      val initHealth = 8000
+      lateinit var player: Player
+      lateinit var indigoPotion: IndigoPotion
+
+      beforeTest {
+        player = Player("Jaiva", initHealth, mutableListOf())
+        indigoPotion = IndigoPotion()
+      }
+
+      test("Indigo Potion should increase 400 HP") {
+        player.health shouldBe initHealth
+        indigoPotion.useOn(player)
+        player.health shouldBe initHealth + 400
+      }
+    })
+  \end{kotlin}
+
+  Con los tests podemos empezar a pensar en la implementación concreta.
+  Podríamos decir que cada tipo de carta mágica es una especialización de una carta mágica así que
+  tiene sentido querer implementar las cartas que queremos como subclases de \texttt{MagicCard}.
+  Primero, transformemos la clase \texttt{MagicCard} en una clase abstracta y renombrémosla
+  \texttt{AbstractMagicCard} y agreguemos un método abstracto \texttt{useOn(Player)}.
+
+  \begin{kotlin}
+    abstract class AbstractMagicCard(
+      name: String, text: String, serializer: CardSerializer) :
+        AbstractCard(name, text, serializer) {
+      abstract fun useOn(player: Player)
+    }
+  \end{kotlin}
+
+  Ahora, podemos implementar las cartas mágicas como subclases de \texttt{AbstractMagicCard}.
+
+  \begin{kotlin}
+    class CrimsonBeverage :
+        AbstractMagicCard("Crimson Beverage", "Increase 500 health", XmlCardSerializer()) {
+      override fun useOn(player: Player) {
+        player.health += 500
+      }
+    }
+  \end{kotlin}
+
+  \begin{kotlin}
+    class IndigoPotion :
+        AbstractMagicCard("Indigo Potion", "Increase 400 health", XmlCardSerializer()) {
+      override fun useOn(player: Player) {
+        player.health += 400
+      }
+    }
+  \end{kotlin}
+
+  Ahora, adaptamos la clase \texttt{Player} para poder modificar su salud utilizando un 
+  \textit{setter} y mejoremos un poco su diseño:
+
+  \begin{kotlin}
+    class Player(
+      val name: String,
+      health: Int,
+      val deck: MutableList<Card>
+    ) {
+      var health: Int =
+        if (health > 0) health else throw InvalidStatException("Health", health)
+        set(value) {
+          field = max(value, 0)
+        }
+
+      fun takeDamage(damage: Int) {
+        this.health -= damage
+      }
+    }
+  \end{kotlin}
+
+  Donde \texttt{InvalidStatException} está definida de la misma forma que en el capítulo anterior.
+
+  Ahora podemos ejecutar los tests y ver que todo funciona como esperábamos.
+
+  Antes de continuar con la implementación de la carta \texttt{Saucepan of Avidity} vamos a
+  refactorizar un poco el código.
+
+  Primero notarán que las dos cartas mágicas que hemos implementado tienen un comportamiento
+  muy similar: aumentan la vida del jugador en un valor fijo.
+  Podríamos decir que la única diferencia entre ambas es el valor de la vida que se aumenta.
+  Tiene sentido entonces agrupar el comportamiento común en una clase abstracta y dejar que
+  las subclases implementen el valor de la vida que se aumenta.
+
+  \begin{kotlin}
+    abstract class AbstractHealthMagicCard(
+      name: String, text: String, serializer: CardSerializer, private val health: Int
+    ) : AbstractMagicCard(name, text, serializer) {
+      override fun useOn(player: Player) {
+        player.health += health
+      }
+    }
+  \end{kotlin}
+
+  Y reimplementamos las cartas mágicas como subclases de \texttt{AbstractHealthMagicCard}.
+
+  \begin{kotlin}
+    class CrimsonBeverage : AbstractHealthMagicCard(
+      "Crimson Beverage",
+      "Increase 500 health",
+      XmlCardSerializer(),
+      500
+    )
+  \end{kotlin}
+
+  \begin{kotlin}
+    class IndigoPotion : AbstractHealthMagicCard(
+      "Indigo Potion",
+      "Increase 400 health",
+      XmlCardSerializer(),
+      400
+    )
+  \end{kotlin}
+
+  Ahora podemos ejecutar los tests y ver que todo sigue funcionando como esperábamos.
+
+  Nos queda implementar la carta \texttt{Saucepan of Avidity}, como costumbre, primero
+  escribimos el test.
+
+  \begin{kotlin}
+    class SaucepanOfAvidityTest : FunSpec({
+      val initHealth = 8000
+      lateinit var player: Player
+      lateinit var saucepanOfAvidity: SaucepanOfAvidity
+
+      beforeTest {
+        player = Player(
+          "Jaiva",
+          initHealth,
+          mutableListOf(CrimsonBeverage(), IndigoPotion())
+        )
+        saucepanOfAvidity = SaucepanOfAvidity()
+      }
+
+      test("Saucepan of Avidity should draw 2 cards") {
+        player.hand shouldBe emptyList()
+        saucepanOfAvidity.useOn(player)
+        player.hand.size shouldBe 2
+        player.deck.size shouldBe 0
+      }
+    })
+  \end{kotlin}
+
+  Corramos el test para ver que todo falla como esperamos y ahora implementemos la carta.
+
+  \begin{kotlin}
+    class SaucepanOfAvidity : AbstractMagicCard(
+      "Saucepan of Avidity",
+      "Draw 2 cards",
+      XmlCardSerializer()
+    ) {
+      override fun useOn(player: Player) {
+        player.draw(2)
+      }
+    }
+  \end{kotlin}
+  
+  Y agregamos lo necesario a la clase \texttt{Player} para que el test pase.
+
+  \begin{kotlin}
+    class Player(...) {
+      ...
+      private val _hand: MutableList<Card> = mutableListOf()
+      val hand: List<Card>
+        get() = _hand.toList()
+    
+      fun draw(n: Int = 1) {
+        for (i in 1..n) {
+          if (deck.isEmpty()) {
+            break
+          }
+          _hand.add(deck.removeAt(0))
+        }
+      }
+    }
+  \end{kotlin}
+
+  Con esto debiera bastar para que los tests pasen.
+  Hagamos \textit{commit}, y pasemos a revisar nuestro diseño.
+
+  \begin{powershell}
+    git add .
+    git commit -m "FEAT Adds Magic Cards"
+  \end{powershell}
+  

@@ -210,9 +210,9 @@
   \texttt{MonsterCard.kt} dentro de él, esto desplegará una ventana como la de la 
   \cref{fig:oop:principios:clases_abstractas:move} donde deberemos comprobar los cambios que se
   realizarán y luego darle click al botón \textit{Refactor}.
-  Luego hagamos un paquete \texttt{serialization} en el paquete \url{cl.ravenhill.kygo}.
+  Luego hagamos un paquete \texttt{serializer} en el paquete \url{cl.ravenhill.kygo}.
 
-  Luego, creemos la clase \texttt{AbstractCardSerializer} en el paquete \texttt{serialization}, 
+  Luego, creemos la clase \texttt{AbstractCardSerializer} en el paquete \texttt{serializer}, 
   recordando agregar la palabra clave \texttt{abstract} antes de la palabra clave \texttt{class}:
 
   \begin{kotlin}
@@ -240,15 +240,12 @@
   Ahora podemos definir clases que hereden de \texttt{AbstractCardSerializer} para cada formato:
 
   \begin{kotlin}
-    class XmlCardSerializer(card: AbstractCard) : AbstractCardSerializer() {
-      private val card = card
-
-      override fun serialize(): String {
+    class XmlCardSerializer : AbstractCardSerializer() {
+      override fun serialize(card: AbstractCard): String {
         return """
           |<Card>
           |  <name>${card.name}</name>
           |  <text>${card.text}</text>
-          |  <attack>${card.attack}</attack>
           |</Card>
         """.trimMargin()
       }
@@ -261,7 +258,7 @@
   \texttt{AbstractCardSerializer}:
 
   \begin{kotlin}
-    class AbstractCard(
+    abstract class AbstractCard(
       name: String, text: String, attack: Int, 
       serializer: AbstractCardSerializer) {
       ...
@@ -395,9 +392,11 @@
     git commit -m "FEAT Adds card serializers"
   \end{powershell}
 
-  \begin{exercise}
+  \begin{ejercicio}
     Cree una interfaz \texttt{Card} para no usar la clase \texttt{AbstractCard} como tipo.
-  \end{exercise}
+    
+    {\footnotesize Solución: \url{https://github.com/r8vnhill/kygo/commit/523a8f441e67e9583a0c2edf53dab0b89e181aec?diff=split}}
+  \end{ejercicio}
     
   \begin{exercise}
     Implemente las clases \texttt{JsonSerializer} y \texttt{YamlSerializer} que extiendan de

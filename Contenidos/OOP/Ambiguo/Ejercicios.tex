@@ -1,0 +1,65 @@
+\section{Ejercicios}
+  \begin{important}
+    Recuerde:
+    \begin{itemize}
+      \item Hacer \textit{commit} de sus cambios luego de cada ejercicio.
+      \item Definir el método \texttt{toString} en las clases que lo requieran.
+    \end{itemize}
+  \end{important}
+
+  \begin{Exercise}
+    \textit{Smalltalk} es un lenguaje de programación puramente orientado a objetos.
+    Es un lenguaje de programación que se utilizó mucho para el desarrollo de la programación 
+    orientada a objetos.
+    \textit{Smalltalk} es considerado como el primer lenguaje de programación orientado a objetos y
+    el primero con tipado dinámico.
+    En \textit{Smalltalk} todo es un objeto, incluso los números y los booleanos, además las 
+    instrucciones de control de flujo son métodos de los objetos.
+
+    Al ser completamente dinámico ningún objeto tiene un tipo definido en tiempo de compilación por
+    lo que cuando se envía un mensaje, el receptor del mensaje será el que decida qué hacer con él.
+
+    \Question Cree una interfaz \texttt{SmallTalkNumber} en el paquete \url{cl.ravenhill.lilvoices}
+      con lo siguiente:
+      \begin{minted}{kotlin}
+        interface SmalltalkNumber {
+          val value: Number
+
+          fun plus(other: SmalltalkNumber): SmalltalkNumber
+          fun minus(other: SmalltalkNumber): SmalltalkNumber
+          fun times(other: SmalltalkNumber): SmalltalkNumber
+          fun dividedBy(other: SmalltalkNumber): SmalltalkNumber
+      }
+      \end{minted}
+    \Question Cree una clase \texttt{SmalltalkIntegerTest} que pruebe que un número entero puede ser 
+      creado con un valor entero de \textit{Kotlin} como parámetro.
+    \Question Programe la clase \texttt{SmalltalkInteger} que implemente la interfaz 
+      \texttt{SmalltalkNumber} y que pueda ser creado con un valor entero de \textit{Kotlin} como 
+      parámetro.
+    \Question Cree una clase \texttt{SmalltalkFloatTest} que pruebe que un número flotante puede ser
+      creado con un valor flotante de \textit{Kotlin} como parámetro.
+      Utilice el tipo \mintinline{kotlin}|Float| de \textit{Kotlin} para representar los números
+      flotantes.
+    \Question Programe la clase \texttt{SmalltalkFloat} que implemente la interfaz 
+      \texttt{SmalltalkNumber} y que pueda ser creado con un valor flotante de \textit{Kotlin} como 
+      parámetro.
+    \Question Escriba tests para probar que los números enteros pueden ser sumados, restados, 
+      multiplicados y divididos.
+    \Question Implemente las operaciones de suma, resta, multiplicación, división, módulo y potencia
+      entre números enteros.
+    \Question Escriba tests para probar que los números flotantes pueden ser sumados, restados,
+      multiplicados y divididos.
+    \Question Implemente las operaciones de suma, resta, multiplicación y división entre números 
+      flotantes.
+    \ExeText Para los siguientes ejercicios considere las siguientes reglas:
+      \begin{itemize}
+        \item Las operaciones entre números del mismo tipo retornan un número del mismo tipo.
+        \item Las operaciones entre números de distinto tipo retornan un número del tipo más 
+          preciso (en este caso, el tipo \mintinline{kotlin}|SmalltalkFloat|).
+      \end{itemize}
+    \Question Escriba tests para probar que los números enteros y flotantes pueden ser sumados,
+      restados, multiplicados y divididos.
+    \Question Implemente las operaciones de suma, resta, multiplicación y división entre números
+      enteros y flotantes utilizando \textit{double dispatch} para desambiguar el tipo de los
+      operandos.
+  \end{Exercise}

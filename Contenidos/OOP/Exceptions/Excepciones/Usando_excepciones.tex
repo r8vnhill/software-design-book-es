@@ -1,0 +1,119 @@
+\subsection{Usando excepciones}
+  Volvamos a nuestro código de \textit{Bakemon} y veamos como podemos usar las excepciones para
+  manejar los casos de borde.
+
+  Partamos por crear un paquete \url{cl.ravenhill.bakemon.exceptions} en el directorio de tests
+  y creemos una clase \texttt{InvalidStatValueExceptionTest} y probemos que una excepción puede ser 
+  creada correctamente:
+
+  \begin{kotlin}
+    class InvalidStatExceptionTest : FunSpec({
+      test("An InvalidStatException can be created with a message") {
+        val exception = InvalidStatException("health", -1)
+        exception.message shouldBe "Invalid health: -1"
+      }
+    })
+  \end{kotlin}
+
+  Corramos el test para ver que falla y pasemos a implementar la clase 
+  \texttt{InvalidStatException}:
+
+  \begin{kotlin}
+    class InvalidStatException(statName: String, statValue: Int) :
+        Exception("Invalid $statName: $statValue")
+  \end{kotlin}
+
+  Ahora sí los tests deberían pasar.
+
+  Veamos como podemos usar esta excepción en nuestro código de \textit{Bakemon}.
+  Lo primero que necesitamos es un test que vea que la excepción es lanzada cuando se intenta
+  crear un \textit{Bakemon} con un stat inválido.
+  Partamos por crear un \textit{test factory} que verifique que la excepción es lanzada cuando
+  se intenta crear un \textit{Bakemon} con un stat inválido:
+
+  \begin{kotlin}
+    fun `a Bakemon health cannot be set to a non positive value`(
+      factory: BakemonFactory, name: String, level: Int, attack: Int
+    ) = funSpec {
+
+      beforeTest {
+        factory.name = name
+        factory.health = -1
+        factory.level = level
+        factory.attack = attack
+      }
+
+      test(
+        "Creating a Bakemon with a non positive health should throw an exception"
+      ) {
+        shouldThrow<InvalidStatException> { factory.createBakemon() }
+      }
+    }
+  \end{kotlin}
+
+  Aquí notarán la función \textit{shouldThrow} que es una función de \textit{Kotest} que nos
+  permite verificar que una excepción es lanzada.
+  La sintaxis de esta función es la siguiente:
+
+  \begin{kotlin}
+    shouldThrow<ExceptionType> { 
+      // Code that should throw an exception
+    }
+  \end{kotlin}
+
+  Ahora, podemos usar nuestra factory en nuestros tests:
+
+  \begin{kotlin}
+    class FireBakemonTest : FunSpec({
+      ...
+      include(
+        `a Bakemon health cannot be set to a non positive value`(
+          FireBakemonFactory(), "Karmander", 10, 25
+        )
+      )
+    })
+  \end{kotlin}
+
+  \begin{kotlin}
+    class WaterBakemonTest : FunSpec({
+      ...
+      include(
+        `a Bakemon health cannot be set to a non positive value`(
+          WaterBakemonFactory(), "Kokodile", 10, 25
+        )
+      )
+    })
+  \end{kotlin}
+
+  Si corremos los tests ahora, veremos que fallan.
+
+  Ahora, podemos implementar esta funcionalidad en la clase \texttt{AbstractBakemon}:
+
+  \begin{kotlin}
+    abstract class AbstractBakemon(
+      override val name: String,
+      final override val maxHealth: Int,
+      override val level: Int,
+      attack: Int
+    ) : Bakemon {
+      
+      init {
+        if (maxHealth < 0) {
+          throw InvalidStatException("maxHealth", maxHealth)
+        }
+      }
+    ...
+    }
+  \end{kotlin}
+
+  Ahora podemos correr los tests y ver que pasan.
+  Con esto ya podemos hacer \textit{commit} de nuestro código.
+
+  \begin{powershell}
+    git add .
+    git commit -m "FEAT Adds checks for maxHealth in AbstractBakemon"
+  \end{powershell}
+
+  \begin{exercise}
+    Implemente la funcionalidad de manejo de excepciones para los stats de ataque y nivel.
+  \end{exercise}

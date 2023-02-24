@@ -1,0 +1,96 @@
+\subsection{Arrojando excepciones}
+  Para lanzar una excepción, usamos la palabra reservada \mintinline{kotlin}|throw| seguida de
+  una expresión que evalúe a un objeto de tipo \texttt{Throwable}.
+  Por ejemplo, si queremos lanzar una excepción de tipo \texttt{Exception} podemos hacerlo de la
+  siguiente forma:
+
+  \begin{kotlin}
+    throw Exception("Error message")
+  \end{kotlin}
+
+  Sin embargo, en la práctica es una mala práctica lanzar una excepción de tipo \texttt{Exception}
+  ya que no es específica al problema.
+  En su lugar, es mejor crear una excepción propia que herede de \texttt{Exception} y que sea
+  más específica al problema que estamos tratando de resolver.
+
+  Para crear una excepción propia, debemos crear una clase que herede de \texttt{Exception}.
+  Por ejemplo, si queremos crear una excepción que indique que un archivo no existe, podemos
+  hacerlo de la siguiente forma:
+
+  \begin{kotlin}
+    class FileNotFoundException(filename: String) : Exception("File $filename not found")
+  \end{kotlin}
+
+  Luego podríamos utilizar esta excepción de la siguiente forma:
+
+  \begin{kotlin}
+    fun openFile(filename: String): String {
+      if (File(filename).exists()) {
+        return File(filename).readText()
+      } else {
+        throw FileNotFoundException(filename)
+      }
+    }
+
+    fun main() {
+      openFile("nonexistent.txt")
+    }
+  \end{kotlin}
+
+  Esto entregará un resultado como el siguiente:
+
+  \begin{minted}{text}
+    Exception in thread "main" FileNotFoundException: File nonexistent.txt not found
+      at MainKt.openFile(Main.kt:9)
+      at MainKt.main(Main.kt:14)
+      at MainKt.main(Main.kt)
+  \end{minted}
+
+  Como podemos ver, la excepción se imprime en pantalla junto con la pila de ejecución.
+  Esto nos permite saber en qué parte del programa se lanzó la excepción y por qué.
+
+  Adicionalmente, existen dos formas de documentar funciones que lanzan excepciones.
+  La primera es agregando el tag \mintinline{kotlin}|@throws| seguido del nombre de la excepción
+  que puede ser lanzada por la función y su causa en la documentación de la función.
+  Por ejemplo, si queremos documentar que la función \mintinline{kotlin}|openFile| puede lanzar
+  una excepción de tipo \texttt{FileNotFoundException}, podemos hacerlo de la siguiente forma:
+
+  \begin{kotlin}
+    /**
+     * Opens a file and returns its contents.
+     *
+     * @throws FileNotFoundException if the file does not exist.
+     */
+    fun openFile(filename: String): String {
+      if (File(filename).exists()) {
+        return File(filename).readText()
+      } else {
+        throw FileNotFoundException(filename)
+      }
+    }
+  \end{kotlin}
+
+  La segunda forma es utilizando el tag \mintinline{kotlin}|@Throws| seguido de una lista de
+  excepciones que puede lanzar la función.
+  Por ejemplo, si queremos documentar que la función \mintinline{kotlin}|openFile| puede lanzar
+  una excepción de tipo \texttt{FileNotFoundException}, podemos hacerlo de la siguiente forma:
+
+  \begin{kotlin}
+    /**
+     * Opens a file and returns its contents.
+     */
+    @Throws(FileNotFoundException::class)
+    fun openFile(filename: String): String {
+      if (File(filename).exists()) {
+        return File(filename).readText()
+      } else {
+        throw FileNotFoundException(filename)
+      }
+    }
+  \end{kotlin}
+
+  Esta segunda forma es útil más que nada para poder utilizar estas funciones desde \textit{Java}, 
+  ya que \textit{Java} requiere que las funciones que lanzan excepciones lo declaren en la firma
+  de la función.
+  En \textit{Kotlin} esto no es necesario así que la primera forma es la más recomendada.
+  

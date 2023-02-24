@@ -1,0 +1,89 @@
+\section{Ejercicios}
+  \begin{Exercise}
+    Para los siguientes fragmentos de código indique qué se imprime en pantalla y por qué 
+    (basta con una idea general, no es necesario que sea exacto).
+
+    \Question
+      \begin{minted}{kotlin}
+        fun fibonacci(n: Int): Int {
+          return fibonacci(n - 1) + fibonacci(n - 2)
+        }
+
+        fun main() {
+          println(fibonacci(5))
+        }
+      \end{minted}
+    \Question
+      \begin{minted}{kotlin}
+        fun foo(): String {
+          try {
+            return "foo"
+          } finally {
+            return "bar"
+          }
+        }
+
+        fun main() {
+          println(foo())
+        }
+      \end{minted}
+    \Question
+      \begin{minted}{kotlin}
+        fun foo(): String {
+          try {
+            return "foo"
+          } finally {
+            throw Exception()
+          }
+        }
+
+        fun main() {
+          println(foo())
+        }
+      \end{minted}
+    \Question
+      \begin{minted}{kotlin}
+        fun foo(): String {
+          try {
+            throw Exception()
+          } finally {
+            return "bar"
+          }
+        }
+
+        fun main() {
+          println(foo())
+        }
+      \end{minted}
+    \Question
+      \begin{minted}{kotlin}
+        fun openFile(filename: String) = try {
+          File(filename)
+        } catch (e: FileNotFoundException) {
+          throw Exception("File $filename not found")
+        } catch (e: Exception) {
+          throw Exception("Unknown error")
+        }
+
+        fun main() {
+          // Note: file.txt does not exist
+          println(openFile("file.txt"))
+        }
+      \end{minted}
+    \Question 
+      \begin{minted}{kotlin}
+        fun foo(): String {
+          try {
+            throw IllegalStateException("Error message")
+          } catch (e: Exception) {
+            return "foo"
+          } catch (e: IllegalStateException) {
+            return "bar"
+          }
+        }
+
+        fun main() {
+          println(foo())
+        }
+      \end{minted}
+  \end{Exercise}

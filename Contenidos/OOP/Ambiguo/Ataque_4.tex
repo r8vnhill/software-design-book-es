@@ -1,0 +1,240 @@
+\section{Ataques: la cuarta es la vencida}
+  \label{sec:ataques-4}
+
+  Lo último que haremos en este capítulo es hacer un sistema de combates un poco más interesante.
+  Hasta ahora tenemos que cada \textit{Bakémon} tiene un tipo y de acuerdo a ese tipo, tiene 
+  ventajas y debilidades.
+  Además cada \textit{Bakémon} tiene un sólo ataque del mismo tipo que el \textit{Bakémon}.
+
+  Nos gustaría que cada \textit{Bakémon} tuviera varios ataques, y que cada ataque tenga un tipo.
+  Además, nos gustaría que cada \textit{Bakémon} pueda tener hasta cuatro ataques diferentes.
+
+  \subsection{Ataques}
+    Partamos por crear un paquete \texttt{attacks} y dentro de él, una interfaz \texttt{Attack} con
+    lo siguiente:
+
+    \begin{kotlin}
+      interface Attack {
+        val name: String
+        val damage: Int
+      }
+    \end{kotlin}
+
+    Con esto, podemos comenzar con los tests.
+
+    \begin{kotlin}
+      class FireAttackTest : FunSpec({
+        val name = "Ember"
+        val damage = 10
+
+        lateinit var attack: Attack
+
+        beforeTest {
+          attack = FireAttack(name, damage)
+        }
+
+        test("Two attacks with the same name and damage should be equal") {
+          val a = FireAttack(name, damage)
+          attack shouldBe a
+        }
+        
+        test("Two attacks with the same name and damage should have the same hashCode") {
+          val a = FireAttack(name, damage)
+          attack shouldHaveSameHashCodeAs a
+        }
+      })
+    \end{kotlin}
+
+    \begin{kotlin}
+      class WaterAttackTest : FunSpec({
+        val name = "Water Gun"
+        val damage = 10
+
+        lateinit var attack: Attack
+
+        beforeTest {
+          attack = WaterAttack(name, damage)
+        }
+
+        test("Two attacks with the same name and damage should be equal") {
+          val a = WaterAttack(name, damage)
+          attack shouldBe a
+        }
+
+        test("Two attacks with the same name and damage should have the same hashCode") {
+          val a = WaterAttack(name, damage)
+          attack shouldHaveSameHashCodeAs a
+        }
+      })
+    \end{kotlin}
+
+    Veamos que los tests fallan y pasemos a implementar las clases \texttt{FireAttack} y 
+    \texttt{WaterAttack}.
+
+    \begin{kotlin}
+      class FireAttack(
+        override val name: String,
+        override val damage: Int
+      ) : Attack {
+        override fun equals(other: Any?) = when {
+          this === other -> true
+          other !is FireAttack -> false
+          else -> name == other.name &&
+              damage == other.damage
+        }
+
+        override fun hashCode() = Objects.hash(FireAttack::class, name, damage)
+
+        override fun toString() = "FireAttack(name='$name', damage=$damage)"
+      }
+    \end{kotlin}
+
+    \begin{kotlin}
+      class WaterAttack(override val name: String, override val damage: Int) : Attack {
+        override fun equals(other: Any?) = when {
+          this === other -> true
+          other !is WaterAttack -> false
+          else -> name == other.name &&
+                  damage == other.damage
+        }
+
+        override fun hashCode() = Objects.hash(WaterAttack::class, name, damage)
+
+        override fun toString() = "WaterAttack(name='$name', damage=$damage)"
+      }
+    \end{kotlin}
+
+    Si corremos los tests, veremos que ahora pasan.
+
+    Veremos que nuevamente los tests que escribimos son casi idénticos, creemos un factory de ataques
+    para evitar repetir código.
+
+    Comencemos por crear un \textit{test factory} para probar nuestras fábricas.
+
+    \begin{kotlin}
+      fun `an attack factory can create attacks`(
+        factory: AttackFactory,
+        name: String,
+        damage: Int
+      ) = funSpec {
+        lateinit var attack: Attack
+
+        beforeTest {
+          factory.name = name
+          factory.damage = damage
+          attack = factory.createAttack()
+        }
+
+        test("An attack should be created") {
+          attack.name shouldBe name
+          attack.damage shouldBe damage
+        }
+      }
+    \end{kotlin}
+
+    Ahora podemos usarlo en nuestros tests.
+    Creemos las clases \texttt{FireAttackFactoryTest} y \texttt{WaterAttackFactoryTest} en el paquete
+    \texttt{factories}.
+
+    \begin{kotlin}
+      class FireAttackFactoryTest : FunSpec({
+        include(`an attack factory can create attacks`(FireAttackFactory(), "Ember", 10))
+      })
+    \end{kotlin}
+
+    \begin{kotlin}
+      class WaterAttackFactoryTest : FunSpec({
+        include(
+          `an attack factory can create attacks`(WaterAttackFactory(), "Water Gun", 10)
+        )
+      })
+    \end{kotlin}
+
+    Con esto podemos comenzar a implementar las fábricas.
+
+    Crearemos una interfaz \texttt{AttackFactory} y tres clases que la implementen:
+    \texttt{FireAttackFactory}, \texttt{WaterAttackFactory} y \texttt{GrassAttackFactory}.
+
+    \begin{kotlin}
+      interface AttackFactory {
+        var name: String
+        var damage: Int
+        fun createAttack(): Attack
+      }
+    \end{kotlin}
+
+    \begin{kotlin}
+      class FireAttackFactory : AttackFactory {
+        override lateinit var name: String
+        override var damage: Int = 0
+
+        override fun createAttack() = FireAttack(name, damage)
+      }
+    \end{kotlin}
+
+    \begin{kotlin}
+      class WaterAttackFactory : AttackFactory {
+        override lateinit var name: String
+        override var damage: Int = 0
+
+        override fun createAttack() = WaterAttack(name, damage)
+      }
+    \end{kotlin}
+
+    Corramos los tests y veremos que pasan.
+
+    Ahora podemos crear un \textit{test factory} para reusar código en los tests de los ataques:
+
+    \begin{kotlin}
+      fun `attack equality and hashcode test`(
+        factory: AttackFactory, name: String, damage: Int
+      ) = funSpec {
+        lateinit var attack: Attack
+
+        beforeTest {
+          factory.name = name
+          factory.damage = damage
+          attack = factory.createAttack()
+        }
+
+        test("Two attacks with the same name and damage should be equal") {
+          val a = factory.createAttack()
+          attack shouldBe a
+        }
+
+        test("Two attacks with the same name and damage should have the same hashCode") {
+          val a = factory.createAttack()
+          attack shouldHaveSameHashCodeAs a
+        }
+      }
+    \end{kotlin}
+
+    Y los usamos en nuestros tests:
+
+    \begin{kotlin}
+      class FireAttackTest : FunSpec({
+        val name = "Ember"
+        val damage = 10
+        include(`attack equality and hashcode test`(FireAttackFactory(), name, damage))
+      })
+    \end{kotlin}
+
+    \begin{kotlin}
+      class WaterAttackTest : FunSpec({
+        val name = "Water Gun"
+        val damage = 10
+        include(`attack equality and hashcode test`(WaterAttackFactory(), name, damage))
+      })
+    \end{kotlin}
+
+    Si corremos los tests, debieran pasar.
+    Con esto tenemos suficiente avance como para hacer un \textit{commit}.
+
+    \begin{powershell}
+      git add .
+      git commit -m "FEAT Adds attacks and attack factories"
+    \end{powershell}
+
+  \subsection{Fortalezas y debilidades}
+    Lo último que nos queda por hacer es probar las fortalezas y debilidades de los ataques.
+    

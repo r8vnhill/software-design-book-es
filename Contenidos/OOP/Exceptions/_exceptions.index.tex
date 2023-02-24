@@ -1,0 +1,107 @@
+\chapter{Cuando todo male sal}
+  Este capítulo podría llamarse algo así como \enquote{\textit{Kotlin} 2: La venganza}.
+  Aquí seguiremos expandiendo el ejemplo de los capítulos anterioress, pero deteniendonos en ciertos
+  detalles que pueden mejorarse de lo que ya hemos visto.
+
+  Comencemos implementando algunas funcionalidades nuevas para hacer más interesante nuestro juego.
+
+  Algo común que podríamos querer hacer es que un jugador pueda usar ítems en un combate.
+  Por ejemplo, un jugador podría usar un ítem para curarse, o para aumentar su ataque.
+
+  Partamos creando una interfaz para los ítems, diremos que los ítems tienen un nombre, una 
+  descripción y una función que se ejecuta cuando el ítem es usado.
+  Crearemos la interfaz en un paquete llamado \url{cl.ravenhill.items}.
+
+  \begin{kotlin}
+    interface Item {
+      var name: String
+      var description: String
+      fun useOn(bakemon: Bakemon)
+    }
+  \end{kotlin}
+
+  Ahora crearemos dos ítems, uno para curar y otro para aumentar el ataque.
+  Los llamaremos \texttt{Potion} y \texttt{RaiseAttack} respectivamente.
+  Una \texttt{Potion} cura 30 puntos de vida, y un \texttt{RaiseAttack} aumenta el ataque en un 
+  10\%.
+
+  Comencemos creando los tests para los ítems.
+
+  \begin{kotlin}
+    class PotionTest : FunSpec({
+      lateinit var potion: Potion
+      lateinit var bakemon: FireBakemon
+
+      beforeTest {
+        potion = Potion()
+        bakemon = FireBakemon("Karmander", 100, 5, 4)
+      }
+      
+      test("Potions heal 30 HP to Bakemon") {
+        potion.useOn(bakemon)
+        bakemon.health shouldBe 55
+      }
+    })
+  \end{kotlin}
+
+  \begin{kotlin}
+    class RaiseAttackTest : FunSpec({
+      lateinit var raiseAttack: RaiseAttack
+      lateinit var bakemon: FireBakemon
+
+      beforeTest {
+        raiseAttack = RaiseAttack()
+        bakemon = FireBakemon("Karmander", 100, 10, 20)
+      }
+
+      test("RaiseAttack increase attack by 10%") {
+        raiseAttack.useOn(bakemon)
+        bakemon.attack shouldBe 22
+      }
+    })
+  \end{kotlin}
+
+  Como siempre, podemos correr los tests para ver que fallan.
+
+  Ahora veamos como implementar estos ítems.
+
+  \begin{kotlin}
+    class Potion : Item {
+      override var name: String = "Potion"
+      override var description: String = "Heals 30 HP to Bakemon"
+
+      override fun useOn(bakemon: Bakemon) {
+        bakemon.health += 30
+      }
+    }
+  \end{kotlin}
+
+  \begin{kotlin}
+    class RaiseAttack : Item {
+      override var name: String = "Raise Attack"
+      override var description: String = "Increases attack by 10%"
+
+      override fun useOn(bakemon: Bakemon) {
+        bakemon.attack = (bakemon.attack * 1.1).toInt()
+      }
+    }
+  \end{kotlin}
+
+  Notarán que ahora \textit{IntelliJ} nos reclama attack es un \mintinline{kotlin}|val|or, 
+  cambiémoslo a \mintinline{kotlin}|var|.
+
+  Con esto ya debieramos poder correr los tests y ver que pasan.
+  Ahora hacemos \textit{commit} y nos preparamos para el primer problema de este capítulo.
+
+  \begin{powershell}
+    git add .
+    git commit -m "FEAT Adds items"
+  \end{powershell}
+
+  \subimport{.}{Setters.tex}
+  \subimport{.}{JVM.tex}
+  \subimport{Excepciones/}{_excepciones.index.tex}
+  \subimport{.}{Getters.tex}
+  \subimport{.}{Ejercicios.tex}
+  
+  \printbibliography[keyword=exceptions]

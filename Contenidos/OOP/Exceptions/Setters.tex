@@ -1,0 +1,278 @@
+\section{Setters}
+  \label{sec:setters}
+
+  Al igual que cuando restringimos la vida mínima de un \textit{Bakémon} a 0, también deberíamos
+  restringir una vida máxima.
+  Además, tendría sentido que el ataque no pueda ser negativo.
+  Pero si se dan cuenta, estaremos haciendo todos esos chequeos cada vez que haya un método que
+  quiera modificar la vida o el ataque de un \textit{Bakémon}.
+
+  \begin{center}
+    ¡No encapsulamos el cambio!1
+  \end{center}
+
+  En efecto, lo bueno es que \textit{Kotlin} nos ofrece una forma sencilla de solucionar esto.
+
+  \begin{defaultbox}[Setter]
+    Un \textit{setter} es un método que se ejecuta cada vez que se asigna un valor a una propiedad.
+  \end{defaultbox}
+
+  En esta parte voy a escribir los tests a posteriori, ya que primero tenemos que entender qué es un
+  \textit{setter} para entender cómo usarlo y probarlo.
+
+  En \textit{Kotlin} podemos definir un \textit{setter} para una propiedad utilizando la palabra
+  reservada \mintinline{kotlin}|set|.
+  Puede que esto les suene familiar, ya que lo usamos antes para definir una variable que fuera
+  accesible desde fuera de la clase pero que solo fuera modificable desde dentro de la clase; cuando
+  usamos \mintinline{kotlin}|private set|.
+  
+  Por ejemplo, podemos definir un \textit{setter} para el ataque de un \textit{Bakémon} de la
+  siguiente forma:
+
+  \begin{kotlin}
+    abstract class AbstractBakemon(
+      override val name: String,
+      override var health: Int,
+      override val level: Int,
+      attack: Int
+    ) : Bakemon {
+      override var attack: Int = attack
+        set(value) {
+          field = if (value < 0) 0 else value
+        }
+        ...
+    }
+  \end{kotlin}
+
+  Veamos lo que hicimos aquí.
+  Primero, cambiamos \mintinline{kotlin}|attack| en los parámetros del constructor a un parámetro
+  \enquote{normal} (le quitamos el \mintinline{kotlin}|override var|) y creamos una propiedad
+  \mintinline{kotlin}|attack| en el cuerpo de la clase.
+  Luego definimos un setter con \mintinline{kotlin}|set(value)|, donde \mintinline{kotlin}|value|
+  es el valor que se le asigna a la propiedad.\footnote{Noten que podemos pasarle un valor inicial.}
+  Finalmente, dentro del setter, asignamos el valor a la propiedad \mintinline{kotlin}|field|, que
+  es una variable que representa la propiedad (algo así como un \mintinline{kotlin}|this| para las
+  propiedades).
+  En este caso, si el valor es negativo, asignamos 0, de lo contrario asignamos el valor que se
+  le asignó a la propiedad.
+
+  De la misma forma, podemos definir un setter para la vida de un \textit{Bakémon}, pero esta vez
+  necesitamos que exista un límite superior para la vida.
+  Para esto, primero definamos una propiedad que represente el límite superior de la vida en la 
+  interfaz \mintinline{kotlin}|Bakemon|:
+
+  \begin{kotlin}
+    interface Bakemon {
+      val maxHealth: Int
+      ...
+    }
+  \end{kotlin}
+
+  Y luego la sobrescribimos en la clase \mintinline{kotlin}|AbstractBakemon|:
+
+  \begin{kotlin}
+    abstract class AbstractBakemon(
+      override val name: String,
+      final override val maxHealth: Int,
+      override val level: Int,
+      attack: Int
+    ) : Bakemon {
+      override var health: Int = maxHealth
+        set(value) {
+          field = when {
+            value > maxHealth -> maxHealth
+            value < 0 -> 0
+            else -> value
+          }
+        }
+      ...
+    }
+  \end{kotlin}
+
+  Ahora veamos lo que hicimos.
+  Primero agregamos un parámetro \mintinline{kotlin}|maxHealth| al constructor de la clase 
+  abstracta, y lo definimos como \mintinline{kotlin}|final| para que no pueda ser sobrescrito.
+  Luego, definimos la propiedad \mintinline{kotlin}|health| y la inicializamos con el valor de
+  \mintinline{kotlin}|maxHealth|.
+  Por último, definimos el setter de modo que si el valor es mayor que el límite superior de la
+  vida, se asigna el límite superior de la vida, si es menor que 0, se asigna 0, y de lo contrario
+  se asigna el valor que se le asignó a la propiedad.
+  
+  \begin{center}
+    Espera, ¿por qué queremos que la vida máxima no pueda ser sobrescrita?
+  \end{center}
+
+  Porque luego iniciamos la propiedad \mintinline{kotlin}|health| con el valor de
+  \mintinline{kotlin}|maxHealth| y si luego sobrescribimos la propiedad en alguna de las subclases
+  de \mintinline{kotlin}|AbstractBakemon| el constructor podría tener comportamientos ineseparados.
+  Para entender por qué esto es un problema veamos un ejemplo:
+
+  \begin{kotlin}
+    open class A {
+      open val x: Int = 0
+      init {
+        println("x = $x")
+      }
+    }
+  \end{kotlin}
+
+  \begin{kotlin}
+    class B : A() {
+      private val l = listOf(1, 2, 3)
+      override val x: Int = l.size
+    }
+  \end{kotlin}
+
+  \begin{kotlin}
+    fun main() {
+      B()
+    }
+  \end{kotlin}
+
+  ¿Qué pasa si ejecutamos este código?
+  
+  \begin{enumerate}
+    \item \texttt{B} llama al constructor de su superclase
+    \item \texttt{A} inicializa la propiedad \mintinline{kotlin}|x| con el valor 0
+    \item \texttt{A} imprime \mintinline{kotlin}|x = 0|
+    \item \texttt{B} inicializa la propiedad \mintinline{kotlin}|x| con el tamaño de la lista
+  \end{enumerate}
+
+  Esto es un problema ya que si bien definimos que \mintinline{kotlin}|x| es un 
+  \mintinline{kotlin}|val|or, vemos que tiene dos valores distintos.
+
+  En nuestro caso, el problema surge de que \textbf{todos} los miembros definidos en una interfaz
+  son abiertos (ya que no tiene sentido que no lo sean) y al sobrescribir una componente abierta
+  esta se mantiene abierta.
+
+  Ahora pasemos a los tests.
+  Partamos por crear un \textit{test factory} para el ataque de un \textit{Bakémon}:
+
+  \begin{kotlin}
+    fun `Bakemon attack can be set within limits`(
+      factory: BakemonFactory,
+      name: String, health: Int, level: Int, attack: Int
+    ) = funSpec {
+      lateinit var bakemon: Bakemon
+
+      beforeTest {
+        factory.name = name
+        factory.health = health
+        factory.level = level
+        factory.attack = attack
+        bakemon = factory.createBakemon()
+      }
+
+      test("Bakemon attack can be set within limits") {
+        bakemon.attack shouldBe 4
+        bakemon.attack = 5
+        bakemon.attack shouldBe 5
+      }
+
+      test("Bakemon attack can't be set to a negative value") {
+        bakemon.attack shouldBe 4
+        bakemon.attack = -1
+        bakemon.attack shouldBe 0
+      }
+    }
+  \end{kotlin}
+
+  El test es bastante similar a lo que hemos visto hasta ahora.
+  Y ahí está la gracia, a pesar de que definimos un método para asignar el ataque, nosotros
+  ocupamos la propiedad \mintinline{kotlin}|attack| como si fuera una variable cualquiera.
+  
+  Lo que está sucediendo por detrás es que el compilador de \textit{Kotlin} (al momento de traducir
+  el programa a un lenguaje de nivel más bajo) genera un método \texttt{setAttack} y cambia todas
+  las asignaciones a la propiedad \mintinline{kotlin}|attack| por llamadas a este método, i.e.
+  \mintinline{kotlin}|bakemon.attack = 5| se traduce a \mintinline{kotlin}|bakemon.setAttack(5)|.
+
+  Aprovechemos de agregar un \textit{test factory} para la vida de un \textit{Bakémon}:
+
+  \begin{kotlin}
+    fun `Bakemon hp is set within limits`(
+      factory: BakemonFactory,
+      name: String, health: Int, level: Int, attack: Int
+    ) = funSpec {
+      lateinit var bakemon: Bakemon
+
+      beforeTest {
+        factory.name = name
+        factory.health = health
+        factory.level = level
+        factory.attack = attack
+        bakemon = factory.createBakemon()
+      }
+
+      test("Bakemon health can be set within limits") {
+        bakemon.health shouldBe 25
+        bakemon.health = 20
+        bakemon.health shouldBe 20
+      }
+
+      test("Bakemon health can't be set outside limits") {
+        bakemon.health shouldBe 25
+        bakemon.health = 30
+        bakemon.health shouldBe 25
+        bakemon.health = -1
+        bakemon.health shouldBe 0
+      }
+    }
+  \end{kotlin}
+
+  Por último, incluimos los \textit{factories} en los tests:
+
+  \begin{kotlin}
+    class FireBakemonTest : FunSpec({
+      ...
+      include(
+        `Bakemon hp is set within limits`(FireBakemonFactory(), "Karmander", 25, 5, 4)
+      )
+      include(
+        `Bakemon attack can be set within limits`(
+          FireBakemonFactory(), "Karmander", 25, 5, 4
+        )
+      )
+    })  
+  \end{kotlin}
+
+  \begin{kotlin}
+    class WaterBakemonTest : FunSpec({
+      ...
+      include(
+        `Bakemon hp is set within limits`(WaterBakemonFactory(), "Kokodile", 25, 5, 4)
+      )
+      include(
+        `Bakemon attack can be set within limits`(
+          WaterBakemonFactory(), "Kokodile", 25, 5, 4
+        )
+      )
+    })
+  \end{kotlin}
+
+  Con esto, podemos correr los tests para ver que pasan todos menos el de las pociones, esto se debe
+  a que agregamos una cantidad de vida máxima que no existía antes.
+  Para solucionarlo basta cambiar el test de \texttt{PotionTest} por:
+
+  \begin{kotlin}
+    test("Potions heal 30 HP to Bakemon") {
+      bakemon.health = 100
+      potion.useOn(bakemon)
+      bakemon.health shouldBe 130
+    }
+  \end{kotlin}
+
+  Recordemos correr los tests para ver que todo está bien y luego hacer un commit:
+
+  \begin{powershell}
+    git add .
+    git commit -m "FEAT Adds Bakemon attack and health bounds"
+  \end{powershell}
+
+  No sé si necesite decirles a estas alturas, pero tenemos un problema.
+  Si bien los \textit{Bakémon} pueden tener un ataque y vida máximos, no hay nada que nos impida
+  usar el constructor de \textit{Bakemon} para crear un \textit{Bakémon} con vida y ataque
+  negativos.
+  ¿Qué podemos hacer para evitar esto?
+  Existen varias formas de lidiar con esto, y la respuesta depdende de cómo queremos que se ocupe
+  nuestro código, pero una solución posible sería utilizar excepciones.
+  Sin embargo, hay un par de cosas que debieramos entender antes de continuar.

@@ -1,0 +1,128 @@
+\section{\textit{Java Virtual Machine}}
+  Una \textit{Máquina Virtual de Java} (JVM) es un programa que ejecuta código escrito en 
+  \textit{bytecode}\footnote{
+    El \textit{bytecode} o (código intermedio) es código generado por un compilador escrito en un 
+    lenguaje de programación diseñado para ser eficientemente interpretado por una máquina.
+  } de \textit{Java}.
+  Pero, a pesar de que el \textit{bytecode} es de \textit{Java}, existen varios 
+  \textit{compiladores} que pueden generar \textit{bytecode} de \textit{Java} para otros lenguajes.
+  Por ejemplo, \textit{Kotlin} puede ser compilado a \textit{bytecode} de \textit{Java} y ejecutado
+  en una JVM, así como \textit{Scala} y \textit{Groovy}.
+
+  Cuando corremos un programa en \textit{Kotlin} lo hacemos en dos grandes pasos.
+  \begin{itemize}
+    \item Compilación: El código fuente de \textit{Kotlin} es compilado a \textit{bytecode} de
+      \textit{Java}.
+    \item Ejecución: El \textit{bytecode} de \textit{Java} es interpretado por una JVM.
+  \end{itemize}
+
+  \begin{note}
+    El proceso de compilación es sumamente complejo,\footnote{
+      \url{https://github.com/JetBrains/kotlin/tree/master/compiler}
+    } y no es el objetivo de este libro explicarlo.
+  \end{note}
+
+  De esta forma, la JVM funcionará como una capa de abstracción entre el código fuente de
+  \textit{Kotlin} y el hardware de la computadora, permitiendo que el código fuente de 
+  \textit{Kotlin} sea ejecutado en cualquier computadora que tenga una JVM instalada.
+  En otras palabras, a nuestro computador no le importa si escribimos el programa en \textit{Kotlin}
+  o en \textit{Java}, lo que implica que podemos tener aplicaciones que tengan partes escritas en
+  \textit{Kotlin} y otras partes escritas en \textit{Java}.
+  Esto es sumamente útil si estamos tratando de migrar una aplicación de \textit{Java} a
+  \textit{Kotlin}, ya que podemos ir migrando las partes más críticas primero, y luego ir
+  migrando el resto del código poco a poco.
+  Otra implicancia de esto es que podemos usar librerías escritas en \textit{Java}\footnote{
+    Para no tener que reinventar la rueda.
+  } en nuestro código de \textit{Kotlin}, y viceversa.
+
+  \begin{note}
+    Dentro de nuestro proyecto, en la carpeta \url{build/classes} podemos encontrar los archivos
+    \texttt{.class} generados por el compilador de \textit{Kotlin}.
+  \end{note}
+
+  Una vez que el programa es compilado, la máquina virtual se encarga de correr el programa y 
+  manejar la memoria.
+  La memoria de la JVM se divide en áreas llamadas \textit{Run-Time Data Areas}, pero nos 
+  enfocaremos en dos de ellas: \textit{Memory Heap} y \textit{Runtime Stack}
+
+  \begin{defaultbox}[\textit{Memory Heap}]
+    El \textit{Memory Heap}\footnote{
+      El \textit{Memory Heap} \textbf{no} es un 
+      \href{https://en.wikipedia.org/wiki/Heap_(data_structure)}{heap}
+    } (lit. montón de memoria) es un sector de memoria compartida por todo el programa y que se 
+    encarga de almacenar todos los objetos que creamos en nuestro programa.
+  \end{defaultbox}
+
+  \begin{defaultbox}[\textit{Runtime Stack}]
+    El \textit{Runtime Stack} (pila de ejecución) es un área de memoria que se encarga de almacenar
+    los \textit{frames} de ejecución de nuestro programa.
+    Un \textit{frame} es un área de memoria que se encarga de almacenar los datos locales de un
+    método y resultados parciales de la ejecución de un método.\footnote{
+      El valor de retorno de una función es un ejemplo de un resultado parcial.
+    }
+    Cada vez que llamamos a un método, se crea un nuevo \textit{frame} en la pila de ejecución.
+    Cuando el método termina, el \textit{frame} es removido de la pila de ejecución.
+    La pila de ejecución es una estructura de datos \textit{LIFO} (Last In, First Out).
+  \end{defaultbox}
+
+  Para entender mejor cómo funciona la memoria veamos el siguiente ejemplo:
+
+  \begin{kotlin}
+    fun main() {
+      val a = 1
+      val b = "2"
+      val c = sum(a, b)
+    }
+
+    fun sum(x: Int, y: String): Int {
+      return x + y.toInt()
+    }
+  \end{kotlin}
+
+  \begin{enumerate}
+    \item Agregamos el método \texttt{main} a la pila de ejecución.
+    \item Creamos las variables \texttt{a} y \texttt{b} en la pila de ejecución, como la variable 
+      \texttt{a} es de tipo \texttt{Int} ocupa una cantidad de memoria constante así que se almacena 
+      directamente en la pila de ejecución, mientras que la variable \texttt{b} es de tipo
+      \texttt{String} y su tamaño depende de la cadena que se le asigne, por lo que se almacena en el
+      \textit{Memory Heap} y se guarda una referencia a la cadena en la pila de ejecución.
+    \item Llamamos al método \texttt{sum} y creamos un nuevo \textit{frame} en la pila de 
+      ejecución.
+    \item Creamos las variables \texttt{x} y \texttt{y} en el nuevo \textit{frame} de la pila de 
+      ejecución.
+    \item Asignamos los valores de las variables \texttt{a} y \texttt{b} a las variables
+      \texttt{x} y \texttt{y} respectivamente.
+    \item El resultado intermedio de la suma se almacena en el \textit{stack} y la función retorna
+      el resultado de la suma.
+    \item El \textit{frame} de la función \texttt{sum} es removido de la pila de ejecución.
+    \item El resultado de la suma se almacena en la variable \texttt{c}.
+    \item El \textit{frame} de la función \texttt{main} es removido de la pila de ejecución.
+  \end{enumerate}
+
+  En algunos lenguajes de programación, como \textit{C} y \textit{C++}, la memoria es administrada
+  por el programador, lo que significa que es el programador quien se encarga de liberar la memoria
+  que ya no se está usando.
+  En \textit{Kotlin} esto no es necesario, ya que la memoria es administrada por el \textit{Garbage
+  Collector} (GC).
+
+  \begin{defaultbox}[Garbage collection]
+    El \textit{Garbage Collector} es un objeto que se encarga de liberar la memoria que ya no se
+    está usando.
+  \end{defaultbox}
+
+  El algoritmo utilizado por el \textit{Garbage Collector} es el \textit{Mark and Sweep} (marcar y
+  barrer).
+  Este algoritmo funciona de la siguiente forma:
+
+  \begin{enumerate}
+    \item El \textit{Garbage Collector} recorre la pila de ejecución y marca todos los objetos que
+      están siendo utilizados.
+    \item El \textit{Garbage Collector} recorre el \textit{Memory Heap} y elimina todos los objetos
+      que no están marcados.
+  \end{enumerate}
+
+  Los detalles de cómo decide qué objetos marcar y qué objetos eliminar es un tema bastante
+  complejo, pero en general el \textit{Garbage Collector} es bastante bueno y no deberíamos tener
+  que preocuparnos por la memoria.
+
+  

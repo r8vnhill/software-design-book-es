@@ -1,0 +1,54 @@
+\section{Excepciones}
+  \label{sec:excepciones}
+
+  En programación generalmente vamos a tener que tratar con situaciones en las que tengamos que 
+  decidir qué hacer cuando algo no sale como esperábamos.
+  Por ejemplo, ¿qué sucede si intentamos abrir un archivo que no existe?
+  Podríamos imprimir un mensaje de error en pantalla y no hacer nada más, pero en la práctica esto
+  no es muy útil.
+  De hecho, ¿cómo testeamos que el programa imprime algo en pantalla?
+  Un mensaje en pantalla en general es información que deja de existir una vez que se imprime
+  y no podemos hacer nada con ella.
+  Existen formas de capturar la salida de un programa, pero en general es algo complejo de hacer.
+
+  Una forma más útil de tratar con situaciones en las que algo no sale como esperábamos es lanzar
+  una excepción.
+
+  \begin{defaultbox}[Excepción]
+    Una excepción es un objeto que representa un comportamiento excepcional que ocurre durante la
+    ejecución de un programa.
+  \end{defaultbox}
+
+  La principal ventaja de las excepciones es que estas pueden ser arrojadas y capturadas en 
+  cualquier parte del programa.
+  Cuando una excepción es arrojada, el programa deja de ejecutarse y se salta a la parte del
+  código que la captura, para esto, la máquina virtual busca en la pila de ejecución un 
+  \textit{frame} que capture la excepción y pasa el control a ese \textit{frame} (los otros 
+  \textit{frames} son descartados).
+  Si no se encuentra ningún \textit{frame} que capture la excepción, se imprime un mensaje de error
+  y el programa termina.
+
+  En \textit{Kotlin} las excepciones son un tipo particular de objetos que heredan de la clase
+  \textit{Throwable}.
+  Existen dos tipos de \texttt{Throwable}: \texttt{Exception} y \texttt{Error}.
+  
+  Los \texttt{Error} son errores que ocurren en la máquina virtual y que no deben ser capturados.
+  Por ejemplo, si se lanza una \texttt{StackOverflowError} es porque la pila de ejecución se ha
+  llenado y no hay más espacio para seguir ejecutando el programa.
+  El nombre de las clases que heredan de \texttt{Error} terminan en \texttt{Error} para indicar
+  que no deben ser capturadas.
+
+  Las \texttt{Exception} por otro lado, son errores que ocurren dentro de nuestro programa y que 
+  pueden ser manejadas por el mismo.
+  Las \texttt{Exception} pueden clasificarse en dos tipos: \textit{excepciones propias} y
+  \textit{excepciones de la librería estándar}.
+  Las \textit{excepciones propias} son las que creamos nosotros para indicar que algo salió mal
+  en nuestro programa.
+  Las \textit{excepciones de la librería estándar} son las que lanzan las funciones de la librería
+  estándar de \textit{Kotlin} cuando algo sale mal, este tipo de excepciones pueden ser capturadas,
+  pero no es recomendable hacerlo ya que, al no ser parte de nuestro código, no tenemos seguridad
+  de cuál es la razón por la que se lanzó la excepción.
+
+  \subimport{.}{Throw.tex}
+  \subimport{.}{Try.tex}
+  \subimport{.}{Usando_excepciones.tex}

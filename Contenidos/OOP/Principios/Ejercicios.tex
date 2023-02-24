@@ -7,7 +7,7 @@
 
   \begin{Exercise}[title={Orden de ejecución}]
     Para los siguientes fragmentos de código, indique si compila y, en caso afirmativo, indique el
-    orden de ejecución de de las líneas de código.
+    orden de ejecución de las líneas de código.
     
     \Question 
       \begin{minted}{kotlin}
@@ -133,6 +133,43 @@
           println("2. ${B().m(A(), B())}")
         }
       \end{minted}
+  \end{Exercise}
+
+  \begin{Exercise}[title={Aves}]
+    Considere la siguiente implementación de distintos tipos de aves:
+
+    \begin{minted}{kotlin}
+      interface Bird {
+        fun fly()
+      }
+
+      class Duck : Bird {
+        override fun fly() {
+          println("I'm flying")
+        }
+      }
+
+      class Pidgeon : Bird {
+        override fun fly() {
+          println("I'm flying")
+        }
+      }
+
+      class Penguin : Bird {
+        override fun fly() {
+          println("I can't fly")
+        }
+      }
+
+      class Ostrich : Bird {
+        override fun fly() {
+          println("I can't fly")
+        }
+      }
+    \end{minted}
+    ¿Rompe esto con algún principio visto en este capítulo? 
+    ¿Por qué?
+    ¿Cómo podría solucionar este problema?
   \end{Exercise}
 
   \begin{Exercise}[title={Puntos en el espacio}, label={oop:principios:ejercicios:puntos}]

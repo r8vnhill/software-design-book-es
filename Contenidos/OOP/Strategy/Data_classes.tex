@@ -1,0 +1,189 @@
+\section{\textit{Data classes}}
+  \label{sec:oop:strategy:data_classes}
+  
+  Actualizar la interfaz
+  \begin{kotlin}
+    interface Card {
+      val name: String
+      val text: String
+      val effect: Effect
+      val serializer: CardSerializer
+    }
+  \end{kotlin}
+
+  Agregamos efectos a las cartas
+  \begin{kotlin}
+    abstract class AbstractCard(
+      override val name: String,
+      override val text: String,
+      override val effect: Effect,
+      override val serializer: CardSerializer
+    ) : Card {
+
+      fun toFile(filename: String) = serializer.toFile(this, filename)
+
+      fun serialize() = serializer.serialize(this)
+
+      fun useOn(player: Player) = effect.useOn(player)
+    }
+  \end{kotlin}
+
+  Noten que ahora que tenemos los efectos definidos como clases separadas, la implementación de las
+  cartas mágicas que definimos dejan de tener sentido.
+  Por lo tanto, las vamos a eliminar.
+  Pero si borramos esas clases también pierde sentido que las cartas mágicas sean clases abstractas,
+  así que podríamos cambiarla por una clase concreta.
+  Con esto, la clase \texttt{MagicCard} quedaría así:
+
+  \begin{kotlin}
+    class MagicCard(
+      name: String,
+      text: String,
+      effect: Effect,
+      serializer: CardSerializer
+    ) : AbstractCard(name, text, effect, serializer)
+  \end{kotlin}
+
+  También debemos actualizar las cartas de monstruos y trampas.
+
+  \begin{kotlin}
+    class MonsterCard(
+      name: String,
+      text: String,
+      val attack: Int,
+      effect: Effect,
+      serializer: AbstractCardSerializer
+    ) : AbstractCard(name, text, effect, serializer) {
+      fun attack(player: Player) {
+        player.takeDamage(this.attack)
+      }
+    }
+  \end{kotlin}
+
+  \begin{kotlin}
+    class TrapCard(
+      name: String,
+      text: String,
+      effect: Effect,
+      serializer: CardSerializer
+    ) : AbstractCard(name, text, effect, serializer)
+  \end{kotlin}
+
+  Ahora actualicemos hagamos un nuevo test para probar que las cartas funcionan correctamente.
+  Para eso creemos una clase \texttt{MagicCardTest} y modelemos cada una de las cartas mágicas
+  que habíamos definido como un test.
+
+  \begin{kotlin}
+    class MagicCardTest : FunSpec({
+      lateinit var player: Player
+
+      beforeTest {
+        player = Player(
+          "Jaiva", 8000, mutableListOf(
+            MagicCard(
+              "Saucepan of Avidity",
+              "Draw 2 cards",
+              DrawCardsEffect(2),
+              XmlCardSerializer()
+            ),
+            MagicCard(
+              "Crimson Beverage",
+              "Heal 500 HP",
+              ModifyHealthEffect(500),
+              XmlCardSerializer()
+            )
+          )
+        )
+      }
+
+      test("Crimson Beverage should heal 500 HP") {
+        val crimsonBeverage = MagicCard(
+          "Crimson Beverage",
+          "Heal 500 HP",
+          ModifyHealthEffect(500),
+          XmlCardSerializer()
+        )
+        player.health shouldBe 8000
+        crimsonBeverage.useOn(player)
+        player.health shouldBe 8500
+      }
+
+      test("Indigo Potion should heal 400 HP") {
+        val indigoPotion = MagicCard(
+          "Indigo Potion",
+          "Heal 400 HP",
+          ModifyHealthEffect(400),
+          XmlCardSerializer()
+        )
+        player.health shouldBe 8000
+        indigoPotion.useOn(player)
+        player.health shouldBe 8400
+      }
+
+      test("Saucepan of Avidity should draw 2 cards") {
+        val saucepanOfAvidity = MagicCard(
+          "Saucepan of Avidity",
+          "Draw 2 cards",
+          DrawCardsEffect(2),
+          XmlCardSerializer()
+        )
+        player.hand shouldBe emptyList()
+        saucepanOfAvidity.useOn(player)
+        player.hand.size shouldBe 2
+        player.deck.size shouldBe 0
+      }
+    })
+  \end{kotlin}
+
+  Si corremos los tests, veremos que todos pasan.
+  Veamos que podemos mejorar del diseño.
+
+  Notemos que ahora nuestras cartas se encargan principalmente de guardar información y de
+  delegar sus funcionalidades a otras clases.
+  Para estos casos, \textit{Kotlin} nos provee de una mejor forma de modelar estas clases.
+
+  \begin{defaultbox}[\textit{Data Class}]
+    Una \textit{data class} es una clase que se encarga principalmente de guardar información.
+    Estas clases tienen varios beneficios:
+    \begin{itemize}
+      \item \textit{Kotlin} provee de una implementación por defecto de los métodos 
+        \texttt{equals()}, \texttt{hashCode()} y \texttt{toString()}.
+      \item \textit{Kotlin} provee de una implementación por defecto de los métodos
+        \texttt{copy()} y \texttt{componentN()}.
+    \end{itemize}
+  \end{defaultbox}
+
+  \begin{important}
+    Una \textit{data class} no puede ser hereada, pero una \textit{data class} si puede heredar de
+    otra clase.
+  \end{important}
+
+  Para convertir una clase en una \textit{data class} debemos agregar la palabra clave
+  \texttt{data} antes de la palabra clave \texttt{class}.
+  Por ejemplo, la clase \texttt{MagicCard} podría quedar así:
+
+  \begin{kotlin}
+    data class MagicCard(
+      override val name: String,
+      override val text: String,
+      override val effect: Effect,
+      override val serializer: CardSerializer
+    ) : Card
+  \end{kotlin}
+
+  Notarán que agregamos \mintinline{kotlin}|override val| antes de los atributos de la clase.
+  Esto es porque ahora que la clase es una \textit{data class}, todos los parámetros que recibe
+  el constructor deben ser propiedades de la clase.
+
+  Si corremos los tests, veremos que todos siguen pasando.
+
+  Con esto, podemos hacer \textit{commit} de los cambios y pasar a lo último que nos falta.
+
+  \begin{powershell}
+    git add .
+    git commit -m "REFACTOR Magic card is now a data class"
+  \end{powershell}
+
+  \begin{exercise}
+    Transforme las clases \texttt{MonsterCard} y \texttt{TrapCard} en \textit{data classes}.
+  \end{exercise}

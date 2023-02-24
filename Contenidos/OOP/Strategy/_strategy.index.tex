@@ -1,0 +1,41 @@
+\chapter{En efecto}
+\label{sec:strategy}
+  
+  En este capítulo seguiremos implementando \textit{Kygo}, un proyecto que tenemos triste y
+  abandonado desde hace varios capítulos.
+  Hasta ahora tenemos tres tipos de cartas: \textit{Monstruos}, \textit{Mágicas} y \textit{Trampas}.
+  Pero tanto las cartas mágicas como las trampas no hacen nada.
+  En este capítulo vamos a implementar efectos de modo que las cartas mágicas y trampas puedan
+  hacer algo.
+
+  Para empezar, necesitamos agregar las dependencias de \textit{Kotest} a nuestro proyecto.
+  Para hacer esto necesitaremos transformar nuestro proyecto en un proyecto \textit{Gradle}.
+  Para hacer esto, iremos a \textit{File} $\rightarrow$ \textit{New} $\rightarrow$ 
+  \textit{Project...}.
+  Aquí, haremos un proyecto de tipo \textit{Gradle} de la misma forma que antes, lo llamaremos
+  \texttt{kygo} y lo ubicaremos en la misma carpeta que el proyecto del \cref{chap:oop2} (es 
+  importante que el proyecto se llame de la misma forma que el de ese capítulo ya que estamos 
+  intentando \enquote{sobrescribir} el proyecto).
+
+  Una vez que hayamos creado el proyecto, podemos configurarlo de la misma forma que hicimos en el
+  \cref{subsec:gradle}.
+
+  Con esto, de la misma forma que en ese capítulo, podemos hacer \textit{commit} de lo que hicimos:
+
+  \begin{powershell}
+    git add .
+    git commit -m "PROJECT Migration to Gradle"
+  \end{powershell}
+
+  \subimport{.}{Efectos_1.tex}
+  \subimport{.}{Strategy.tex}
+  \subimport{.}{Efectos_2.tex}
+  \subimport{.}{Data_classes.tex}
+  \subimport{.}{Coverage.tex}
+  
+  \textbf{TODO}
+  \begin{itemize}
+    \item DDT
+  \end{itemize}
+
+  \printbibliography[keyword=strategy]

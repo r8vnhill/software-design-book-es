@@ -36,13 +36,14 @@
   ¿Cómo podemos solucionar este problema?
   La solución en este caso es simple: quitar el método \texttt{attack} de la clase \texttt{Card} y
   definirlo solamente en la clase \texttt{MonsterCard}.
-  De la misma forma, el parámetro \texttt{attackPoints} de la clase \texttt{MonsterCard} no tiene
+  De la misma forma, el parámetro \texttt{attack} de la clase \texttt{MonsterCard} no tiene
   sentido para las cartas \textit{Mágica} y \textit{Trampa}, por lo que también lo podemos quitar.
 
   Así, la clase \texttt{Card} quedaría de la siguiente forma:
 
   \begin{kotlin}
-    open class Card(name: String, text: String, serializer: AbstractCardSerializer) {
+    // Cambiar a clase abstractaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    open class Card(name: String, text: String, serializer: CardSerializer) {
       val name = name
       val text = text
       var serializer = serializer
@@ -64,7 +65,7 @@
       name: String,
       text: String,
       attack: Int,
-      serializer: AbstractCardSerializer
+      serializer: CardSerializer
     ) : Card(name, text, serializer) {
       val attack = attack
       
@@ -74,6 +75,8 @@
     }
   \end{kotlin}
 
+  COMMIT
+  
   El \textit{principio de Liskov} es uno de los principios más importantes de la programación 
   orientada a objetos, y es muy importante que lo tengamos en cuenta a la hora de diseñar nuestras
   aplicaciones.
