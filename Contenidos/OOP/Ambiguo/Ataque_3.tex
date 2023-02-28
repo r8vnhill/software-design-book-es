@@ -367,3 +367,34 @@
     git add .
     git commit -m "REFACTOR Adapts code to use Double Dispatch on Bakemon attacks"
   \end{powershell}
+
+  \begin{ejercicio}{Kygo}
+    Modifique las clases que heredan de \mintinline{kotlin}{CardSerializer} para que creen distintas
+    serializaciones de las cartas dependiendo del tipo de carta que se le pase.
+
+    Algunos ejemplos:
+    \begin{xml}
+      <MagicCard>
+        <name>Indigo Beverage</name>
+        <text>Heal 400 HP</text>
+      </MagicCard>
+    \end{xml}
+
+    \begin{json}
+      {
+        "name": "Reflect Strength",
+        "text": "When a Monster Card attacks you, it is destroyed",
+        "type": "TrapCard"
+      }
+    \end{json}
+
+    \begin{yaml}
+      !!MagicCard
+      name: Saucepan of Avidity
+      text: Draw 2 cards
+    \end{yaml}
+
+    {\footnotesize
+      Solución: \url{https://github.com/r8vnhill/kygo/commit/f05fa854dc96230c0a74d9bd0ae49ea595316cc1}
+    }
+  \end{ejercicio}

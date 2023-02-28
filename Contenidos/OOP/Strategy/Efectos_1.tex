@@ -58,9 +58,11 @@
   \texttt{AbstractMagicCard} y agreguemos un método abstracto \texttt{useOn(Player)}.
 
   \begin{kotlin}
-    abstract class AbstractMagicCard(
-      name: String, text: String, serializer: CardSerializer) :
-        AbstractCard(name, text, serializer) {
+    abstract class AbstractMagicCard(name: String, text: String) :
+        AbstractCard(name, text) {
+      override fun serializeWith(serializer: CardSerializer) =
+        serializer.serializeMagicCard(this)
+
       abstract fun useOn(player: Player)
     }
   \end{kotlin}
@@ -69,7 +71,7 @@
 
   \begin{kotlin}
     class CrimsonBeverage :
-        AbstractMagicCard("Crimson Beverage", "Increase 500 health", XmlCardSerializer()) {
+        AbstractMagicCard("Crimson Beverage", "Increase 500 health") {
       override fun useOn(player: Player) {
         player.health += 500
       }
@@ -78,14 +80,14 @@
 
   \begin{kotlin}
     class IndigoPotion :
-        AbstractMagicCard("Indigo Potion", "Increase 400 health", XmlCardSerializer()) {
+        AbstractMagicCard("Indigo Potion", "Increase 400 health") {
       override fun useOn(player: Player) {
         player.health += 400
       }
     }
   \end{kotlin}
 
-  Ahora, adaptamos la clase \texttt{Player} para poder modificar su salud utilizando un 
+  Ahora, adaptemos la clase \texttt{Player} para poder modificar su salud utilizando un 
   \textit{setter} y mejoremos un poco su diseño:
 
   \begin{kotlin}

@@ -121,12 +121,21 @@
 
   Podemos ejecutar los tests y ver que siguen pasando.
 
+  \begin{ejercicio}{Kygo}
+    Refactorizar el código de \texttt{Kygo} para que el constructor primario inicialice las
+    variables de instancia.
+
+    {\footnotesize
+      Solución: \url{https://github.com/r8vnhill/kygo/commit/eee0385b790366e892d2d47f04e1f1cba2bc8fc5}
+    }
+  \end{ejercicio}
+
   Para lo siguiente, vamos a aprovechar que las funciones en \textit{Kotlin} son valores\footnote{
     Esto significa que \textit{Kotlin} es un lenguaje de primera clase, esto es algo que veremos
     más adelante.
   }.
   Cuando una función en \textit{Kotlin} solo tiene una expresión, podemos utilizar una sintáxis más
-  compacta para definirla ¿¿¿y es???? que podemos omitir el cuerpo de la función y escribir la expresión
+  compacta para definirla, la idea es que podemos omitir el cuerpo de la función y escribir la expresión
   directamente después de los paréntesis de los parámetros como si estuvieramos asignando una 
   variable.
   Tomando como ejemplo la función \texttt{toString} de \texttt{Bakemon}, podemos reescribirla de la
@@ -170,6 +179,28 @@
     git add .
     git commit -m "REFACTOR Simplifies Bakemon class"
   \end{powershell}
+
+  \begin{ejercicio}{Kygo}
+    Simplifique el código de \textit{Kygo} convirtiendo las funciones que solo tienen una expresión
+    en una asignación de valores.
+
+    Por ejemplo, cambiar:
+    \begin{kotlin}
+      override fun toFile(filename: String) {
+        serializer.toFile(this, filename)
+      }
+    \end{kotlin}
+
+    Por:
+
+    \begin{kotlin}
+      override fun toFile(filename: String) = serializer.toFile(this, filename)
+    \end{kotlin}
+
+    { \footnotesize
+      Solución: \url{https://github.com/r8vnhill/kygo/commit/276a0d1463e6325ae175d39db57c6968d28d3917}
+    }
+  \end{ejercicio}
 
   Y con esto ya completamos nuestra primera iteración de \textit{Test-Driven Development}. En este
   capítulo rompimos y reparamos nuestro código múltiples veces, en los capítulos siguientes 

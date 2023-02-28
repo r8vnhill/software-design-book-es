@@ -72,7 +72,7 @@
   ¿Cómo podemos hacer para mantener la abstracción de la interfaz \texttt{Bakemon} en los tests?
 
   La respuesta nace del origen del problema, el constructor de las clases concretas.
-  Cuando usamos un constructor estamos acoplando nuestro código a una implementación concreta en
+  Cuando usamos un constructor estamos acoplando\footnote{Explicar significado de acoplar} nuestro código a una implementación concreta en
   lugar de una abstracción.
   Nos gustaría tener una manera genérica de crear objetos de la interfaz \texttt{Bakemon}.
   ¿Cómo podemos hacer eso?
@@ -85,7 +85,7 @@
     mi código a una implementación concreta.}
 
     \textbf{Solución:} \textit{Definir una interfaz para crear objetos, pero dejar que las
-    subclases decidan que clase concreta instanciar.}
+    subclases decidan qué clase concreta instanciar.}
   \end{defaultbox}
 
   El patrón \textit{factory method} es un patron de diseño creacional\index{Patrón de 
@@ -115,7 +115,7 @@
 
   No, un patrón de diseño no es un algoritmo.
   Un algoritmo define una serie de pasos para solucionar un problema particular.
-  Un patrón de diseño por otro lado define una estructura general para estructurar una solución.
+  Un patrón de diseño por otro lado define una estructura general para modelar una solución.
   Esto significa que la implementación concreta de un patrón de diseño puede variar de acuerdo a
   las necesidades del problema.
   
@@ -188,6 +188,10 @@
     })
   \end{kotlin}
 
+  \begin{ejercicio}{Bakémon}
+    Implemente los tests para la clase \texttt{GrassBakemonFactory}.
+  \end{ejercicio}
+  
   Bien, ahora que tenemos los tests, podemos implementar las clases concretas que implementan la
   interfaz \\\texttt{BakemonFactory}.
 

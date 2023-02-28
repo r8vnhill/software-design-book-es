@@ -48,10 +48,10 @@
 % | tcolorbox environment with enhanced borders, breakable content, and a title.
 \newtcolorbox{defaultbox}[1][]{enhanced, breakable, title=#1}
 
-\newtcolorbox[auto counter,number within=chapter]{ejercicio}[1][]{
+\newtcolorbox[auto counter,number within=chapter]{ejercicio}[2][]{
   enhanced, 
   breakable, 
-  title=¡Te toca!\hfill(\thetcbcounter), 
+  title=¡Te toca!\hfill (#2 \thetcbcounter), 
   colback=Black!5!white, 
   colframe=Black!75!black,
   #1

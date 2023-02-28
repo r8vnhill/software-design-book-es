@@ -39,20 +39,23 @@
   De la misma forma, el parámetro \texttt{attack} de la clase \texttt{MonsterCard} no tiene
   sentido para las cartas \textit{Mágica} y \textit{Trampa}, por lo que también lo podemos quitar.
 
-  Así, la clase \texttt{Card} quedaría de la siguiente forma:
+  Así, la clase \texttt{AbstractCard} quedaría de la siguiente forma:
 
   \begin{kotlin}
-    // Cambiar a clase abstractaaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    open class Card(name: String, text: String, serializer: CardSerializer) {
-      val name = name
-      val text = text
-      var serializer = serializer
+    abstract class AbstractCard(
+      name: String,
+      text: String,
+      serializer: CardSerializer
+    ) : Card {
+      override val name = name
+      override val text = text
+      override var serializer = serializer
 
-      fun toFile(filename: String) {
+      override fun toFile(filename: String) {
         serializer.toFile(this, filename)
       }
 
-      fun serialize(): String {
+      override fun serialize(): String {
         return serializer.serialize(this)
       }
     }
@@ -62,20 +65,32 @@
 
   \begin{kotlin}
     class MonsterCard(
-      name: String,
-      text: String,
-      attack: Int,
-      serializer: CardSerializer
-    ) : Card(name, text, serializer) {
+      name: String, text: String, attack: Int, serializer: CardSerializer
+    ) : AbstractCard(name, text, serializer) {
       val attack = attack
-      
+        
       fun attack(player: Player) {
         player.takeDamage(this.attack)
       }
     }
   \end{kotlin}
 
-  COMMIT
+  Ahora podemos hacer \textit{commit} de nuestros cambios:
+
+  \begin{powershell}
+    git add .
+    git commit -m "REFACTOR Remove attack method from Card class"
+  \end{powershell}
+
+  \begin{ejercicio}{Kygo}
+    Implemente las clases \texttt{MagicCard} y \texttt{TrapCard} que hereden de 
+    \texttt{AbstractCard} de modo que respeten el principio de Liskov.
+
+    {\footnotesize 
+      Solución: 
+      \url{https://github.com/r8vnhill/kygo/commit/c3c436724b712e67ef096b0459fc40067319df8d}
+    }
+  \end{ejercicio}
   
   El \textit{principio de Liskov} es uno de los principios más importantes de la programación 
   orientada a objetos, y es muy importante que lo tengamos en cuenta a la hora de diseñar nuestras
