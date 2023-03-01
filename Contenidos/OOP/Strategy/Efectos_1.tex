@@ -55,7 +55,7 @@
   Podríamos decir que cada tipo de carta mágica es una especialización de una carta mágica así que
   tiene sentido querer implementar las cartas que queremos como subclases de \texttt{MagicCard}.
   Primero, transformemos la clase \texttt{MagicCard} en una clase abstracta y renombrémosla
-  \texttt{AbstractMagicCard} y agreguemos un método abstracto \texttt{useOn(Player)}.
+  \texttt{AbstractMagicCard}, luego agreguemos un método abstracto \texttt{useOn(Player)}.
 
   \begin{kotlin}
     abstract class AbstractMagicCard(name: String, text: String) :
@@ -112,7 +112,7 @@
 
   Ahora podemos ejecutar los tests y ver que todo funciona como esperábamos.
 
-  Antes de continuar con la implementación de la carta \texttt{Saucepan of Avidity} vamos a
+  Antes de continuar con la implementación de la carta \textit{Saucepan of Avidity} vamos a
   refactorizar un poco el código.
 
   Primero notarán que las dos cartas mágicas que hemos implementado tienen un comportamiento
@@ -123,8 +123,8 @@
 
   \begin{kotlin}
     abstract class AbstractHealthMagicCard(
-      name: String, text: String, serializer: CardSerializer, private val health: Int
-    ) : AbstractMagicCard(name, text, serializer) {
+      name: String, text: String, private val health: Int
+    ) : AbstractMagicCard(name, text) {
       override fun useOn(player: Player) {
         player.health += health
       }
@@ -137,7 +137,6 @@
     class CrimsonBeverage : AbstractHealthMagicCard(
       "Crimson Beverage",
       "Increase 500 health",
-      XmlCardSerializer(),
       500
     )
   \end{kotlin}
@@ -146,7 +145,6 @@
     class IndigoPotion : AbstractHealthMagicCard(
       "Indigo Potion",
       "Increase 400 health",
-      XmlCardSerializer(),
       400
     )
   \end{kotlin}
@@ -185,8 +183,7 @@
   \begin{kotlin}
     class SaucepanOfAvidity : AbstractMagicCard(
       "Saucepan of Avidity",
-      "Draw 2 cards",
-      XmlCardSerializer()
+      "Draw 2 cards"
     ) {
       override fun useOn(player: Player) {
         player.draw(2)

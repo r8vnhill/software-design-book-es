@@ -20,8 +20,7 @@
   ¿Pero a qué me refiero con \textit{probar} un programa?
 
   Cuando hablamos de probar un programa, nos referimos a que vamos a ejecutar el programa con
-  distintos valores de entrada, y vamos a verificar que el programa nos devuelva los valores
-  esperados.
+  distintos valores de entrada, y verificar que éste nos devuelva los valores esperados.
   Por ejemplo, si tenemos una función que suma dos números, podemos probarla con distintos pares
   de números, y verificar que la suma de esos números sea la que esperamos.
   Aquí diremos que cada par de números es un \textit{caso de prueba}.\index{Caso de prueba}
@@ -72,15 +71,15 @@
   Existen muchas razones para usar TDD, pero mencionemos tres que considero importantes:
 
   \begin{itemize}
-    \item Fallar rápido: Si escribimos los casos de prueba antes de escribir el código, vamos a
+    \item \textbf{Fallar rápido:} Si escribimos los casos de prueba antes de escribir el código, vamos a
       encontrar los errores lo antes posible, y vamos a poder arreglarlos antes de que se vuelvan
       más difíciles de arreglar.
-    \item Evitar imparcialidad en los tests: Si escribimos los tests después de escribir el código,
+    \item \textbf{Evitar imparcialidad en los tests:} Si escribimos los tests después de escribir el código,
       es muy probable que los tests estén sesgados a favor del código que acabamos de escribir.
       Esto es un problema, ya que no podemos estar seguros de que los tests realmente estén
       verificando que el código funciona correctamente.
       Aquí nos importa el comportamiento esperado del código, no cómo está implementado.
-    \item Documentación: Los tests son una forma de documentar el código.
+    \item \textbf{Documentación:} Los tests son una forma de documentar el código.
       Si escribimos los tests antes de escribir el código, podemos usarlos como una forma de
       especificar el comportamiento del código.
   \end{itemize}
